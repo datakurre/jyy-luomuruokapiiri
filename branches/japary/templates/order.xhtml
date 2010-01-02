@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="master.xhtml/master">
+  <body>
+    <h1><metal:title fill-slot="heading"></metal:title></h1>
+    <metal:message fills-slot="message">
+      <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
+        Muutokset tallennettu onnistuneesti.
+      </p>
+    </metal:message>
+    <metal:main fill-slot="main">
+      <p class="vali"><a tal:attributes="href string:${base}?view=orderbook">Takaisin tilauskirjaan.</a></p>
+      <ul class="vali">
+        <li>Tilauksesta on mahdollista muokata <em>jakoon osallistumista</em>, <em>tilauksen viestiä</em> (esim. kuitata viestissä esitetty kysymys vastatuksi) ja yksittäisten tuotteiden <em>tilausmääriä</em>.</li>
+        <li>Yksittäisten virhetilausten poistaminen on mahdollista <a tal:attributes="href string:${base}?view=orderbook">tilauskirjasta</a>.</li>
+      </ul>
+      <form id="edit" method="post">
+        <table id="customer">
+          <thead>
+            <tr>
+              <th>Tilausaika</th>
+              <th>Tilaaja</th>
+              <th>Puhelinnumero</th>
+              <th>Sähköpostiosoite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td tal:content="php:date('d.m. \k\l\o H.i', order.date)">1.8. klo 8.23</td>
+              <td tal:content="order/name">Etunimi Sukunimi</td>
+              <td tal:content="order/phone">123 4567</td>
+              <td tal:content="order/email">etunimi.sukunimi@palvelin.fi</td>
+          </tr>
+          </tbody>
+        </table>
+        <p class="vali">
+          <input type="checkbox" id="participate" name="participate"
+                 tal:define="participate order/participate|nothing"
+                 tal:attributes="checked php: participate ? 'yes' : NULL"/>
+                <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label>
+        </p>
+        <p class="vali">
+          <textarea name="notes" cols="40" rows="5"
+                    tal:content="order/notes|nothing"></textarea>
+        </p>
+        <table id="order">
+          <thead>
+            <tr>
+              <th>Tuote</th>
+              <th class="center">Hinta</th>
+              <th class="right">Määrä</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tal:every repeat="product order/getProducts">
+              <tr tal:condition="product/description"
+                  tal:attributes="class php: repeat.product.odd ? 'even' : NULL">
+                <td>
+                  <span tal:replace="product/description">Tuotteen kuvaus</span>
+                  <em tal:condition="php: product.producer" tal:content="string:(${product/producer})">(Tuottaja)</em>
+                </td>
+                <td class="right nowrap" tal:attributes="style php:product.quantity ? 'font-weight: bold;;' : NULL">
+                  <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace>&euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
+                </td>
+                <td class="right nowrap">
+                  <input type="text" size="3" class="right" style="font-weight: bold;"
+                         tal:attributes="name string:${product/id}; value product/quantity"/>
+                </td>
+                <td class="leftwing"
+                    tal:content="php: str_replace('pcs', 'kpl', product.unit)">kpl</td>
+              </tr>
+             </tal:every>
+          </tbody>
+          <tfoot>
+            <tr tal:attributes="class php:count(order.products) % 2 ? 'even' : NULL">
+              <td>Toimituskulut</td>
+               <td class="right nowrap">
+                  <tal:replace replace="php:str_replace('.', ',', order.charge)">1,00</tal:replace>
+                  &euro;
+                </td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr class="sum">
+              <td>Yhteensä</td>
+              <td class="right nowrap"><span tal:replace="php:str_replace('.', ',', order.sum())">0,15</span> &euro;</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+        <input type="hidden" name="action" value="save" />
+        <input type="submit" value="Tallenna muutokset" />
+      </form>
+    </metal:main>
+  </body>
+</html>
