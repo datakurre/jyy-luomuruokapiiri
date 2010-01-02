@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="master.xhtml/master">
+  <body>
+    <h1><metal:title fill-slot="heading">Kirjaudu sisään</metal:title></h1>
+    <p tal:condition="MSG_AUTH_EXPIRED|nothing" metal:fill-slot="message" class="error">
+      Kirjautuminen vanhentui. Ole hyvä ja kirjaudu uudelleen.
+    </p>
+    <p tal:condition="MSG_AUTH_WRONG_LOGIN|nothing" metal:fill-slot="message" class="error">
+      Kirjautuminen epännostui. Ole hyvä ja tarkista salasanasi.
+    </p>
+    <form metal:fill-slot="main" id="login" method="post">
+      <p class="vali">
+        Tämä sivu on tarkoitettu ainoastaan sivuston ylläpitäjälle ja päivitykseen.
+        <a tal:attributes="href base">Palaa takaisin tilaussivulle.</a>
+      </p>
+      <input type="password" name="username" />
+      <input type="hidden" name="password" value="only-username-required"/>
+      <input type="submit" value="Kirjaudu" />
+    </form>
+  </body>
+</html>
