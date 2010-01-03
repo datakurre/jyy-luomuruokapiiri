@@ -3,7 +3,8 @@ Options +FollowSymLinks +MultiViews
 MultiviewsMatch Any
 
 RewriteEngine  on
-RewriteBase    /ruokapiiri/ # Korvaa omalla polulla
+# Korvaa seuraavan rivin /ruokapiiri/ omalla polulla
+RewriteBase    /ruokapiiri/
 RewriteCond    %{REQUEST_FILENAME}         -f
 RewriteRule    ^(.+[^/]).php$               $1/                  [R]
 RewriteRule    ^(.+[^/]).php/hallinta/?$    $1/?view=orderbook   [R]
