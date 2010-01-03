@@ -48,7 +48,7 @@ class DatabaseController {
     // 2) Tuotteet
     if (!file_exists(DB_DIR . $id . '/catalog.txt')) {
       $db->executeQuery('CREATE TABLE catalog ( id inc , description str , ' .
-                        'notes str , ingredients str , price str , unit str ' .
+                        'notes str , ingredients str , price str , unit str , ' .
                         'producer str , orderable int , position int )') ;
     }
     // 3) Tilaukset
