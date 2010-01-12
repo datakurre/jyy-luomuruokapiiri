@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="master.xhtml/master">
+  <body>
+    <metal:message fills-slot="message">
+      <p tal:condition="MSG_ORDERS_DELETED|nothing" metal:fill-slot="message" class="success">
+        Valitut tilaukset poistettu onnistuneesti.
+      </p>
+      <p tal:condition="MSG_ORDERS_CLEARED|nothing" metal:fill-slot="message" class="success">
+        Tilaukset tilastoitiin ja poistettiin onnistuneesti.
+      </p>
+      <p tal:condition="MSG_ORDERS_NOT_CLEARED|nothing" metal:fill-slot="message" class="error">
+        Tilauksia ei poistettu eikä tilastoitu, koska varmistinta (painikkeen vieressä) ei merkitty valituksi.
+      </p>
+      <p tal:condition="MSG_NO_ORDERS_TO_CLEAR|nothing" metal:fill-slot="message" class="error">
+        Yhtään tilausta tilastoitavaksi ja poistettavaksi ei löytynyt.
+      </p>
+    </metal:message>
+    <metal:main fill-slot="main">
+      <h2>Tilauskirja</h2>
+      <p>Tällä sivulla näet ruokapiirin tilauskirjan.</p>
+      <ul>
+        <li>Vapaaehtoisten jakajien ja kaikkien tilaajien sähköpostiosoitteet löydät <em>tämän sivun lopusta</em>.</li>
+        <li><em>Tilauksen viestin</em> näkee kokonaisuudessaan pysäyttämällä hiiren osoittimen hetkeksi viestin päälle.</li>
+        <li>Yksittäiseen tilaukseen voi tehdä rajatusti korjauksia klikkaamalla <em>kynä</em>-kuvaketta tilauksen kohdalta.</li>
+        <li>Tulosta raportti jakokerran tuotteiden tilaamiseksi tuottajilta painikkeella <em>Raportoi tuotteittain</em>.</li>
+        <li>Tulosta raportti tuotteiden jakamiseksi tilaajille painikkeesta <em>Raportoi tilaajittain</em>.</li>
+        <li>Poista kokeilut tai virheelliset tilaukset valitsemalla ne ja painamalla sivun lopusta <em>Poista valitut tilaukset</em>.</li>
+        <li>Tilastoi ja poista tilaukset vasta onnistuneen jaon jälkeen valitsemalla ja painamalla <em>Tyhjennä ja tilastoi</em>.</li>
+      </ul>
+      <form method="post" id="reports" tal:condition="php:count(orders) ? true : false">
+         <input type="hidden" name="clear_action" value="Tyhjennä ja tilastoi" />
+         <input type="hidden" name="products_action" value="Raportoi tuotteittain" />
+         <input type="hidden" name="orders_action" value="Raportoi tilaajittain" />
+
+         <input type="checkbox" name="confirm" class="leftwing"/>
+         <input type="submit" name="action" class="leftwing" value="Tyhjennä ja tilastoi" />
+         <input type="submit" name="action" value="Raportoi tuotteittain" />
+         <input type="submit" name="action" value="Raportoi tilaajittain" />
+      </form>
+      <form method="post" id="orderbook" tal:condition="php:count(orders) ? true : false">
+        <table>
+          <thead>
+            <tr>
+              <th class="rightwing"></th>
+              <th class="leftwing">Tilausaika</th>
+              <th>Tilaaja</th>
+              <th>Viesti</th>
+              <th class="center">J</th>
+              <th class="center">Summa</th>
+              <th class="center">Poista</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr tal:repeat="order orders"
+                tal:attributes="class php: repeat.order.odd ? 'even' : NULL">
+              <td class="rightwing">
+                <a tal:attributes="href string:${base}?view=order&id=${order/id}">
+                  <img tal:attributes="src string:${base}pencil_icon.gif" alt="Muokkaa" />
+                </a>
+              </td>
+              <td class="leftwing nowrap" tal:content="php:date('d.m. \k\l\o H.i', order.date)">
+                05.08. klo 12.00
+              </td>
+              <td class="nowrap">
+                <a class="popup" tal:content="order/name" tal:define="email php:order.email ? order.email . ', ' : NULL" 
+                   tal:attributes="title string:${email}${order/phone}">
+                  Etunimi Sukunimi
+                </a>
+              </td>
+              <td class="nowrap" tal:define="notes php:strlen(order.notes) ? trim(substr(order.notes, 0, 37)) : NULL">
+                <a class="popup" tal:condition="notes" tal:content="notes"
+                   tal:attributes="title order/notes">
+                  Tilaajan viestin alkuosa
+                </a><span tal:condition="php:strlen(order.notes) > 37">...</span>
+              </td>
+              <td class="center" tal:content="php:order.participate ? 'X' : NULL">
+                Haluaako osallistua jakoon
+              </td>
+              <td class="right">
+                <span tal:replace="php:str_replace('.', ',', order.sum())">10,00</span> &euro;
+              </td>
+              <td class="center">
+                <input type="checkbox"
+                       tal:attributes="name string:${order/id}_delete;" />
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="sum">
+              <td></td><td>Yhteensä</td><td>(toimituskulut)</td><td></td><td></td>
+              <td class="right nowrap">
+                <span tal:replace="php:str_replace('.', ',', sum)">10,00</span> &euro;
+              </td>
+              <td class="nowrap">(<span tal:replace="php:str_replace('.', ',', charges)">toimituskulut</span> &euro;)</td>
+            </tr>
+          </tfoot>
+        </table>
+        <p>
+          <input type="hidden" name="action" value="delete" />
+          <input type="submit" value="Poista valitut tilaukset"/>
+        </p>
+      </form>
+      <tal:participants condition="participants|nothing">
+        <h3>Vapaaehtoisten jakajien sähköpostiosoitteet:</h3>
+        <p><tt tal:content="participants">etunimi.sukunimi@palvelin.fi</tt></p>
+      </tal:participants>
+      <tal:all condition="all|nothing">
+        <h3>Kaikkien tilaajien sähköpostiosoitteet:</h3>
+        <p><tt tal:content="all">etunimi.sukunimi@palvelin.fi</tt></p>
+      </tal:all>
+    </metal:main>
+  </body>
+</html>

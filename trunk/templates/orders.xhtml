@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <style>
+      table {
+      	page-break-before: auto;
+      	page-break-inside: avoid;
+      	page-break-after: auto;
+      	margin-bottom: 1em;
+      }
+      tbody, thead, tr, td {
+	      page-break-before: avoid;
+	      page-break-after: avoid;
+      }
+      td, th {
+  	    white-space: nowrap;
+      }
+      .left {
+        text-align: left;
+      }
+      .center {
+        text-align: center;
+      }
+      .right {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Tilaukset <span tal:replace="php:date('d.m. \k\l\o H.i')">Aikaleima</span></p>
+    <tal:order repeat="order orders">
+      <table>
+        <thead>
+          <tr>
+            <th class="left">
+              <span tal:content="order/name">Etunimi Sukunimi</span>, puh.
+              <span tal:content="order/phone">123 4567</span>, tilaus
+              <span tal:content="php:date('d.m. \k\l\o H.i', order.date)">1.8. klo 8.23</span>
+            </th>
+            <th></th>
+            <th></th>
+            <th class="right">
+              <span tal:replace="php:str_replace('.', ',', order.sum())">0,15</span> &euro;
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="product order/getProducts">
+            <td>
+              <span tal:replace="product/description">Tuotteen kuvaus</span>
+              <em tal:condition="php: product.producer" tal:content="string:(${product/producer})">(Tuottaja)</em>
+            </td>
+              <td class="right">
+                <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace> &euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
+            </td>
+            <td class="right" style="padding-left:1em; font-weight:bold;">
+                <span tal:replace="product/quantity"></span>
+                <span tal:replace="php: str_replace('pcs', 'kpl', product.unit)">kpl</span>
+            </td>
+            <td class="right" style="padding-left:1em;">
+              <span tal:replace="php:sprintf('%01.2f', floatval(product.price) * product.quantity)">10,00</span> &euro;
+            </td>
+          </tr>
+          <tr>
+            <td>Toimituskulut</td>
+            <td></td>
+            <td></td>
+            <td class="right">
+                <tal:replace replace="php:str_replace('.', ',', order.charge)">1,00</tal:replace>
+                &euro;
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </tal:order>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:define-macro="master">
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+  <link rel="stylesheet" tal:attributes="href string:${base}layout.css" type="text/css" />
+  <link rel="stylesheet" tal:attributes="href string:${base}ruokapiiri.css" type="text/css" />
+
+  <title tal:content="ORDERBOOK_TITLE">Otsikko</title>
+
+  <script type="text/javascript" tal:attributes="src string:${base}css_browser_selector.js"/>
+  <metal:head define-slot="head"><!-- Tila esim. JQuery-skriptille, tarvittaessa --></metal:head>
+</head>
+<body>
+<div id="document">
+
+  <div id="header">
+    <a tal:attributes="href string:${base}; title ORDERBOOK_TITLE">
+      <div id="logo">
+        <h1 tal:content="ORDERBOOK_TITLE">Otsikko</h1>
+      </div>
+    </a>
+    <div id="tabbing">
+      <ul id="tabs" tal:define="action view|string:orderform">
+        <li tal:attributes="class php: action == 'orderform' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=orderform">Tilauslomake</a>
+        </li>
+        <li tal:condition="auth/isAuthorized|nothing"
+            tal:attributes="class php: action == 'orderbook' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=orderbook">Tilauskirja</a>
+        </li>
+        <li tal:condition="auth/isAuthorized|nothing"
+            tal:attributes="class php: action == 'catalog' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=catalog">Tuoteluettelo</a>
+        </li>
+        <li tal:attributes="class php: action == 'ingredients' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=ingredients">Tuoteselosteet</a>
+        </li>
+        <li tal:condition="auth/isAuthorized|nothing"
+            tal:attributes="class php: action == 'statistics' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=statistics">Tilastot</a>
+        </li>
+        <li tal:condition="not:auth/isAuthorized|nothing"
+            tal:attributes="class php: action == 'orderbook' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}hallinta">Ylläpito</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="page">
+    <div id="content">
+      <!-- Uloskirjautuminen -->
+      <form tal:condition="auth/isAuthorized|nothing" method="post" id="logout">
+        <input type="hidden" name="action" value="logout" />
+        <input align="right" type="submit" value="Kirjaudu ulos" />
+      </form>
+
+      <metal:message define-slot="message">
+        <!-- Tähän tulee aina tarvittaessa palveluviesti -->
+      </metal:message>
+  
+      <metal:main define-slot="main">
+        <p>Tässä näkyy varsinainen sisältö</p>
+      </metal:main>
+    </div>
+  </div>
+</div>
+</body>
+</html>
