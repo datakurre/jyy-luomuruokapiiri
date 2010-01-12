@@ -6,15 +6,14 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <h1><metal:title fill-slot="heading"></metal:title></h1>
     <metal:message fills-slot="message">
       <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
         Muutokset tallennettu onnistuneesti.
       </p>
     </metal:message>
     <metal:main fill-slot="main">
-      <p class="vali"><a tal:attributes="href string:${base}?view=orderbook">Takaisin tilauskirjaan.</a></p>
-      <ul class="vali">
+      <p><a tal:attributes="href string:${base}?view=orderbook">Takaisin tilauskirjaan.</a></p>
+      <ul>
         <li>Tilauksesta on mahdollista muokata <em>jakoon osallistumista</em>, <em>tilauksen viestiä</em> (esim. kuitata viestissä esitetty kysymys vastatuksi) ja yksittäisten tuotteiden <em>tilausmääriä</em>.</li>
         <li>Yksittäisten virhetilausten poistaminen on mahdollista <a tal:attributes="href string:${base}?view=orderbook">tilauskirjasta</a>.</li>
       </ul>
@@ -37,13 +36,13 @@
           </tr>
           </tbody>
         </table>
-        <p class="vali">
+        <p>
           <input type="checkbox" id="participate" name="participate"
                  tal:define="participate order/participate|nothing"
                  tal:attributes="checked php: participate ? 'yes' : NULL"/>
                 <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label>
         </p>
-        <p class="vali">
+        <p>
           <textarea name="notes" cols="40" rows="5"
                     tal:content="order/notes|nothing"></textarea>
         </p>

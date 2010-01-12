@@ -1,21 +1,3 @@
-/* @override 
-	http://kissanminttu.local/~datakurre/lahiruoka.japary.fi/ruokapiiri.css
-	http://kissanminttu.local/~datakurre/lahiruoka.japary.fi/kehitys/ruokapiiri.css
-*/
-
-/* @group Japa ry */
-
-#sis_palstat ul {
-  margin-left: 2em;
-  list-style: square;
-}
-
-a img, a:hover img {
-	border: none;
-}
-
-/* @end */
-
 /* @group Messages */
 
 .message {
@@ -51,21 +33,20 @@ a img, a:hover img {
 
 table {
   border-collapse: collapse;
-  margin: 0.5em 0;
   width: 100%;
-  font-size: 1em;
+  margin: 1ex 0;
 }
 
 tr {
-  background-color: white;
+  background-color: transparent;
 }
 
 tr.even {
-  background-color: #dbdbdb;
+  background-color: #B5D78C;
 }
 
 thead tr {
-  background-color: #ad7744;
+  background-color: #315224;
   color: white;
 }
 
@@ -119,15 +100,8 @@ th.rightwing {
 
 /* @group Forms */
 
-input {
-  font-family: Verdana,Arial,Sans-serif;
-  font-size: 1em;
-}
-
 select {
   margin-top: 0.25em;
-  font-family: Verdana,Arial,Sans-serif;
-  font-size: 1em;
 }
 
 input.center {
@@ -139,8 +113,6 @@ input.right {
 }
 
 textarea {
-  font-family: Verdana,Arial,Sans-serif;
-  font-size: 1em;
   padding: 0 2px 0 1px;
 }
 
@@ -162,7 +134,7 @@ form#order a {
 }
 
 form#order tfoot tr.sum {
-  border-top: thick solid #ad7744;
+  border-top: thick solid #315224;
   font-weight: bold;
 }
 
@@ -179,7 +151,7 @@ form#edit input[type="submit"]{
 }
 
 form#edit tfoot tr.sum {
-  border-top: thick solid #ad7744;
+  border-top: thick solid #315224;
   font-weight: bold;
 }
 
@@ -206,7 +178,7 @@ form#orderbook a.popup:hover {
 }
 
 form#orderbook tfoot tr.sum {
-  background: #ad7744;
+  background: #315224;
   font-weight: bold;
   color: white;
 }
@@ -269,13 +241,18 @@ form#statistics input[type="submit"]{
 /* @group Catalog */
 
 tr.new {
-  background-color: #ad7744;
+  background-color: #315224;
   color: white;
   font-weight: bold;
 }
 
+tr.new p {
+  margin: 0.5ex 0 0 0;
+  padding: 0;
+}
+
 tr.new td {
-  padding-top: 1em;
+  padding-top: 1ex;
 }
 
 tr.new input {
@@ -294,7 +271,7 @@ form#catalog input[type="submit"]{
 }
 
 .ui-sortable-drag {
-  border: 2px solid #ad7744;
+  border: 2px solid #315224;
 }
 
 /* @end */

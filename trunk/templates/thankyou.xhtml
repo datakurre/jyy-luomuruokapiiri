@@ -6,7 +6,6 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <h1><metal:title fill-slot="heading"></metal:title></h1>
     <p tal:condition="not:confirmation" metal:fill-slot="message" class="success">
       Kiitos tilauksestasi.
     </p>
@@ -14,7 +13,7 @@
       Kiitos tilauksestasi. Tästä tilausvahvistuksesta lähetettiin sähköpostilla kopio osoitteeseen <strong tal:content="confirmation">etunimi.sukunimi@palvelin.fi</strong>.
     </p>
     <metal:main fill-slot="main">
-      <pre class="vali" tal:content="order">
+      <pre tal:content="order">
         Tilausvahvistus.
       </pre>
     </metal:main>

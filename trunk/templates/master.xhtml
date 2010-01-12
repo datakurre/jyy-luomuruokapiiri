@@ -1,261 +1,73 @@
 <?xml version="1.0"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:define-macro="master">
 <head>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-  <link rel="stylesheet" href="http://www.japary.fi/japa.css" type="text/css" />
-	<!--[if lte IE 6]>
-  <link rel="stylesheet" type="text/css" href="http://www.japary.fi/japa_ie.css" />
-  <![endif]-->
+  <link rel="stylesheet" tal:attributes="href string:${base}layout.css" type="text/css" />
   <link rel="stylesheet" tal:attributes="href string:${base}ruokapiiri.css" type="text/css" />
-  <base href="http://www.japary.fi/" />
-  
-  
-  <title>JAPA ry</title>
 
+  <title tal:content="ORDERBOOK_TITLE">Otsikko</title>
 
-  <script type="text/JavaScript">
-<!--
-function mmLoadMenus() {
-if (window.mm_menu_0624122023_0) return;
-window.mm_menu_0624122023_0 = new Menu("root",116,25,"Arial, Helvetica, sans-serif",11,"#FFFFFF","#FFFFFF","#99CC00","#A8E100","left","middle",7,0,1000,-5,7,true,false,true,0,false,true);
-mm_menu_0624122023_0.addMenuItem("JAPA&nbsp;ry","location='http://www.japary.fi/japa.html'");
-mm_menu_0624122023_0.addMenuItem("Jäsenyys","location='http://www.japary.fi/japa_jasenyys.html'");
-mm_menu_0624122023_0.addMenuItem("Säännöt","location='http://www.japary.fi/japa_saannot.html'");
-mm_menu_0624122023_0.addMenuItem("Hallitus","location='http://www.japary.fi/japa_hallitus.html'");
-mm_menu_0624122023_0.addMenuItem("Toimintakertomukset","location='http://www.japary.fi/japa_toimintakertomukset.html'");
-mm_menu_0624122023_0.addMenuItem("Yhteistyökumppanit","location='http://www.japary.fi/yhteistyokumppanit.html'");
-mm_menu_0624122023_0.hideOnMouseOut=true;
-mm_menu_0624122023_0.bgColor='#555555';
-mm_menu_0624122023_0.menuBorder=1;
-mm_menu_0624122023_0.menuLiteBgColor='#FFFFFF';
-mm_menu_0624122023_0.menuBorderBgColor='#FFFFFF';
-window.mm_menu_0624124151_0 = new Menu("root",111,25,"Arial, Helvetica, sans-serif",11,"#FFFFFF","#FFFFFF","#99CC00","#A8E100","left","middle",7,0,1000,-5,7,true,false,true,0,false,true);
-mm_menu_0624124151_0.addMenuItem("Tapahtumakalenteri","location='http://www.japary.fi/tapahtumakalenteri.html'");
-mm_menu_0624124151_0.hideOnMouseOut=true;
-mm_menu_0624124151_0.bgColor='#555555';
-mm_menu_0624124151_0.menuBorder=1;
-mm_menu_0624124151_0.menuLiteBgColor='#FFFFFF';
-mm_menu_0624124151_0.menuBorderBgColor='#FFFFFF';
-window.mm_menu_0624124219_0 = new Menu("root",190,25,"Arial, Helvetica, sans-serif",11,"#FFFFFF","#FFFFFF","#99CC00","#A8E100","left","middle",7,0,1000,-5,7,true,false,true,0,false,true);
-mm_menu_0624124219_0.addMenuItem("Toiminta","location='http://www.japary.fi/toiminta.html'");
-mm_menu_0624124219_0.addMenuItem("Vuosittaiset&nbsp;tapahtumat","location='http://www.japary.fi/toiminta_tapahtumat.html'");
-mm_menu_0624124219_0.addMenuItem("Ajankohtaiset&nbsp;hankkeet&nbsp;ja&nbsp;kampanjat","location='http://www.japary.fi/toiminta_hankkeet_kampanjat.html'");
-mm_menu_0624124219_0.addMenuItem("Menneet&nbsp;hankkeet&nbsp;ja&nbsp;kampanjat","location='http://www.japary.fi/toiminta_hankkeet_kampanjat_men.html'");
-mm_menu_0624124219_0.addMenuItem("Valokuvia","location='http://www.japary.fi/kuvagalleria.html'");
-mm_menu_0624124219_0.hideOnMouseOut=true;
-mm_menu_0624124219_0.bgColor='#555555';
-mm_menu_0624124219_0.menuBorder=1;
-mm_menu_0624124219_0.menuLiteBgColor='#FFFFFF';
-mm_menu_0624124219_0.menuBorderBgColor='#FFFFFF';
-window.mm_menu_0624125223_0 = new Menu("root",172,25,"Arial, Helvetica, sans-serif",11,"#FFFFFF","#FFFFFF","#99CC00","#A8E100","left","middle",7,0,1000,-5,7,true,false,true,0,false,true);
-mm_menu_0624125223_0.addMenuItem("Asukasyhteistyö","location='http://www.japary.fi/asukasyhteistyo.html'");
-mm_menu_0624125223_0.addMenuItem("Asukasyhdistysten&nbsp;yhteystiedot","location='http://www.japary.fi/asukasyhteistyo_yht.html'");
-mm_menu_0624125223_0.addMenuItem("Asukkaan&nbsp;ääni","location='http://www.japary.fi/asukkaan_aani.html'");
-mm_menu_0624125223_0.hideOnMouseOut=true;
-mm_menu_0624125223_0.bgColor='#555555';
-mm_menu_0624125223_0.menuBorder=1;
-mm_menu_0624125223_0.menuLiteBgColor='#FFFFFF';
-mm_menu_0624125223_0.menuBorderBgColor='#FFFFFF';
-window.mm_menu_0624125509_0 = new Menu("root",222,25,"Arial, Helvetica, sans-serif",11,"#FFFFFF","#FFFFFF","#99CC00","#A8E100","left","middle",7,0,1000,-5,7,true,false,true,0,false,true);
-mm_menu_0624125509_0.addMenuItem("Kestävä&nbsp;kehitys","location='http://www.japary.fi/kestava_kehitys.html'");
-mm_menu_0624125509_0.addMenuItem("Kestävän&nbsp;kehityksen&nbsp;tietopaketti&nbsp;asukkaalle","location='http://www.japary.fi/kestava_kehitys_tietopaketti.html'");
-mm_menu_0624125509_0.addMenuItem("Jäteneuvojan&nbsp;tietopaketti&nbsp;asukkaalle","location='http://www.japary.fi/jateneuvojan_tietopaketti.html'");
-mm_menu_0624125509_0.addMenuItem("Pieni&nbsp;KEKE-sanasto","location='http://www.japary.fi/keke-sanasto.html'");
-mm_menu_0624125509_0.hideOnMouseOut=true;
-mm_menu_0624125509_0.bgColor='#555555';
-mm_menu_0624125509_0.menuBorder=1;
-mm_menu_0624125509_0.menuLiteBgColor='#FFFFFF';
-mm_menu_0624125509_0.menuBorderBgColor='#FFFFFF';
-window.mm_menu_0624125714_0 = new Menu("root",90,25,"Arial, Helvetica, sans-serif",11,"#FFFFFF","#FFFFFF","#99CC00","#A8E100","left","middle",7,0,1000,-5,7,true,false,true,0,false,true);
-mm_menu_0624125714_0.addMenuItem("Jäsentiedotteet","location='http://www.japary.fi/jasentiedotteet.html'");
-mm_menu_0624125714_0.addMenuItem("Mediatiedotteet","location='http://www.japary.fi/mediatiedotteet.html'");
-mm_menu_0624125714_0.hideOnMouseOut=true;
-mm_menu_0624125714_0.bgColor='#555555';
-mm_menu_0624125714_0.menuBorder=1;
-mm_menu_0624125714_0.menuLiteBgColor='#FFFFFF';
-mm_menu_0624125714_0.menuBorderBgColor='#FFFFFF';
-window.mm_menu_0624125826_0 = new Menu("root",145,25,"Arial, Helvetica, sans-serif",11,"#FFFFFF","#FFFFFF","#99CC00","#A8E100","left","middle",7,0,1000,-5,7,true,false,true,0,false,true);
-mm_menu_0624125826_0.addMenuItem("Työntekijöiden&nbsp;yhteystiedot","location='http://www.japary.fi/yhteystiedot_tyontekijat.html'");
-mm_menu_0624125826_0.addMenuItem("Hallituksen&nbsp;yhteystiedot","location='http://www.japary.fi/yhteystiedot_hallitus.html'");
-mm_menu_0624125826_0.hideOnMouseOut=true;
-mm_menu_0624125826_0.bgColor='#555555';
-mm_menu_0624125826_0.menuBorder=1;
-mm_menu_0624125826_0.menuLiteBgColor='#FFFFFF';
-mm_menu_0624125826_0.menuBorderBgColor='#FFFFFF';
-window.mm_menu_0624125945_0 = new Menu("root",50,25,"Arial, Helvetica, sans-serif",11,"#FFFFFF","#FFFFFF","#99CC00","#A8E100","left","middle",7,0,1000,-5,7,true,false,true,0,false,true);
-mm_menu_0624125945_0.addMenuItem("Etusivu","location='http://www.japary.fi/index.html'");
-mm_menu_0624125945_0.hideOnMouseOut=true;
-mm_menu_0624125945_0.bgColor='#555555';
-mm_menu_0624125945_0.menuBorder=1;
-mm_menu_0624125945_0.menuLiteBgColor='#FFFFFF';
-mm_menu_0624125945_0.menuBorderBgColor='#FFFFFF';
-mm_menu_0624125945_0.writeMenus();
-} // mmLoadMenus()
-function MM_swapImgRestore() { //v3.0
-var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
-}
-function MM_preloadImages() { //v3.0
-var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
-var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
-if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
-}
-function MM_findObj(n, d) { //v4.01
-var p,i,x; if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
-d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
-if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
-if(!x && d.getElementById) x=d.getElementById(n); return x;
-}
-function MM_swapImage() { //v3.0
-var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
-if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
-}
-//-->
-  </script>
-  <script language="JavaScript" src="mm_menu.js"></script>
-  <metal:head define-slot="head"><!-- A slot for additional JavaScript includes --></metal:head>
+  <script type="text/javascript" tal:attributes="src string:${base}css_browser_selector.js"/>
+  <metal:head define-slot="head"><!-- Tila esim. JQuery-skriptille, tarvittaessa --></metal:head>
 </head>
+<body>
+<div id="document">
 
+  <div id="header">
+    <a tal:attributes="href string:${base}; title ORDERBOOK_TITLE">
+      <div id="logo">
+        <h1 tal:content="ORDERBOOK_TITLE">Otsikko</h1>
+      </div>
+    </a>
+    <div id="tabbing">
+      <ul id="tabs" tal:define="action view|string:orderform">
+        <li tal:attributes="class php: action == 'orderform' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=orderform">Tilauslomake</a>
+        </li>
+        <li tal:condition="auth/isAuthorized|nothing"
+            tal:attributes="class php: action == 'orderbook' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=orderbook">Tilauskirja</a>
+        </li>
+        <li tal:condition="auth/isAuthorized|nothing"
+            tal:attributes="class php: action == 'catalog' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=catalog">Tuoteluettelo</a>
+        </li>
+        <li tal:attributes="class php: action == 'ingredients' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=ingredients">Tuoteselosteet</a>
+        </li>
+        <li tal:condition="auth/isAuthorized|nothing"
+            tal:attributes="class php: action == 'statistics' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}?view=statistics">Tilastot</a>
+        </li>
+        <li tal:condition="not:auth/isAuthorized|nothing"
+            tal:attributes="class php: action == 'orderbook' ? 'selected' : NULL">
+          <a tal:attributes="href string:${base}hallinta">Ylläpito</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-<body onload="MM_preloadImages('picc/navi/1_roll.png','picc/navi/2_roll.png','picc/navi/3_roll.png','picc/navi/4_roll.png','picc/navi/5_roll.png','picc/navi/6_roll.png','picc/navi/7_roll.png','picc/navi/8_roll.png')">
+  <div id="page">
+    <div id="content">
+      <!-- Uloskirjautuminen -->
+      <form tal:condition="auth/isAuthorized|nothing" method="post" id="logout">
+        <input type="hidden" name="action" value="logout" />
+        <input align="right" type="submit" value="Kirjaudu ulos" />
+      </form>
 
-<script language="JavaScript1.2">mmLoadMenus();</script>
-<div class="wrapper">
-<div id="ylapalkki">
-<div id="frame">
-<div id="logo"><img src="picc/japa_logo.png" height="76" width="195" /></div>
-<!-- NAVIGAATIO ALKAA -->
-<div id="navi"><a href="index.html" onmouseout="MM_swapImgRestore()"
- onmouseover="MM_swapImage('Etusivu','','picc/navi/1_roll.png',1)"><img
- src="picc/navi/1.png" alt="Etusivu" name="Etusivu" id="Etusivu"
- onmouseover="MM_showMenu(window.mm_menu_0624125945_0,0,37,null,'Etusivu')"
- onmouseout="MM_startTimeout();" border="0" height="34" width="70" /></a><a
- href="japa.html" onmouseout="MM_swapImgRestore()"
- onmouseover="MM_swapImage('JAPA ry','','picc/navi/2_roll.png',1)"><img
- src="picc/navi/2.png" alt="JAPA ry" name="JAPA ry" id="JAPA ry"
- onmouseover="MM_showMenu(window.mm_menu_0624122023_0,0,37,null,'JAPA ry')"
- onmouseout="MM_startTimeout();" border="0" height="34" width="69" /></a><a
- href="tapahtumakalenteri.html" onmouseout="MM_swapImgRestore()"
- onmouseover="MM_swapImage('Tapahtumat','','picc/navi/3_roll.png',1)"><img
- src="picc/navi/3.png" alt="Tapahtumat" name="Tapahtumat"
- id="Tapahtumat"
- onmouseover="MM_showMenu(window.mm_menu_0624124151_0,0,37,null,'Tapahtumat')"
- onmouseout="MM_startTimeout();" border="0" height="34" width="98" /></a><a
- href="toiminta.html" onmouseout="MM_swapImgRestore()"
- onmouseover="MM_swapImage('Toiminta','','picc/navi/4_roll.png',1)"><img
- src="picc/navi/4.png" alt="Toiminta" name="Toiminta" id="Toiminta"
- onmouseover="MM_showMenu(window.mm_menu_0624124219_0,0,37,null,'Toiminta')"
- onmouseout="MM_startTimeout();" border="0" height="34" width="77" /></a><a
- href="asukasyhteistyo.html" onmouseout="MM_swapImgRestore()"
- onmouseover="MM_swapImage('Asukasyhteistyö','','picc/navi/5_roll.png',1)"><img
- src="picc/navi/5.png" alt="Asukasyhteistyö" name="Asukasyhteistyö"
- id="Asukasyhteistyö"
- onmouseover="MM_showMenu(window.mm_menu_0624125223_0,0,37,null,'Asukasyhteistyö')"
- onmouseout="MM_startTimeout();" border="0" height="34" width="127" /></a><a
- href="kestava_kehitys.html" onmouseout="MM_swapImgRestore()"
- onmouseover="MM_swapImage('Kestävä kehitys','','picc/navi/6_roll.png',1)"><img
- src="picc/navi/6.png" alt="Kestävä kehitys" name="Kestävä kehitys"
- id="Kestävä kehitys"
- onmouseover="MM_showMenu(window.mm_menu_0624125509_0,0,37,null,'Kestävä kehitys')"
- onmouseout="MM_startTimeout();" border="0" height="34" width="120" /></a><a
- href="jasentiedotteet.html" onmouseout="MM_swapImgRestore()"
- onmouseover="MM_swapImage('Tiedotteet','','picc/navi/7_roll.png',1)"><img
- src="picc/navi/7.png" alt="Tiedotteet" name="Tiedotteet"
- id="Tiedotteet"
- onmouseover="MM_showMenu(window.mm_menu_0624125714_0,0,37,null,'Tiedotteet')"
- onmouseout="MM_startTimeout();" border="0" height="34" width="88" /></a><a
- href="yhteystiedot_tyontekijat.html" onmouseout="MM_swapImgRestore()"
- onmouseover="MM_swapImage('Yhteystiedot','','picc/navi/8_roll.png',1)"><img
- src="picc/navi/8.png" alt="Yhteystiedot" name="Yhteystiedot"
- id="Yhteystiedot"
- onmouseover="MM_showMenu(window.mm_menu_0624125826_0,0,37,null,'Yhteystiedot')"
- onmouseout="MM_startTimeout();" border="0" height="34" width="101" /></a></div>
-</div>
-</div>
-
-<!-- NAVIGAATIO LOPPUU -->
-<div id="frame">
-<div id="frame_sis"><!-- ALANAVIGAATIO ALKAA -->
-<div id="subnavi">
-  <ul class="views" tal:define="action view|string:form">
-    <div id="subnavi_vviiva"></div>
-    <li><a href="http://www.japary.fi/lahiruoka/">Ruokaa läheltä</a></li>
-    <div id="subnavi_vviiva"></div>
-    <li tal:attributes="class php: action == 'orderform' ? 'selected' : NULL">
-      <a tal:attributes="href string:${base}?view=orderform">Tilauslomake</a>
-    </li>
-    <div id="subnavi_vviiva"></div>
-    <li tal:condition="auth/isAuthorized|nothing"
-        tal:attributes="class php: action == 'orderbook' ? 'selected' : NULL">
-      <a tal:attributes="href string:${base}?view=orderbook">Tilauskirja</a>
-    </li>
-    <div tal:condition="auth/isAuthorized|nothing" id="subnavi_vviiva"></div>
-    <li tal:condition="auth/isAuthorized|nothing"
-          tal:attributes="class php: action == 'catalog' ? 'selected' : NULL">
-      <a tal:attributes="href string:${base}?view=catalog">Tuoteluettelo</a>
-    </li>
-    <div tal:condition="auth/isAuthorized|nothing" id="subnavi_vviiva"></div>
-    <li tal:attributes="class php: action == 'ingredients' ? 'selected' : NULL">
-      <a tal:attributes="href string:${base}?view=ingredients">Tuoteselosteet</a>
-    </li>
-    <div tal:condition="auth/isAuthorized|nothing" id="subnavi_vviiva"></div>
-    <li tal:condition="auth/isAuthorized|nothing"
-          tal:attributes="class php: action == 'statistics' ? 'selected' : NULL">
-      <a tal:attributes="href string:${base}?view=statistics">Tilastot</a>
-    </li>
-    <div tal:condition="not:auth/isAuthorized|nothing" id="subnavi_vviiva"></div>
-    <li tal:condition="not:auth/isAuthorized|nothing">
-      <a tal:attributes="href string:${base}hallinta">Ylläpito</a>
-    </li>
-  </ul>
-<div id="subnavi_vviiva"></div>
-</div>
-<!-- ALANAVIGAATIO LOPPUU -->
-<!-- SISÄLTÖ ALKAA -->
-
-<!-- vaihda otsikko -->
-<div id="sis_ots">
-  <metal:title define-slot="title" tal:content="ORDERBOOK_TITLE">Otsikko</metal:title>
-  <form tal:condition="auth/isAuthorized|nothing" method="post" id="logout">
-    <input type="hidden" name="action" value="logout" />
-    <input  align="right" type="submit" value="Kirjaudu ulos" />
-  </form>
-</div>
-<div id="sis_palstat">
-  <div id="sis_palsta">
-    <div class="valiots"><metal:subtitle define-slot="heading">Esittely</metal:subtitle></div>
-    <metal:message define-slot="message"><!-- Tähän tulee aina tarvittaessa palveluviesti --></metal:message>
-    <metal:main define-slot="main"><p class="vali">Tässä näkyy varsinainen sisältö</p></metal:main>
-    <p class="vali">
-      <img src="http://www.japary.fi/kuvat/eulogot.png" width="492" height="59"
-          alt="Euroopan maaseudun kehittämisen rahasto: Eurooppa investoi maaseutualueisiin" />
-    </p>
+      <metal:message define-slot="message">
+        <!-- Tähän tulee aina tarvittaessa palveluviesti -->
+      </metal:message>
+  
+      <metal:main define-slot="main">
+        <p>Tässä näkyy varsinainen sisältö</p>
+      </metal:main>
+    </div>
   </div>
 </div>
-</div>
-</div>
-<!-- SISÄLTÖ LOPPUU -->
-
-<div class="push"></div>
-</div>
-<!-- ALAPALKKI ALKAA TÄSTÄ -->
-<div class="footer">
-<p>
-<a href="index.html">Etusivu</a>
-| <a href="japa.html">JAPA ry</a>
-| <a href="tapahtumakalenteri.html">Tapahtumat</a>
-| <a href="toiminta.html">Toiminta</a>
-| <a href="asukasyhteistyo.html">Asukasyhteistyö</a>
-| <a href="kestava_kehitys.html">Kestäväkehitys</a>
-| <a href="jasentiedotteet.html">Tiedotteet</a>
-| <a href="yhteystiedot_tyontekijat.html">Yhteystiedot</a>
-</p>
-</div>
-<!-- ALAPALKKI LOPPPUU -->
 </body>
 </html>

@@ -6,7 +6,6 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <h1><metal:title fill-slot="heading">Tilauskirja</metal:title></h1>
     <metal:message fills-slot="message">
       <p tal:condition="MSG_ORDERS_DELETED|nothing" metal:fill-slot="message" class="success">
         Valitut tilaukset poistettu onnistuneesti.
@@ -22,10 +21,9 @@
       </p>
     </metal:message>
     <metal:main fill-slot="main">
-      <p class="vali">
-        Tällä sivulla näet ruokapiirin tilauskirjan.
-      </p>
-      <ul class="vali">
+      <h2>Tilauskirja</h2>
+      <p>Tällä sivulla näet ruokapiirin tilauskirjan.</p>
+      <ul>
         <li>Vapaaehtoisten jakajien ja kaikkien tilaajien sähköpostiosoitteet löydät <em>tämän sivun lopusta</em>.</li>
         <li><em>Tilauksen viestin</em> näkee kokonaisuudessaan pysäyttämällä hiiren osoittimen hetkeksi viestin päälle.</li>
         <li>Yksittäiseen tilaukseen voi tehdä rajatusti korjauksia klikkaamalla <em>kynä</em>-kuvaketta tilauksen kohdalta.</li>
@@ -102,18 +100,18 @@
             </tr>
           </tfoot>
         </table>
-        <p class="vali">
+        <p>
           <input type="hidden" name="action" value="delete" />
           <input type="submit" value="Poista valitut tilaukset"/>
         </p>
       </form>
       <tal:participants condition="participants|nothing">
-        <p class="valiots">Vapaaehtoisten jakajien sähköpostiosoitteet:</p>
-        <p class="vali"><tt tal:content="participants">etunimi.sukunimi@palvelin.fi</tt></p>
+        <h3>Vapaaehtoisten jakajien sähköpostiosoitteet:</h3>
+        <p><tt tal:content="participants">etunimi.sukunimi@palvelin.fi</tt></p>
       </tal:participants>
       <tal:all condition="all|nothing">
-        <p class="valiots">Kaikkien tilaajien sähköpostiosoitteet:</p>
-        <p class="vali"><tt tal:content="all">etunimi.sukunimi@palvelin.fi</tt></p>
+        <h3>Kaikkien tilaajien sähköpostiosoitteet:</h3>
+        <p><tt tal:content="all">etunimi.sukunimi@palvelin.fi</tt></p>
       </tal:all>
     </metal:main>
   </body>
