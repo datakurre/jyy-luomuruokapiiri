@@ -28,7 +28,7 @@ class Catalog {
 
   public function Catalog($db, $order_by='position') {
     $this->db =& $db ;
-    $this->refresh() ;
+    $this->refresh($order_by) ;
   }
   
   public function refresh($order_by='position') {
