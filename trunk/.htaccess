@@ -8,4 +8,5 @@ RewriteBase    /ruokapiiri/
 RewriteCond    %{REQUEST_FILENAME}         -f
 RewriteRule    ^(.+[^/]).php$               $1/                  [R]
 RewriteRule    ^(.+[^/]).php/hallinta/?$    $1/?view=orderbook   [R]
+RewriteRule    ^(.+[^/]).php/(tietosuojaseloste.pdf)$  $1-$2     [R,L]
 RewriteRule    ^(.+[^/]).php/(.*\..{2,4})$  $2                   [R]

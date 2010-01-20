@@ -40,9 +40,6 @@ if (!isset($passwords)) $passwords = array(
   'salasana1' , 'salasana2' ,
 ) ;
 
-// Ruokapiirin tunniste
-define('ORDERBOOK_ID', $database) ;
-
 // Ruokapiirin otsikko
 define('ORDERBOOK_TITLE', $title) ;
 
