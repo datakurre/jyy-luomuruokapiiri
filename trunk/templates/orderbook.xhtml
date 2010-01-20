@@ -6,21 +6,19 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <metal:message fills-slot="message">
-      <p tal:condition="MSG_ORDERS_DELETED|nothing" metal:fill-slot="message" class="success">
-        Valitut tilaukset poistettu onnistuneesti.
-      </p>
-      <p tal:condition="MSG_ORDERS_CLEARED|nothing" metal:fill-slot="message" class="success">
-        Tilaukset tilastoitiin ja poistettiin onnistuneesti.
-      </p>
-      <p tal:condition="MSG_ORDERS_NOT_CLEARED|nothing" metal:fill-slot="message" class="error">
-        Tilauksia ei poistettu eikä tilastoitu, koska varmistinta (painikkeen vieressä) ei merkitty valituksi.
-      </p>
-      <p tal:condition="MSG_NO_ORDERS_TO_CLEAR|nothing" metal:fill-slot="message" class="error">
-        Yhtään tilausta tilastoitavaksi ja poistettavaksi ei löytynyt.
-      </p>
-    </metal:message>
-    <metal:main fill-slot="main">
+    <p tal:condition="MSG_ORDERS_DELETED|nothing" metal:fill-slot="message" class="success">
+      Valitut tilaukset poistettu onnistuneesti.
+    </p>
+    <p tal:condition="MSG_ORDERS_CLEARED|nothing" metal:fill-slot="message" class="success">
+      Tilaukset tilastoitiin ja poistettiin onnistuneesti.
+    </p>
+    <p tal:condition="MSG_ORDERS_NOT_CLEARED|nothing" metal:fill-slot="message" class="error">
+      Tilauksia ei poistettu eikä tilastoitu, koska varmistinta (painikkeen vieressä) ei merkitty valituksi.
+    </p>
+    <p tal:condition="MSG_NO_ORDERS_TO_CLEAR|nothing" metal:fill-slot="message" class="error">
+      Yhtään tilausta tilastoitavaksi ja poistettavaksi ei löytynyt.
+    </p>
+    <div meta:fill-slot="main" tal:omit-tag="">
       <h2>Tilauskirja</h2>
       <p>Tällä sivulla näet ruokapiirin tilauskirjan.</p>
       <ul>
@@ -113,6 +111,6 @@
         <h3>Kaikkien tilaajien sähköpostiosoitteet:</h3>
         <p><tt tal:content="all">etunimi.sukunimi@palvelin.fi</tt></p>
       </tal:all>
-    </metal:main>
+    </div>
   </body>
 </html>

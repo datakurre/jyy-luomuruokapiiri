@@ -6,18 +6,16 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <metal:message fills-slot="message">
-      <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
-        Muutokset tallennettu onnistuneesti.
-      </p>
-      <p tal:condition="MSG_SUM_UPDATED|nothing" metal:fill-slot="message" class="message">
-        Tilauksen kokonaishinta päivitetty. Jätä tilaus <em>Tilaa</em>-painikkeella.
-      </p>
-      <p tal:condition="MSG_CORRECT_ERRORS|nothing" metal:fill-slot="message" class="error">
-        Puutteelliset tai virheelliset tilaustiedot. Ole hyvä ja korjaa merkityt virheet.
-      </p>
-    </metal:message>
-    <metal:main fill-slot="main">
+    <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
+      Muutokset tallennettu onnistuneesti.
+    </p>
+    <p tal:condition="MSG_SUM_UPDATED|nothing" metal:fill-slot="message" class="message">
+      Tilauksen kokonaishinta päivitetty. Jätä tilaus <em>Tilaa</em>-painikkeella.
+    </p>
+    <p tal:condition="MSG_CORRECT_ERRORS|nothing" metal:fill-slot="message" class="error">
+      Puutteelliset tai virheelliset tilaustiedot. Ole hyvä ja korjaa merkityt virheet.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
       <h2>Tilauslomake</h2>
       <form id="settings" method="post"
             tal:condition="auth/isAuthorized"
@@ -178,7 +176,7 @@
                    koskevaan tiedottamiseen (esim. aikataulumuutoksista tiedottamiseen).</em>
                 </p>
                 <p>
-                  <a target="_blank" tal:attributes="href string:${base}tietosuojaseloste.pdf">
+                  <a target="_blank" tal:attributes="href string:${base}${ORDERBOOK_ID}_tietosuojaseloste.pdf">
                   Tietosuoja- ja rekisteriseloste
                   </a> (PDF)
                 </p>
@@ -187,6 +185,6 @@
           </table>
         </form>
       </tal:form>
-    </metal:main>
+    </div>
   </body>
 </html>

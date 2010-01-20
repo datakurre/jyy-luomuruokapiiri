@@ -6,7 +6,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <metal:main fill-slot="main">
+    <div metal:fill-slot="main" tal:omit-tag="">
       <h2>Tuoteselosteet</h2>
       <p>
         Tältä sivulta saat lisätietoa tilattavissa olevista tuotteista joko <a tal:attributes="href string:${base}?view=ingredients&mode=product">aakkosjärjestyksessä</a> tai <a tal:attributes="href string:${base}?view=ingredients&mode=producer">tuottajien mukaan järjestettynä</a>.
@@ -53,6 +53,6 @@
           </tal:product>
         </dl>
       </tal:other>
-    </metal:main>
+    </div>
   </body>
 </html>

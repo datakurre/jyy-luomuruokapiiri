@@ -12,10 +12,10 @@
     <p tal:condition="confirmation" metal:fill-slot="message" class="success">
       Kiitos tilauksestasi. Tästä tilausvahvistuksesta lähetettiin sähköpostilla kopio osoitteeseen <strong tal:content="confirmation">etunimi.sukunimi@palvelin.fi</strong>.
     </p>
-    <metal:main fill-slot="main">
+    <div metal:fill-slot="main" tal:omit-tag="">
       <pre tal:content="order">
         Tilausvahvistus.
       </pre>
-    </metal:main>
+    </div>
   </body>
 </html>

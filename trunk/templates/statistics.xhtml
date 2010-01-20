@@ -6,7 +6,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <metal:main fill-slot="main">
+    <div metal:fill-slot="main" tal:omit-tag="">
       <h2>Tilastot</h2>
       <p>
         Tällä sivulla näet ruokapiirin tilauksista koostetut suuntaa-antavat tilastot. Tilastot on koostettu automaattisesti tilaustietokannasta, eikä niissä ole huomioitu senttipyöristyksiä tai tilauksiin järjestelmän ulkopuolella tehtyjä muutoksia. Tilastoissa ei ole esimerkiksi ole huomioitu, jos jokin tuottaja ei ole voinut toimittaa jakoon tilattua määrää kaikkia tuotteita.
@@ -70,6 +70,6 @@
           </tr>
         </tbody>
       </table>
-    </metal:main>
+    </div>
   </body>
 </html>

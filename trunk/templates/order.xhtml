@@ -6,12 +6,10 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <metal:message fills-slot="message">
-      <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
-        Muutokset tallennettu onnistuneesti.
-      </p>
-    </metal:message>
-    <metal:main fill-slot="main">
+    <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
+      Muutokset tallennettu onnistuneesti.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
       <p><a tal:attributes="href string:${base}?view=orderbook">Takaisin tilauskirjaan.</a></p>
       <ul>
         <li>Tilauksesta on mahdollista muokata <em>jakoon osallistumista</em>, <em>tilauksen viestiä</em> (esim. kuitata viestissä esitetty kysymys vastatuksi) ja yksittäisten tuotteiden <em>tilausmääriä</em>.</li>
@@ -96,6 +94,6 @@
         <input type="hidden" name="action" value="save" />
         <input type="submit" value="Tallenna muutokset" />
       </form>
-    </metal:main>
+    </div>
   </body>
 </html>

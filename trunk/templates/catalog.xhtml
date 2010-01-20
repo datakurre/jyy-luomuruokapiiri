@@ -55,12 +55,10 @@
 	  </metal:head>
   </head>
   <body>
-    <metal:message fills-slot="message">
-      <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
-        Muutokset tallennettu onnistuneesti.
-      </p>
-    </metal:message>
-    <metal:main fill-slot="main">
+    <p metal:fill-slot="message" tal:condition="MSG_CHANGES_SAVED|nothing" class="success">
+      Muutokset tallennettu onnistuneesti.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
       <h2>Tuoteluettelo</h2>
       <p>
         Tällä sivulla näet kaikki tilausjärjestelmään syötetyt tuotteet.
@@ -163,6 +161,6 @@
           <input type="submit" value="Tallenna muutokset"/>
         </p>
       </form>
-    </metal:main>
+    </div>
   </body>
 </html>
