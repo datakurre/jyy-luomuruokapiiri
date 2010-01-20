@@ -167,6 +167,10 @@ form#login {
 
 /* @group OrderBook */
 
+form#reports {
+  margin-top: 1ex;
+}
+
 form#orderbook a.popup {
 	color: black;
 	text-decoration: none;
