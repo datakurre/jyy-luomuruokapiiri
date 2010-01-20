@@ -11,7 +11,7 @@ $confirmation = false ;
 
 // Ruokapiirin nimi eli otsikko, joka näytetään useilla
 // sivuilla ja joka näkyy tilausvahvistusten lähettäjänä.
-$title = "Esimerkkiruokapiiri" ;
+$title = "Esimerkillinen Ruokapiiri" ;
 
 // Tilauskohtainen ruokapiirin ylläpitokorvaus, joka
 // lisätään jokaisen tilauksen loppusummaan.
