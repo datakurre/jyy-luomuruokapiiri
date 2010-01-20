@@ -6,24 +6,22 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <h1><metal:title fill-slot="heading"></metal:title></h1>
-    <metal:message fills-slot="message">
-      <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
-        Muutokset tallennettu onnistuneesti.
-      </p>
-      <p tal:condition="MSG_SUM_UPDATED|nothing" metal:fill-slot="message" class="message">
-        Tilauksen kokonaishinta päivitetty. Jätä tilaus <em>Tilaa</em>-painikkeella.
-      </p>
-      <p tal:condition="MSG_CORRECT_ERRORS|nothing" metal:fill-slot="message" class="error">
-        Puutteelliset tai virheelliset tilaustiedot. Ole hyvä ja korjaa merkityt virheet.
-      </p>
-    </metal:message>
-    <metal:main fill-slot="main">
+    <h2 metal:fill-slot="heading" tal:omit-tag=""></h2>
+    <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
+      Muutokset tallennettu onnistuneesti.
+    </p>
+    <p tal:condition="MSG_SUM_UPDATED|nothing" metal:fill-slot="message" class="message">
+      Tilauksen kokonaishinta päivitetty. Jätä tilaus <em>Tilaa</em>-painikkeella.
+    </p>
+    <p tal:condition="MSG_CORRECT_ERRORS|nothing" metal:fill-slot="message" class="error">
+      Puutteelliset tai virheelliset tilaustiedot. Ole hyvä ja korjaa merkityt virheet.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
       <form id="settings" method="post"
             tal:condition="auth/isAuthorized"
             tal:define="instructions instructions|nothing;
                         enabled      enabled|nothing;">
-        <p class="vali">Tilauslomakkeen alussa näytettävä viesti:<br/>
+        <p>Tilauslomakkeen alussa näytettävä viesti:<br/>
           <textarea cols="80" rows="8" name="instructions"
                     tal:content="instructions">Lomakkeen ohjeet</textarea><br/>
           Tilausvahvistukseen liitettävä viesti:<br/>
@@ -37,7 +35,7 @@
           <input type="submit" value="Tallenna muutokset"/>
         </p>
       </form>
-      <p class="vali" tal:condition="not:auth/isAuthorized"
+      <p tal:condition="not:auth/isAuthorized"
          tal:define="instructions instructions|nothing">
         <tal:lines repeat="line instructions">
           <tal:line replace="structure line">Rivi ohjetta</tal:line><br tal:condition="not:repeat/line/end" />
@@ -46,7 +44,7 @@
       <tal:form define="authorized auth/isAuthorized;
                         enabled    enabled|nothing;"
                 condition="php: authorized or enabled">
-        <p class="valiots">Tilauslomake</p>
+        <h2>Tilauslomake</h2>
         <form method="post" id="order">
           <table>
             <thead>
@@ -171,14 +169,14 @@
               <td></td>
               <td class="left">
                 <input type="hidden" name="order_action" value="Tilaa" />
-                <input class="vali" type="submit" name="action" value="Tilaa" />
-                <p class="vali" tal:condition="not:errors/email|nothing">
+                <input type="submit" name="action" value="Tilaa" />
+                <p tal:condition="not:errors/email|nothing">
                   <em>*) Tilauksessa ilmoitettuun sähköpostiosoitteeseen lähetetään
                    automaattinen tilausvahvistus tilauksen sisällöstä ja summasta.
                    Sähköpostiosoitetta voidaan käyttää myös tilauksen jakoa
                    koskevaan tiedottamiseen (esim. aikataulumuutoksista tiedottamiseen).</em>
                 </p>
-                <p class="vali">
+                <p>
                   <a target="_blank" tal:attributes="href string:${base}tietosuojaseloste.pdf">
                   Tietosuoja- ja rekisteriseloste
                   </a> (PDF)
@@ -188,6 +186,6 @@
           </table>
         </form>
       </tal:form>
-    </metal:main>
+    </div>
   </body>
 </html>

@@ -6,9 +6,9 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <h1><metal:title fill-slot="heading">Tuoteselosteet</metal:title></h1>
-    <metal:main fill-slot="main">
-      <p class="vali">
+    <h2 metal:fill-slot="heading">Tuoteselosteet</h2>
+    <div metal:fill-slot="main" tal:omit-tag="">
+      <p>
         Tältä sivulta saat lisätietoa tilattavissa olevista tuotteista joko <a tal:attributes="href string:${base}?view=ingredients&mode=product">aakkosjärjestyksessä</a> tai <a tal:attributes="href string:${base}?view=ingredients&mode=producer">tuottajien mukaan järjestettynä</a>.
       </p>
       <dl class="ingredients" tal:condition="php:mode=='product'">
@@ -28,7 +28,7 @@
       </dl>
       <tal:producers condition="php:mode=='producer'"
                      repeat="producer producers">
-        <div class="valiots" tal:content="producer/name">Tuottaja</div>
+        <h3 tal:content="producer/name">Tuottaja</h3>
         <dl class="ingredients">
           <tal:product repeat="product producer/products">
             <dt tal:attributes="id product/id" tal:content="product/description">Tuote</dt>
@@ -41,7 +41,7 @@
         </dl>
       </tal:producers>
       <tal:other condition="php:mode=='producer' and count(other)">
-        <div class="valiots">Muut</div>
+        <h3>Muut</h3>
         <dl class="ingredients">
           <tal:product repeat="product other">
             <dt tal:attributes="id product/id" tal:content="product/description">Tuote</dt>
@@ -53,6 +53,6 @@
           </tal:product>
         </dl>
       </tal:other>
-    </metal:main>
+    </div>
   </body>
 </html>
