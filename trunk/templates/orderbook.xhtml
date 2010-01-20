@@ -18,7 +18,7 @@
     <p tal:condition="MSG_NO_ORDERS_TO_CLEAR|nothing" metal:fill-slot="message" class="error">
       Yhtään tilausta tilastoitavaksi ja poistettavaksi ei löytynyt.
     </p>
-    <div meta:fill-slot="main" tal:omit-tag="">
+    <div metal:fill-slot="main" tal:omit-tag="">
       <h2>Tilauskirja</h2>
       <p>Tällä sivulla näet ruokapiirin tilauskirjan.</p>
       <ul>
