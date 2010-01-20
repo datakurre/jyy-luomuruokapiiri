@@ -6,16 +6,16 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="master.xhtml/master">
   <body>
-    <h1><metal:title fill-slot="heading">Tilastot</metal:title></h1>
-    <metal:main fill-slot="main">
-      <p class="vali">
+    <h2 metal:fill-slot="heading">Tilastot</h2>
+    <div metal:fill-slot="main" tal:omit-tag="">
+      <p>
         Tällä sivulla näet ruokapiirin tilauksista koostetut suuntaa-antavat tilastot. Tilastot on koostettu automaattisesti tilaustietokannasta, eikä niissä ole huomioitu senttipyöristyksiä tai tilauksiin järjestelmän ulkopuolella tehtyjä muutoksia. Tilastoissa ei ole esimerkiksi ole huomioitu, jos jokin tuottaja ei ole voinut toimittaa jakoon tilattua määrää kaikkia tuotteita.
       </p>
       <form id="statistics" method="post">
         <input type="hidden" name="action" value="table" />
         <input type="submit" value="Raportoi tuotteitain"/>
       </form>
-      <ul class="vali">
+      <ul>
         <li>Voit laatia täydellisen tuotekohtaisen tilaston valitsemalla <em>Raportoi tuotteittain</em>.</li>
       </ul>
       <table tal:condition="orders">
@@ -70,6 +70,6 @@
           </tr>
         </tbody>
       </table>
-    </metal:main>
+    </div>
   </body>
 </html>

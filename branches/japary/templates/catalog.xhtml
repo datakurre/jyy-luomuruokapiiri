@@ -55,17 +55,15 @@
 	  </metal:head>
   </head>
   <body>
-    <h1><metal:title fill-slot="heading">Tuoteluettelo</metal:title></h1>
-    <metal:message fills-slot="message">
-      <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
-        Muutokset tallennettu onnistuneesti.
-      </p>
-    </metal:message>
-    <metal:main fill-slot="main">
-      <p class="vali">
+    <h2 metal:fill-slot="heading">Tuoteluettelo</h2>
+    <p metal:fill-slot="message" tal:condition="MSG_CHANGES_SAVED|nothing" class="success">
+      Muutokset tallennettu onnistuneesti.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
+      <p>
         Tällä sivulla näet kaikki tilausjärjestelmään syötetyt tuotteet.
       </p>
-      <ul class="vali">
+      <ul>
         <li>Lisää uusia tuotteita tuoteluettelon lopusta <em>yksi kerrallaan</em>.</li>
         <li>Valitse <em>kg</em> tuotteen yksiköksi vain, jos tuote punnitaan vasta jaossa.</li>
         <li>Järjestele tuotteita <em>raahaamalla</em> ne oikeaan kohtaan ja <em>tallentamalla muutokset</em>.</li>
@@ -137,7 +135,7 @@
           </tbody>
           <tfoot id="create">
             <tr class="new">
-              <td class="center"><p class="vali">Uusi</p></td>
+              <td class="center"><p>Uusi</p></td>
               <td>
                 <input type="text" size="40" class="description" name="#_description" />
                 <input type="text" size="40" class="product-details" name="#_notes" /><br/>
@@ -158,11 +156,11 @@
             </tr>
           </tfoot>
         </table>
-        <p class="vali">
+        <p>
           <input type="hidden" name="action" value="save" />
           <input type="submit" value="Tallenna muutokset"/>
         </p>
       </form>
-    </metal:main>
+    </div>
   </body>
 </html>
