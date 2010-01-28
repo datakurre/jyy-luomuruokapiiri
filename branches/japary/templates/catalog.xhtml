@@ -93,15 +93,17 @@
                                        value product/position" />
               </td>
               <td>
-                <input type="text" size="40" class="description"
+                <input type="text" size="36" class="description"
                        tal:attributes="name string:${product/id}_description;
                                        value product/description" />
-                <input type="text" size="40" class="product-details"
-                       tal:attributes="name string:${product/id}_notes;
-                                       value product/notes" /><br/>
-                <textarea cols="38" rows="4" class="product-details"
-                          tal:attributes="name string:${product/id}_ingredients"
-                          tal:content="product/ingredients">Ainesosat</textarea>
+                <div class="product-details">
+                  <input type="text" size="36"
+                         tal:attributes="name string:${product/id}_notes;
+                                        value product/notes" /><br/>
+                  <textarea cols="33" rows="4" class="product-details"
+                            tal:attributes="name string:${product/id}_ingredients"
+                            tal:content="product/ingredients">Ainesosat</textarea>
+                </div>
               </td>
               <td class="right nowrap rightwing">
                  <input type="text" size="5" class="right"
@@ -137,9 +139,9 @@
             <tr class="new">
               <td class="center"><p>Uusi</p></td>
               <td>
-                <input type="text" size="40" class="description" name="#_description" />
-                <input type="text" size="40" class="product-details" name="#_notes" /><br/>
-                <textarea cols="38" rows="4" class="product-details" name="#_ingredients" />
+                <input type="text" size="36" class="description" name="#_description" />
+                <input type="text" size="36" class="product-details" name="#_notes" /><br/>
+                <textarea cols="33" rows="4" class="product-details" name="#_ingredients" />
               </td>
               <td class="right nowrap rightwing">
                 <input class="right" type="text" size="5" name="#_price" /> &euro;

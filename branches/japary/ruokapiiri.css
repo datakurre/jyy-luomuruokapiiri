@@ -1,3 +1,8 @@
+/* @override 
+	http://192.168.1.3/~datakurre/japary/ruokapiiri.css
+	http://192.168.1.3/~datakurre/japary/esimerkki/ruokapiiri.css
+*/
+
 /* @group Messages */
 
 .message {
@@ -27,14 +32,46 @@
   font-weight: normal;
 }
 
+.message em, .error em, .success em {
+  color: white;
+}
+
+pre {
+  margin: 1ex 0;
+  font-family: monospace;
+}
+
 /* @end */
 
 /* @group Tables */
+
+dl {
+  font-size: 80%;
+}
 
 table {
   border-collapse: collapse;
   width: 100%;
   margin: 1ex 0;
+  font-size: 80%;
+  line-height: 1.5
+}
+
+table * {
+  font-size: 100%;
+}
+
+table a:link {
+  text-decoration: none;
+}
+
+table a:hover {
+  text-decoration: underline;
+}
+
+table input, table select {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 tr {
@@ -47,15 +84,19 @@ tr.even {
 
 thead tr {
   background-color: #ad7744;
+}
+
+thead th, tfoot td {
+  color: white;
+  padding: 0.5ex;
+}
+
+tfoot td p {
   color: white;
 }
 
-th {
-  padding: 0 0.5em;
-  text-align: left;
-}
-
-th.right{
+th.right {
+  float: none;
   text-align: right;
 }
 
@@ -65,7 +106,8 @@ th.center {
 
 td {
   vertical-align: top;
-  padding: 0.5em 0.5em;
+  padding: 0.5ex;
+  padding-top: 1ex;
 }
 
 td.center {
@@ -73,6 +115,7 @@ td.center {
 }
 
 td.right {
+  float: none;
   text-align: right;
 }
 
@@ -104,11 +147,16 @@ select {
   margin-top: 0.25em;
 }
 
+input {
+  line-height: 1em;
+}
+
 input.center {
   text-align: center;
 }
 
 input.right {
+  float: none;
   text-align: right;
 }
 
@@ -116,12 +164,26 @@ textarea {
   padding: 0 2px 0 1px;
 }
 
+/* @end */
+
 /* @group Order */
 
 p.notes {
   margin-left: 1em;
   margin-top: 0;
   padding-top: 0;
+}
+
+table#customer td {
+  vertical-align: middle;
+}
+
+table#customer input {
+  margin: 0;
+}
+
+table#customer p {
+  margin-top: 1ex;
 }
 
 form#order {
@@ -133,12 +195,20 @@ form#order a {
   color: black !important;
 }
 
-form#order tfoot tr.sum {
+form#order tfoot td {
+  color: black;
+}
+
+form#order tfoot tr.sum td {
   border-top: thick solid #ad7744;
   font-weight: bold;
 }
 
-form#settings input[type="submit"]{
+form#order tfoot tr.sum td input {
+  float: right;
+}
+
+form#settings input[type="submit"] {
   float: right;
 }
 
@@ -146,11 +216,18 @@ form#settings input[type="submit"]{
 
 /* @group Edit */
 
-form#edit input[type="submit"]{
+form#edit input[type="submit"] {
   float: right;
 }
 
-form#edit tfoot tr.sum {
+form#edit tfoot tr td {
+  color: black;
+}
+
+
+form#edit tfoot tr.sum td {
+  background: white;
+  color: black;
   border-top: thick solid #ad7744;
   font-weight: bold;
 }
@@ -168,13 +245,13 @@ form#login {
 /* @group OrderBook */
 
 form#orderbook a.popup {
-	color: black;
-	text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 form#orderbook a.popup:hover {
-	color: black;
-	text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 form#orderbook tfoot tr.sum {
@@ -183,7 +260,7 @@ form#orderbook tfoot tr.sum {
   color: white;
 }
 
-form#orderbook input[type="submit"]{
+form#orderbook input[type="submit"] {
   float: right;
 }
 
@@ -192,7 +269,7 @@ form#orderbook input[type="submit"]{
 /* @group Reports */
 
 form#reports {
-	text-align: right;
+  text-align: right;
 }
 
 form#reports input[type="submit"] {
@@ -217,20 +294,20 @@ form#reports a.submit {
 /* @group Logout */
 
 form#logout {
-	display: inline;
+  display: inline;
 }
 
-form#logout input[type="submit"]{
+form#logout input[type="submit"] {
   float: right;
 }
 
 /* @group Logout */
 
 form#statistics {
-	display: inline;
+  display: inline;
 }
 
-form#statistics input[type="submit"]{
+form#statistics input[type="submit"] {
   float: right;
 }
 
@@ -239,6 +316,10 @@ form#statistics input[type="submit"]{
 /* @end */
 
 /* @group Catalog */
+
+form#catalog th {
+  font-weight: normal;
+}
 
 tr.new {
   background-color: #ad7744;
@@ -260,7 +341,7 @@ tr.new input {
   font-weight: normal;
 }
 
-form#catalog input[type="submit"]{
+form#catalog input[type="submit"] {
   float: right;
 }
 
