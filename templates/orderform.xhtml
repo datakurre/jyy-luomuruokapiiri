@@ -22,10 +22,10 @@
             tal:define="instructions instructions|nothing;
                         enabled      enabled|nothing;">
         <p>Tilauslomakkeen alussa näytettävä viesti:<br/>
-          <textarea cols="80" rows="8" name="instructions"
+          <textarea cols="88" rows="8" name="instructions"
                     tal:content="instructions">Lomakkeen ohjeet</textarea><br/>
           Tilausvahvistukseen liitettävä viesti:<br/>
-          <textarea cols="80" rows="4" name="message"
+          <textarea cols="88" rows="4" name="message"
                    tal:content="message">Viesti</textarea><br/>
           <input type="checkbox" name="enabled" id="enabled"
                  tal:attributes="checked php: enabled ? 'yes' : NULL" />
