@@ -115,7 +115,8 @@ abstract class Record {
     if (in_array($field, $this->getFields())) {
       $value = is_string($value) ? trim($value) : $value ;
       $value = method_exists($this, $tidy) ? $this->$tidy($value) : $value ;
-      if (!isset($this->$field) or $this->$field != $value) {
+      if (!isset($this->$field) or $this->$field != $value
+          or ($value === 0 and $this->$field === '')) {
         if (!in_array($field, $this->DB_CHANGES)) {
           $this->DB_CHANGES[] = $field ;
         }
