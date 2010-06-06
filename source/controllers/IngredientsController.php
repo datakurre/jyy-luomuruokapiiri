@@ -67,3 +67,4 @@ class IngredientsController extends BaseController {
     die($view->render()) ;
   }
 }
+?>

@@ -46,3 +46,4 @@ class StatisticsController extends BaseController {
     die($view->render()) ;
   }
 }
+?>
