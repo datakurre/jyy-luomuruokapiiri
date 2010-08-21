@@ -63,7 +63,12 @@ class DatabaseController {
                         'description str , producer str , price str , ' .
                         'unit str , quantity int )') ;
     }
-    // 5) Tilastot
+    // 5) Tilausrajoitukset
+    if (!file_exists(DB_DIR . $id . '/limits.txt')) {
+      $db->executeQuery('CREATE TABLE limits ( id inc , product_id int , ' .
+                        'available int , ordered int )') ;
+    }
+    // 6) Tilastot
     if (!file_exists(DB_DIR . $id . '/stats_orders.txt')) {
       $db->executeQuery('CREATE TABLE stats_orders ( id inc , ' .
                         'date str , quantity int , sum str , charges str )') ;

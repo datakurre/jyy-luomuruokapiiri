@@ -36,6 +36,9 @@ abstract class BaseView {
   public function render() {
     try {
       echo $this->template->execute() ;
+      if (error_reporting() != E_ERROR) {
+        echo "Memory peak usage: " . memory_get_peak_usage() / 1024. / 1024. . "MB" ;
+      }
     }
     catch (Exception $e){
       echo "<pre>$e</pre>" ;

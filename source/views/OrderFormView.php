@@ -20,6 +20,8 @@
 
 require_once 'BaseView.php' ;
 
+require_once ORDERBOOK . 'models/ProductLimit.php' ;
+
 class OrderFormView extends BaseView {
   private $auth ;
   

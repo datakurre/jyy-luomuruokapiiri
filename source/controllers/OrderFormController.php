@@ -26,6 +26,7 @@ require_once ORDERBOOK . 'models/Settings.php' ;
 require_once ORDERBOOK . 'models/Catalog.php' ;
 require_once ORDERBOOK . 'models/Order.php' ;
 require_once ORDERBOOK . 'models/BreakDown.php' ;
+require_once ORDERBOOK . 'models/ProductLimit.php' ;
 
 require_once ORDERBOOK . 'views/OrderFormView.php' ;
 require_once ORDERBOOK . 'views/ConfirmationView.php' ;
@@ -39,6 +40,7 @@ class OrderFormController extends BaseController{
     $view->set('auth', $this->auth) ;
 
     $order = new Order($this->db, $_POST, ORDERBOOK_CHARGE) ;
+    
     $products = array_filter($catalog->products, "Product::isOrderable") ;
     foreach($products as $product) {
       if (isset($_POST[strval($product->getId())])) {
@@ -69,9 +71,30 @@ class OrderFormController extends BaseController{
         if (!Order::validate($order, $errors)) {
           $view->set('MSG_CORRECT_ERRORS', true) ;
         } else {
+          /* Update ProductLimits */
+          $changes = array() ;
+          foreach($order->products as $product_id => $breakdown) {
+            if (ProductLimit::hasLimit($catalog->products[$product_id])) {
+              $available = $catalog->products[$product_id]->limit->getAvailable()
+                           - $catalog->products[$product_id]->limit->getOrdered() ;
+              $quantity = max(0, min($breakdown->getQuantity(), $available)) ;
+              $catalog->products[$product_id]->limit->addToOrdered($quantity) ;
+              $catalog->products[$product_id]->limit->commit() ;
+              if ($quantity != $breakdown->getQuantity()) {
+                $changes[] = array(
+                    'description' => $breakdown->getDescription(),
+                    'from' => $breakdown->getQuantity(),
+                    'to' => $quantity,
+                    'unit' => $breakdown->getUnit()
+                ) ;
+                $order->products[$product_id]->setQuantity($quantity) ;
+              }
+            }
+          }
           $order->commit() ;
           
           $confirmation = new ConfirmationView() ;
+          if (count($changes)) { $confirmation->set('MSG_ORDER_CHANGED', $changes) ; }
           $confirmation->set('message', $settings->get('confirmation.message', '')) ;
           die($confirmation->render($order)) ;
         }
@@ -101,3 +124,4 @@ class OrderFormController extends BaseController{
     }
   }
 }
+?>

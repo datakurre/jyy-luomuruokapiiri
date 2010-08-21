@@ -7,17 +7,21 @@
       metal:use-macro="master.xhtml/master">
   <body>
     <h2 metal:fill-slot="heading" tal:omit-tag=""></h2>
-    <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
+    <p class="ruokapiiri-success" tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message">
       Muutokset tallennettu onnistuneesti.
     </p>
     <div metal:fill-slot="main" tal:omit-tag="">
       <p><a tal:attributes="href string:${base}?view=orderbook">Takaisin tilauskirjaan.</a></p>
       <ul>
         <li>Tilauksesta on mahdollista muokata <em>jakoon osallistumista</em>, <em>tilauksen viestiä</em> (esim. kuitata viestissä esitetty kysymys vastatuksi) ja yksittäisten tuotteiden <em>tilausmääriä</em>.</li>
+        <li>Tilauksesta <em>ei voi poistaa yksittäistä tuoteriviä</em> kokonaan, vaan ainoastaan tuotteen määrän voi nollata.</li> 
+        <li>Lisää tilaukseen uusia tuotteita tilauksen viimeiseltä riviltä <em>yksi kerrallaan</em>.</li>
+        <li>Tilauksen muokkaaminen ei tarkista tilausrajoitusten ylittymistä, vaan päin vastoin sallii tilauskaton ylittämisen.</li>
+        <li>Tilauksen <em>muokkaamisesta ei ilmoiteta</em> automaattisesti asiakkaalle millään tavoin.</li>
         <li>Yksittäisten virhetilausten poistaminen on mahdollista <a tal:attributes="href string:${base}?view=orderbook">tilauskirjasta</a>.</li>
       </ul>
-      <form id="edit" method="post">
-        <table id="customer">
+      <form id="ruokapiiri-order" method="post">
+        <table class="ruokapiiri-customer">
           <thead>
             <tr>
               <th>Tilausaika</th>
@@ -37,63 +41,78 @@
         </table>
         <p>
           <input type="checkbox" id="participate" name="participate"
-                 tal:define="participate order/participate|nothing"
-                 tal:attributes="checked php: participate ? 'yes' : NULL"/>
-                <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label>
+                tal:define="participate order/participate|nothing"
+                tal:attributes="checked php: participate ? 'yes' : NULL"/>
+                <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label><br/>
+          <textarea name="notes" tal:content="order/notes|nothing"></textarea>
         </p>
-        <p>
-          <textarea name="notes" cols="40" rows="5"
-                    tal:content="order/notes|nothing"></textarea>
-        </p>
-        <table id="order">
+        <table class="ruokapiiri-order">
           <thead>
             <tr>
-              <th>Tuote</th>
-              <th class="center">Hinta</th>
-              <th class="right">Määrä</th>
-              <th></th>
+              <th class="ruokapiiri-description">Tuote</th>
+              <th class="ruokapiiri-price">Hinta</th>
+              <th class="ruokapiiri-quantity">Määrä</th>
+              <th class="ruokapiiri-unit"></th>
             </tr>
           </thead>
           <tbody>
             <tal:every repeat="product order/getProducts">
               <tr tal:condition="product/description"
-                  tal:attributes="class php: repeat.product.odd ? 'even' : NULL">
-                <td>
+                  tal:attributes="class php: repeat.product.odd ? 'ruokapiiri-even' : NULL">
+                <td class="ruokapiiri-description">
                   <span tal:replace="product/description">Tuotteen kuvaus</span>
                   <em tal:condition="php: product.producer" tal:content="string:(${product/producer})">(Tuottaja)</em>
                 </td>
-                <td class="right nowrap" tal:attributes="style php:product.quantity ? 'font-weight: bold;;' : NULL">
-                  <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace>&euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
+                <td class="ruokapiiri-price" tal:attributes="style php:product.quantity ? 'font-weight: bold;;' : NULL">
+                  <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace> &euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
                 </td>
-                <td class="right nowrap">
-                  <input type="text" size="3" class="right" style="font-weight: bold;"
+                <td class="ruokapiiri-quantity">
+                  <input type="text"
                          tal:attributes="name string:${product/id}; value product/quantity"/>
                 </td>
-                <td class="leftwing"
+                <td class="ruokapiiri-unit"
                     tal:content="php: str_replace('pcs', 'kpl', product.unit)">kpl</td>
               </tr>
-             </tal:every>
+            </tal:every>
+            <tr id="ruokapiiri-new-product" tal:attributes="class php:count(order.products) % 2 ? 'ruokapiiri-even' : NULL">
+              <td class="ruokapiiri-description" colspan="2">
+                <select name="#_product_id">
+                  <option>-- Voit lisätä tilaukseen uuden tuotteet tästä listastasta--</option>
+                  <tal:product repeat="product products">
+                    <option tal:condition="php:product.getOrderable() and strlen(product.description)"
+                            tal:define="unit php:product.unit == 'pcs' ? 'kpl' : product.unit;
+                                        price php: str_replace('.', ',', product.price)"
+                            tal:content="string:${product/description} (${product/producer}, $price &euro; / $unit)"
+                            tal:attributes="value product/id">Tuotteen kuvaus</option>
+                  </tal:product>
+                </select>
+              </td>
+              <td class="ruokapiiri-quantity">
+                <input type="text" name="#_quantity" />
+              </td>
+              <td/>
+            </tr>
           </tbody>
           <tfoot>
-            <tr tal:attributes="class php:count(order.products) % 2 ? 'even' : NULL">
+            <tr>
               <td>Toimituskulut</td>
-               <td class="right nowrap">
+               <td class="ruokapiiri-price">
                   <tal:replace replace="php:str_replace('.', ',', order.charge)">1,00</tal:replace>
                   &euro;
                 </td>
               <td></td>
               <td></td>
             </tr>
-            <tr class="sum">
+            <tr class="ruokapiiri-sum">
               <td>Yhteensä</td>
-              <td class="right nowrap"><span tal:replace="php:str_replace('.', ',', order.sum())">0,15</span> &euro;</td>
+              <td class="ruokapiiri-price"><span tal:replace="php:str_replace('.', ',', order.sum())">0,15</span> &euro;</td>
               <td></td>
               <td></td>
             </tr>
           </tfoot>
         </table>
-        <input type="hidden" name="action" value="save" />
-        <input type="submit" value="Tallenna muutokset" />
+        <input class="ruokapiiri-hidden" type="hidden" name="action" value="save" />
+        <input class="ruokapiiri-submit" type="submit" value="Tallenna muutokset" />
       </form>
     </div>
   </body>

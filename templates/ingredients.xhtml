@@ -11,7 +11,7 @@
       <p>
         Tältä sivulta saat lisätietoa tilattavissa olevista tuotteista joko <a tal:attributes="href string:${base}?view=ingredients&mode=product">aakkosjärjestyksessä</a> tai <a tal:attributes="href string:${base}?view=ingredients&mode=producer">tuottajien mukaan järjestettynä</a>.
       </p>
-      <dl class="ingredients" tal:condition="php:mode=='product'">
+      <dl class="ruokapiiri-ingredients" tal:condition="php:mode=='product'">
         <tal:product repeat="product products">
           <tal:visible condition="product/description">
             <dt tal:attributes="id product/id"><span tal:replace="product/description">Tuote</span>
@@ -29,7 +29,7 @@
       <tal:producers condition="php:mode=='producer'"
                      repeat="producer producers">
         <h3 tal:content="producer/name">Tuottaja</h3>
-        <dl class="ingredients">
+        <dl class="ruokapiiri-ingredients">
           <tal:product repeat="product producer/products">
             <dt tal:attributes="id product/id" tal:content="product/description">Tuote</dt>
             <dd>
@@ -42,7 +42,7 @@
       </tal:producers>
       <tal:other condition="php:mode=='producer' and count(other)">
         <h3>Muut</h3>
-        <dl class="ingredients">
+        <dl class="ruokapiiri-ingredients">
           <tal:product repeat="product other">
             <dt tal:attributes="id product/id" tal:content="product/description">Tuote</dt>
             <dd>

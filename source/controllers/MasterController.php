@@ -56,6 +56,13 @@ class MasterController {
           $catalog->main() ;
         }
         break ;
+      case 'limits':
+        if ($this->auth->login()) {
+          require_once 'LimitsController.php' ;
+          $limits = new LimitsController($this->db, $this->auth) ;
+          $limits->main() ;
+        }
+        break ;
       case 'ingredients':
         require_once 'IngredientsController.php' ;
         $ingredients = new IngredientsController($this->db, $this->auth) ;
@@ -90,3 +97,4 @@ class MasterController {
     }
   }
 }
+?>

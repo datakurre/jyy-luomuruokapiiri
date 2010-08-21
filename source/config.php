@@ -67,8 +67,10 @@ setlocale(LC_ALL, 'fi_FI') ;
 date_default_timezone_set('Europe/Helsinki') ;
 
 // Virheidenkäsittely
-error_reporting(E_ERROR); // Tuotannoss po. E_ERROR 
-ini_set('display_errors', 1); // Tuotannossa po. 0
+// error_reporting(E_ALL & ~E_STRICT & ~E_DEPRECATED); // Tuotannoss po. E_ERROR 
+error_reporting(E_ERROR) ; // Tuotannoss po. E_ERROR 
+// ini_set('display_errors', 1) ; // Tuotannossa po. 0
+ini_set('display_errors', 0) ; // Tuotannossa po. 0
 
 // PEAR-asennuksen polku palvelimella, päättyen merkkiin '/'
 ini_set('include_path', ini_get('include_path') . ':' . getcwd() . '/PEAR/') ;

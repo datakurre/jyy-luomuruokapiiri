@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="master.xhtml/master">
+  <head><title></title></head>
+  <body>
+    <h2 metal:fill-slot="heading">Tilausrajoitukset</h2>
+    <p class="ruokapiiri-success" metal:fill-slot="message" tal:condition="MSG_CHANGES_SAVED|nothing">
+      Muutokset tallennettu onnistuneesti.
+    </p>
+    <p class="ruokapiiri-success" metal:fill-slot="message" tal:condition="MSG_LIMITS_UPDATED|nothing">
+      Tuotteiden tilausmäärät päivitetty onnnistuneesti.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
+      <p>
+        Tällä sivulla näet kaikki tuotteille määritety tilausrajoitteet. Tuotekohtainen tilauskatto estää tuotteen tilaamisen yli rajoitetun määrän. Jos asiakas yrittää tilata tuotetta yli asetetun katon, tilausta supistetaan ja tästä ilmoitetaan tilausvahvistuksessa.
+      </p>
+      <ul>
+        <li>Lisää uusia rajoitteita luettelon lopusta <em>yksi kerrallaan</em>.</li>
+        <li>Rajoitukset näytetään tuoteluettelon mukaisessa järjestyksessä.</li>
+        <li>Päivitä tuotekohtaisten rajoitteiden tilauskattoja tarvittaessa.</li>
+        <li>Poista rajoitus valitsemalla tuotteen kohdalta poista ja tallentamalla muutokset.</li>
+      </ul>
+      <!--<form id="ruokapiiri-reports" method="post" tal:condition="php:count(limited) ? true : false">
+         <input class="ruokapiiri-hidden" type="hidden" name="action" value="update" />
+         <input class="ruokapiiri-submit" type="submit" value="Päivitä tilaustiedot" />
+      </form>-->
+      <form id="ruokapiiri-limits" method="post">
+        <table>
+          <thead>
+            <tr>
+              <th class="ruokapiiri-position">#</th>
+              <th class="ruokapiiri-producer">Tuottaja</th>
+              <th class="ruokapiiri-description">Tuotteen kuvaus</th>
+              <th class="ruokapiiri-available" colspan="2">Tilauskatto</th>
+              <th class="ruokapiiri-ordered" colspan="2">Tilaukset</th>
+              <th class="ruokapiiri-delete">Poista</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr tal:repeat="product limited"
+                tal:attributes="class php: repeat.product.odd ? 'ruokapiiri-even' : NULL">
+              <td class="ruokapiiri-position" tal:content="product/position" />
+              <td class="ruokapiiri-producer" tal:content="product/producer" />
+              <td class="ruokapiiri-description" tal:content="product/description" />
+              <td class="ruokapiiri-available">
+                <input type="text" style="font-weight: bold;"
+                       tal:attributes="name string:${product/limit/id}_available; value product/limit/available"/>
+              </td>
+              <td class="ruokapiiri-unit"
+                  tal:content="php:product.unit == 'pcs' ? 'kpl' : product.unit"/>
+              <td class="ruokapiiri-ordered" tal:content="product/limit/ordered" />
+              <td class="ruokapiiri-unit"
+                  tal:content="php:product.unit == 'pcs' ? 'kpl' : product.unit"/>
+              <td class="ruokapiiri-delete">
+                <input type="checkbox"
+                       tal:attributes="name string:${product/limit/id}_delete;" />
+              </td>
+            </tr>
+          </tbody>
+          <tfoot id="ruokapiiri-new-limit">
+            <tr>
+              <td class="ruokapiiri-position">Lisää</td>
+              <td class="ruokapiiri-description" colspan="2">
+                <select name="#_product_id">
+                  <tal:product repeat="product unlimited">
+                    <option tal:condition="php:!property_exists(product, 'limit') and strlen(product.description)"
+                            tal:define="unit php:product.unit == 'pcs' ? 'kpl' : product.unit"
+                            tal:content="string: ${product/position}. ${product/producer}: ${product/description} ($unit)" tal:attributes="value product/id">Tuotteen kuvaus</option>
+                    <!-- <option tal:condition="php:!property_exists(product, 'limit') and !strlen(product.description)"
+                            tal:content="php: ''">Erotinrivi</option> -->
+                  </tal:product>
+                </select>
+              </td>
+              <td class="ruokapiiri-available">
+                <input type="text" name="#_available" />
+              </td>
+              <td/>
+              <td/>
+              <td/>
+              <td/>
+            </tr>
+          </tfoot>
+        </table>
+        <input class="ruokapiiri-hidden" type="hidden" name="action" value="save" />
+        <input class="ruokapiiri-submit" type="submit" value="Tallenna muutokset"/>
+      </form>
+    </div>
+  </body>
+</html>

@@ -2,7 +2,10 @@
 <tal:title replace="ORDERBOOK_TITLE">Ruokapiirin otsikko</tal:title>
 <tal:message condition="message">
 <span tal:replace="message">Tilausvahvistuksen alussa näytettävä viesti</span>
-</tal:message>
+</tal:message><tal:changes condition="MSG_ORDER_CHANGED|nothing">
+TILAUSTA MUUTETTIIN tuote-erien loppumisen vuoksi seuraavasti:
+<tal:products repeat="product MSG_ORDER_CHANGED"><tal:product define="unit php:str_replace('pcs', 'kpl', product['unit'])">- <tal:description replace="product/description">Tuotteen kuvaus</tal:description> (tilattiin <tal:quantity replace="string:${product/to} ${unit}">1 kpl</tal:quantity>, ei <tal:quantity replace="string:${product/from} ${unit}">1 kpl</tal:quantity>)</tal:product></tal:products>
+</tal:changes>
 Tilaus: <tal:date replace="php:date('d.m.y \k\l\o H:i:s', order.date)">04.08.09 klo 06:39:47</tal:date>
 
 Tilaaja: <tal:name replace="order/name">Teppo Tilaaja</tal:name>

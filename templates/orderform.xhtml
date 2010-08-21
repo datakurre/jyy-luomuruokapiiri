@@ -7,32 +7,36 @@
       metal:use-macro="master.xhtml/master">
   <body>
     <h2 metal:fill-slot="heading" tal:omit-tag=""></h2>
-    <p tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message" class="success">
+    <p class="ruokapiiri-success" tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message">
       Muutokset tallennettu onnistuneesti.
     </p>
-    <p tal:condition="MSG_SUM_UPDATED|nothing" metal:fill-slot="message" class="message">
+    <p class="ruokapiiri-message" tal:condition="MSG_SUM_UPDATED|nothing" metal:fill-slot="message">
       Tilauksen kokonaishinta päivitetty. Jätä tilaus <em>Tilaa</em>-painikkeella.
     </p>
-    <p tal:condition="MSG_CORRECT_ERRORS|nothing" metal:fill-slot="message" class="error">
+    <p class="ruokapiiri-error" tal:condition="MSG_CORRECT_ERRORS|nothing" metal:fill-slot="message">
       Puutteelliset tai virheelliset tilaustiedot. Ole hyvä ja korjaa merkityt virheet.
     </p>
     <div metal:fill-slot="main" tal:omit-tag="">
-      <form id="settings" method="post"
+      <form id="ruokapiiri-settings" method="post"
             tal:condition="auth/isAuthorized"
             tal:define="instructions instructions|nothing;
                         enabled      enabled|nothing;">
         <p>Tilauslomakkeen alussa näytettävä viesti:<br/>
-          <textarea cols="88" rows="8" name="instructions"
-                    tal:content="instructions">Lomakkeen ohjeet</textarea><br/>
+          <textarea name="instructions"
+                    tal:content="instructions">Lomakkeen ohjeet</textarea>
+        </p>
+        <p>
           Tilausvahvistukseen liitettävä viesti:<br/>
-          <textarea cols="88" rows="4" name="message"
-                   tal:content="message">Viesti</textarea><br/>
+          <textarea name="message"
+                    tal:content="message">Viesti</textarea>
+        </p>
+        <p>
           <input type="checkbox" name="enabled" id="enabled"
                  tal:attributes="checked php: enabled ? 'yes' : NULL" />
           <label for="enabled">Tilauslomake näytetään kaikille ja tilaaminen on mahdollista.</label>
 
           <input type="hidden" name="action" value="save" />
-          <input type="submit" value="Tallenna muutokset"/>
+          <input type="submit" value="Tallenna muutokset" style="float: right;"/>
         </p>
       </form>
       <p tal:condition="not:auth/isAuthorized"
@@ -45,23 +49,24 @@
                         enabled    enabled|nothing;"
                 condition="php: authorized or enabled">
         <h2>Tilauslomake</h2>
-        <form method="post" id="order">
+        <form id="ruokapiiri-orderform" method="post">
           <table>
             <thead>
               <tr>
-                <th>Tuote</th>
-                <th class="center">Hinta</th>
-                <th class="right">Määrä</th>
-                <th></th>
+                <th class="ruokapiiri-description">Tuote</th>
+                <th class="ruokapiiri-price">Hinta</th>
+                <th class="ruokapiiri-quantity">Määrä</th>
+                <th class="ruokapiiri-unit"></th>
               </tr>
             </thead>
             <tbody>
               <tal:every repeat="product products">
                 <tr tal:condition="product/description"
                     tal:define="quantity php:array_key_exists(product.id, order.products) ? order.products[product.id] : NULL;
-                                quantity php:quantity ? quantity.quantity : NULL"
-                    tal:attributes="class php: repeat.product.odd ? 'even' : NULL">
-                  <td><a href="#" target="_blank"
+                                quantity php:quantity ? quantity.quantity : NULL;
+                                available php:ProductLimit::isAvailable(product)"
+                    tal:attributes="class php: repeat.product.odd ? 'ruokapiiri-even' : NULL">
+                  <td tal:attributes="class php:available ? NULL : 'ruokapiiri-not-available'"><a href="#" target="_blank"
                          tal:attributes="href string:${base}?view=ingredients#${product/id};
                                          title product/ingredients">
                     <span tal:replace="product/description">Tuotteen kuvaus</span></a>
@@ -71,79 +76,85 @@
                       tal:condition="product/notes" tal:content="product/notes">
                       tuotteen ostamiseen liittyviä lisäohjeita ja huomautuksia.</span>)</em>
                   </td>
-                  <td class="right nowrap" tal:attributes="style php: quantity ? 'font-weight: bold;;' : NULL">
-                    <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace>                       &euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
+                  <td class="ruokapiiri-quantity" colspan="3" tal:condition="not:available">
+                    <em>Tuote-erä loppuunmyyty</em>
                   </td>
-                  <td class="right nowrap">
-                    <input type="text" size="3" class="right" style="font-weight: bold;"
+                  <td class="ruokapiiri-price"  tal:condition="available"
+                      tal:attributes="style php: quantity ? 'font-weight: bold;;' : NULL">
+                    <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace> &euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
+                  </td>
+                  <td class="ruokapiiri-quantity" tal:condition="available">
+                    <input type="text" style="font-weight: bold;"
                            tal:attributes="name string:${product/id}; value quantity"/>
                   </td>
-                  <td class="leftwing"
+                  <td class="ruokapiiri-unit" tal:condition="available"
                       tal:content="php: str_replace('pcs', 'kpl', product.unit)">kpl</td>
                 </tr>
                 <tr tal:condition="not:product/description"
-                    tal:attributes="class php: repeat.product.odd ? 'even' : NULL">
-                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                    tal:attributes="class php: repeat.product.odd ? 'ruokapiiri-even' : NULL">
+                    <td colspan="4" class="ruokapiiri-category" tal:condition="product/producer"
+                                    tal:content="product/producer">Väliotsikko</td>
+                    <td colspan="4" tal:condition="not:product/producer">&nbsp;</td>
                 </tr>
               </tal:every>
             </tbody>
             <tfoot>
               <tr tal:attributes="class php:count(products) % 2 ? 'even' : NULL">
                 <td>Toimituskulut</td>
-                 <td class="right nowrap">
+                 <td class="ruokapiiri-price">
                     <tal:replace replace="php: str_replace('.', ',', order.charge)">1,00</tal:replace>
                     &euro;
                   </td>
                 <td></td>
                 <td></td>
               </tr>
-              <tr class="sum">
+              <tr class="ruokapiiri-sum">
                 <td>Yhteensä</td>
-                <td class="right nowrap"><span tal:replace="php: str_replace('.', ',', order.sum())">0,15</span> &euro;</td>
+                <td class="ruokapiiri-price"><span tal:replace="php: str_replace('.', ',', order.sum())">0,15</span> &euro;</td>
                 <td>
-                  <input type="hidden" name="sum_action" value="Laske" />
-                  <input type="submit" name="action" value="Laske" />
+                  <input class="ruokapiiri-hidden" type="hidden" name="sum_action" value="Laske" />
+                  <input class="ruokapiiri-submit" type="submit" name="action" value="Laske" />
                 </td>
                 <td></td>
               </tr>
             </tfoot>
           </table>
-          <table id="customer">
+          <table id="ruokapiiri-customer">
             <tr>
-              <td class="right">Etunimi</td>
+              <td style="text-align: right;">Etunimi</td>
               <td>
-                <input type="text" size="40" name="forename" tal:attributes="value order/forename|nothing"/>
-                <span class="error" tal:condition="errors/forename|nothing">
+                <input type="text" name="forename" tal:attributes="value order/forename|nothing"/>
+                <span class="ruokapiiri-error" tal:condition="errors/forename|nothing">
                   pakollinen tieto
                 </span>
               </td>
             </tr>
             <tr>
-              <td class="right">Sukunimi</td>
+              <td style="text-align: right;">Sukunimi</td>
               <td>
-                <input type="text" size="40" name="surname" tal:attributes="value order/surname|nothing"/>
-                <span class="error" tal:condition="errors/surname|nothing">
+                <input type="text" name="surname" tal:attributes="value order/surname|nothing"/>
+                <span class="ruokapiiri-error" tal:condition="errors/surname|nothing">
                   pakollinen tieto
                 </span>
               </td>
             </tr>
             <tr>
-              <td class="right">Puhelinnumero</td>
+              <td style="text-align: right;">Puhelinnumero</td>
               <td>
-                <input type="text" size="40" name="phone" tal:attributes="value order/phone|nothing"/>
-                <span class="error" tal:condition="errors/phone|nothing">
+                <input type="text" name="phone" tal:attributes="value order/phone|nothing"/>
+                <span class="ruokapiiri-error" tal:condition="errors/phone|nothing">
                   pakollinen tieto
                 </span>
               </td>
             </tr>
             <tr>
-              <td class="right">Sähköpostiosoite</td>
+              <td style="text-align: right;">Sähköpostiosoite</td>
               <td>
-                <input type="text" size="40" name="email" tal:attributes="value order/email|nothing"/>
+                <input type="text" name="email" tal:attributes="value order/email|nothing"/>
                 <span tal:condition="not:errors/email|nothing">
                   <em>vapaaehtoinen *)</em>
                 </span>
-                <span class="error" tal:condition="errors/email|nothing">
+                <span class="ruokapiiri-error" tal:condition="errors/email|nothing">
                   virheellinen sähköpostiosoite
                 </span>
               </td>
@@ -151,7 +162,7 @@
             <tr>
               <td></td>
               <td>
-                <input type="checkbox" id="participate" name="participate"
+                <input class="ruokapiiri-checkbox" type="checkbox" name="participate"
                        tal:define="participate order/participate|nothing"
                        tal:attributes="checked php: participate ? 'yes' : NULL"/>
                 <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label>
@@ -161,15 +172,15 @@
               <td></td>
               <td>
                 Muuta asiaa? Kirjoita tähän:<br/>
-                <textarea name="notes" cols="40" rows="5"
+                <textarea name="notes"
                           tal:content="order/notes|nothing"></textarea>
               </td>
             </tr>
             <tr>
               <td></td>
-              <td class="left">
-                <input type="hidden" name="order_action" value="Tilaa" />
-                <input type="submit" name="action" value="Tilaa" />
+              <td>
+                <input class="ruokapiiri-hidden" type="hidden" name="order_action" value="Tilaa" />
+                <input class="ruokapiiri-submit" type="submit" name="action" value="Tilaa" />
                 <p tal:condition="not:errors/email|nothing">
                   <em>*) Tilauksessa ilmoitettuun sähköpostiosoitteeseen lähetetään
                    automaattinen tilausvahvistus tilauksen sisällöstä ja summasta.

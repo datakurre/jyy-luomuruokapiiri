@@ -19,12 +19,14 @@
   along with Ruokapiiri.  If not, see <http://www.gnu.org/licenses/>. */
 
 require_once 'Product.php' ;
+require_once 'ProductLimit.php' ;
 
 class Catalog {
   protected $db = null ;
   protected $order_by = 'position' ;
 
   public $products = array() ;
+  public $hashes = array() ; /* Products by hash values of producer + description + price + unit. */
 
   public function Catalog($db, $order_by='position') {
     $this->db =& $db ;
@@ -33,12 +35,29 @@ class Catalog {
   
   public function refresh($order_by='position') {
     unset($this->products) ;
+
     $this->products = Product::all($this->db, $order_by) ;
     if ($order_by == 'position') {
-      $counter = 1;
+      $counter = 1 ;
       foreach($this->products as $product) {
         $product->setPosition($counter++) ;
       }
+    }
+
+    /* Attach ProductLimits to Product->limit */
+    foreach(ProductLimit::all($this->db) as $limit) {
+      $product_id = $limit->getProductId() ;
+      if (array_key_exists($product_id, $this->products)) {
+        $this->products[$product_id]->limit = $limit ;
+      } else {
+        $limit->destroy() ;
+      }
+    }
+
+    /* Build catalog by producers for matching products without ids */
+    unset($this->hashes) ; $this->hashes = array() ;
+    foreach($this->products as $key => $product) {
+      $this->hashes[$product->getHash()] =& $this->products[$key] ;
     }
   }
 }

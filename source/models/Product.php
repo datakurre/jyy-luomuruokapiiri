@@ -59,6 +59,10 @@ class Product extends Record {
     return self::$DB_FIELDS ;
   }
 
+  public function getHash() {
+    return hash('md5', $this->getDescription() . $this->getProducer() . $this->getPrice() . $this->getUnit()) ;
+  }
+
   protected function tidyIngredients($ingredients) {
     return str_trim($ingredients) ;
   }
