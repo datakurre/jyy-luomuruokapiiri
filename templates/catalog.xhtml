@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="master.xhtml/master">
+  <head>
+    <metal:head fill-slot="head">
+      <script tal:attributes="src string:${base}jquery.js" type="text/javascript"></script>
+      <script tal:attributes="src string:${base}jquery-ui.js" type="text/javascript"></script>
+  	  <script type="text/javascript">
+        function onProductDrop(event, obj) {
+          obj.item.removeClass("ui-sortable-drag") ;
+          $("#products").find(".position").find("input").each(
+            function(index, product) {
+              product.value = index + 1
+            }
+          ) ; 
+          $("#products").children("tr").each(
+            function(index, row) {
+              if (index % 2) {
+                $(row).addClass("even") ;
+              } else {
+                $(row).removeClass("even") ;
+              }
+            }
+          ) ; 
+        }
+        function onProductDrag(event, obj) {
+          $("#products").children("tr").each(
+            function(index, row) {
+              $(row).addClass("even") ;
+            }
+          ) ; 
+          obj.item.addClass("ui-sortable-drag") ;
+          obj.item.removeClass("even") ;
+        }
+        function switchProductDetails(event) {
+          var details = $(event.target).parent().find(".product-details") ;
+          if (details.is(":hidden")) {
+            details.show() ;
+          } else {
+            details.hide() ;
+          }
+        }
+	      $(function() {
+      		$("#products").sortable({start: onProductDrag, stop: onProductDrop}) ;
+      		$("#products").find(".product-details").hide() ;
+      		$("#products").find(".description").click(switchProductDetails) ;
+      		$("#create").find(".product-details").hide() ;
+      		$("#create").find(".description").click(switchProductDetails) ;
+      	});
+	    </script>
+	  </metal:head>
+  </head>
+  <body>
+    <p metal:fill-slot="message" tal:condition="MSG_CHANGES_SAVED|nothing" class="success">
+      Muutokset tallennettu onnistuneesti.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
+      <h2>Tuoteluettelo</h2>
+      <p>
+        Tällä sivulla näet kaikki tilausjärjestelmään syötetyt tuotteet.
+      </p>
+      <ul>
+        <li>Lisää uusia tuotteita tuoteluettelon lopusta <em>yksi kerrallaan</em>.</li>
+        <li>Valitse <em>kg</em> tuotteen yksiköksi vain, jos tuote punnitaan vasta jaossa.</li>
+        <li>Järjestele tuotteita <em>raahaamalla</em> ne oikeaan kohtaan ja <em>tallentamalla muutokset</em>.</li>
+        <li>Vain <em>tilattavissa</em> oleviksi merkityt tuotteet näytetään tilauslomakkeella.</li>
+        <li>Tyhjä <em>tilattavissa</em> oleva tuoterivi lisää tyhjän rivin tilauslomakkeelle.</li>
+        <li>Poista tuote valitsemalla tuotteen kohdalta poista ja tallentamalla muutokset.</li>
+      </ul>
+      <form method="post" id="catalog">
+        <table>
+          <thead>
+            <tr>
+              <th class="position center">#</th>
+              <th>Tuotteen tiedot</th>
+              <th class="center">Hinta</th>
+              <th></th>
+              <th class="center">Tuottaja</th>
+              <th class="center">Tilattavissa</th>
+              <th class="center">Poista</th>
+            </tr>
+          </thead>
+          <tbody id="products">
+            <tr tal:repeat="product products"
+                tal:attributes="class php: repeat.product.odd ? 'even' : NULL">
+              <td class="position center">
+                <input type="text" size="2" class="center"
+                       tal:attributes="name string:${product/id}_position;
+                                       value product/position" />
+              </td>
+              <td>
+                <input type="text" size="36" class="description"
+                       tal:attributes="name string:${product/id}_description;
+                                       value product/description" />
+                <input type="text" size="36" class="product-details"
+                       tal:attributes="name string:${product/id}_notes;
+                                       value product/notes" /><br/>
+                <textarea cols="34" rows="4" class="product-details"
+                          tal:attributes="name string:${product/id}_ingredients"
+                          tal:content="product/ingredients">Ainesosat</textarea>
+              </td>
+              <td class="right nowrap rightwing">
+                 <input type="text" size="5" class="right"
+                        tal:attributes="name string:${product/id}_price;
+                                        value php: str_replace('.', ',', product.price)" />
+                 &euro;
+              </td>
+              <td class="nowrap leftwing">&nbsp;/
+                <select tal:attributes="name string:${product/id}_unit">
+                  <option value="pcs"
+                    tal:attributes="selected php: product.unit == 'pcs' ? 'true' : NULL">kpl</option>
+                  <option value="kg"
+                    tal:attributes="selected php: product.unit == 'kg' ? 'true' : NULL">kg</option>
+                </select>
+              </td>
+              <td>
+                <input type="text" size="10"
+                       tal:attributes="name string:${product/id}_producer;
+                                       value product/producer" />
+              </td>
+              <td class="center">
+                <input type="checkbox"
+                       tal:attributes="name string:${product/id}_orderable;
+                                       checked php: product.orderable ? 'yes' : NULL" />
+              </td>
+              <td class="center">
+                <input type="checkbox"
+                       tal:attributes="name string:${product/id}_delete;" />
+              </td>
+            </tr>
+          </tbody>
+          <tfoot id="create">
+            <tr class="new">
+              <td class="center"><p>Uusi</p></td>
+              <td>
+                <input type="text" size="36" class="description" name="#_description" />
+                <input type="text" size="36" class="product-details" name="#_notes" /><br/>
+                <textarea cols="34" rows="4" class="product-details" name="#_ingredients" />
+              </td>
+              <td class="right nowrap rightwing">
+                <input class="right" type="text" size="5" name="#_price" /> &euro;
+              </td>
+              <td class="nowrap leftwing">&nbsp;/
+                <select name="#_unit">
+                  <option value="pcs" selected="true">kpl</option>
+                  <option value="kg">kg</option>
+                </select>
+              </td>
+              <td><input type="text" size="10" name="#_producer" /></td>
+              <td align="center"><input type="checkbox" name="#_orderable" /></td>
+              <td/>
+            </tr>
+          </tfoot>
+        </table>
+        <p>
+          <input type="hidden" name="action" value="save" />
+          <input type="submit" value="Tallenna muutokset"/>
+        </p>
+      </form>
+    </div>
+  </body>
+</html>

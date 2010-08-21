@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="master.xhtml/master">
+  <body>
+    <p tal:condition="not:confirmation" metal:fill-slot="message" class="success">
+      Kiitos tilauksestasi.
+    </p>
+    <p tal:condition="confirmation" metal:fill-slot="message" class="success">
+      Kiitos tilauksestasi. Tästä tilausvahvistuksesta lähetettiin sähköpostilla kopio osoitteeseen <strong tal:content="confirmation">etunimi.sukunimi@palvelin.fi</strong>.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
+      <pre tal:content="order">
+        Tilausvahvistus.
+      </pre>
+    </div>
+  </body>
+</html>
