@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="master.xhtml/master">
+  <body>
+    <h2 metal:fill-slot="heading" tal:omit-tag=""></h2>
+    <p class="ruokapiiri-success" tal:condition="MSG_CHANGES_SAVED|nothing" metal:fill-slot="message">
+      Muutokset tallennettu onnistuneesti.
+    </p>
+    <div metal:fill-slot="main" tal:omit-tag="">
+      <p><a tal:attributes="href string:${base}?view=orderbook">Takaisin tilauskirjaan.</a></p>
+      <ul>
+        <li>Tilauksesta on mahdollista muokata <em>jakoon osallistumista</em>, <em>tilauksen viestiä</em> (esim. kuitata viestissä esitetty kysymys vastatuksi) ja yksittäisten tuotteiden <em>tilausmääriä</em>.</li>
+        <li>Tilauksesta <em>ei voi poistaa yksittäistä tuoteriviä</em> kokonaan, vaan ainoastaan tuotteen määrän voi nollata.</li> 
+        <li>Lisää tilaukseen uusia tuotteita tilauksen viimeiseltä riviltä <em>yksi kerrallaan</em>.</li>
+        <li>Tilauksen muokkaaminen ei tarkista tilausrajoitusten ylittymistä, vaan päin vastoin sallii tilauskaton ylittämisen.</li>
+        <li>Tilauksen <em>muokkaamisesta ei ilmoiteta</em> automaattisesti asiakkaalle millään tavoin.</li>
+        <li>Yksittäisten virhetilausten poistaminen on mahdollista <a tal:attributes="href string:${base}?view=orderbook">tilauskirjasta</a>.</li>
+      </ul>
+      <form id="ruokapiiri-order" method="post">
+        <table class="ruokapiiri-customer">
+          <thead>
+            <tr>
+              <th>Tilausaika</th>
+              <th>Tilaaja</th>
+              <th>Puhelinnumero</th>
+              <th>Sähköpostiosoite</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td tal:content="php:date('d.m. \k\l\o H.i', order.date)">1.8. klo 8.23</td>
+              <td tal:content="order/name">Etunimi Sukunimi</td>
+              <td tal:content="order/phone">123 4567</td>
+              <td tal:content="order/email">etunimi.sukunimi@palvelin.fi</td>
+          </tr>
+          </tbody>
+        </table>
+        <p>
+          <input type="checkbox" id="participate" name="participate"
+                tal:define="participate order/participate|nothing"
+                tal:attributes="checked php: participate ? 'yes' : NULL"/>
+                <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label><br/>
+          <textarea name="notes" tal:content="order/notes|nothing"></textarea>
+        </p>
+        <table class="ruokapiiri-order">
+          <thead>
+            <tr>
+              <th class="ruokapiiri-description">Tuote</th>
+              <th class="ruokapiiri-price">Hinta</th>
+              <th class="ruokapiiri-quantity">Määrä</th>
+              <th class="ruokapiiri-unit"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tal:every repeat="product order/getProducts">
+              <tr tal:condition="product/description"
+                  tal:attributes="class php: repeat.product.odd ? 'ruokapiiri-even' : NULL">
+                <td class="ruokapiiri-description">
+                  <span tal:replace="product/description">Tuotteen kuvaus</span>
+                  <em tal:condition="php: product.producer" tal:content="string:(${product/producer})">(Tuottaja)</em>
+                </td>
+                <td class="ruokapiiri-price" tal:attributes="style php:product.quantity ? 'font-weight: bold;;' : NULL">
+                  <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace> &euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
+                </td>
+                <td class="ruokapiiri-quantity">
+                  <input type="text"
+                         tal:attributes="name string:${product/id}; value product/quantity"/>
+                </td>
+                <td class="ruokapiiri-unit"
+                    tal:content="php: str_replace('pcs', 'kpl', product.unit)">kpl</td>
+              </tr>
+            </tal:every>
+            <tr id="ruokapiiri-new-product" tal:attributes="class php:count(order.products) % 2 ? 'ruokapiiri-even' : NULL">
+              <td class="ruokapiiri-description" colspan="2">
+                <select name="#_product_id">
+                  <option>-- Voit lisätä tilaukseen uuden tuotteet tästä listastasta--</option>
+                  <tal:product repeat="product products">
+                    <option tal:condition="php:product.getOrderable() and strlen(product.description)"
+                            tal:define="unit php:product.unit == 'pcs' ? 'kpl' : product.unit;
+                                        price php: str_replace('.', ',', product.price)"
+                            tal:content="string:${product/description} (${product/producer}, $price &euro; / $unit)"
+                            tal:attributes="value product/id">Tuotteen kuvaus</option>
+                  </tal:product>
+                </select>
+              </td>
+              <td class="ruokapiiri-quantity">
+                <input type="text" name="#_quantity" />
+              </td>
+              <td/>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Toimituskulut</td>
+               <td class="ruokapiiri-price">
+                  <tal:replace replace="php:str_replace('.', ',', order.charge)">1,00</tal:replace>
+                  &euro;
+                </td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr class="ruokapiiri-sum">
+              <td>Yhteensä</td>
+              <td class="ruokapiiri-price"><span tal:replace="php:str_replace('.', ',', order.sum())">0,15</span> &euro;</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+        <input class="ruokapiiri-hidden" type="hidden" name="action" value="save" />
+        <input class="ruokapiiri-submit" type="submit" value="Tallenna muutokset" />
+      </form>
+    </div>
+  </body>
+</html>
