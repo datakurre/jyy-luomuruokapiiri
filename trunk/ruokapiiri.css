@@ -1,0 +1,326 @@
+/* Ruokapiirin tilausjärjestelmä.
+ * 
+ * Copyright (C) 2006–2010  Asko Soukka <asko.soukka@iki.fi>
+ *
+ * This file is part of Ruokapiiri.
+ *
+ * Ruokapiiri is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Ruokapiiri is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Ruokapiiri.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/* @group Reset */
+#ruokapiiri {
+  /*
+  div, span, dl, dt, dd, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+  }
+  */ }
+  #ruokapiiri select {
+    font-size: 100%; }
+
+/* @end */
+/* @group General */
+#ruokapiiri {
+  width: 100%;
+  overflow: hidden;
+  font-family: sans-serif; }
+  #ruokapiiri .watermark {
+    color: #aaa; }
+  #ruokapiiri p, #ruokapiiri ul, #ruokapiiri ol, #ruokapiiri dl, #ruokapiiri table {
+    font-size: 75%;
+    /* 12 px */
+    margin: 0.3em 0 0.9em 0;
+    line-height: 1.5; }
+  #ruokapiiri ul p, #ruokapiiri ol p, #ruokapiiri dl p, #ruokapiiri table p {
+    font-size: 100%; }
+  #ruokapiiri ul, #ruokapiiri ol {
+    list-style: square; }
+  #ruokapiiri a.ruokapiiri-popup {
+    color: black;
+    text-decoration: none; }
+    #ruokapiiri a.ruokapiiri-popup:hover {
+      color: black;
+      text-decoration: none; }
+  #ruokapiiri table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0; }
+    #ruokapiiri table tr {
+      background-color: transparent; }
+    #ruokapiiri table tr.ruokapiiri-even {
+      background-color: #dbdbdb; }
+    #ruokapiiri table td {
+      vertical-align: top;
+      padding: 0.5ex 0.5em; }
+    #ruokapiiri table thead tr, #ruokapiiri table tfoot tr {
+      background-color: #ad7744; }
+    #ruokapiiri table thead th, #ruokapiiri table tfoot td {
+      padding: 0.5ex 0.5em;
+      color: white; }
+    #ruokapiiri table a {
+      text-decoration: none;
+      color: black;
+      cursor: help; }
+    #ruokapiiri table a:hover {
+      text-decoration: underline; }
+    #ruokapiiri table td.ruokapiiri-edit a {
+      cursor: pointer; }
+    #ruokapiiri table th.ruokapiiri-edit {
+      text-align: center; }
+    #ruokapiiri table th.ruokapiiri-position {
+      text-align: center; }
+    #ruokapiiri table th.ruokapiiri-description {
+      text-align: left; }
+    #ruokapiiri table th.ruokapiiri-price {
+      text-align: right; }
+    #ruokapiiri table th.ruokapiiri-quantity {
+      text-align: right; }
+    #ruokapiiri table th.ruokapiiri-participate {
+      text-align: center; }
+    #ruokapiiri table th.ruokapiiri-orderable {
+      text-align: center; }
+    #ruokapiiri table th.ruokapiiri-delete {
+      text-align: center; }
+    #ruokapiiri table td.ruokapiiri-position {
+      text-align: center; }
+      #ruokapiiri table td.ruokapiiri-position input {
+        width: 2em;
+        text-align: center; }
+    #ruokapiiri table td.ruokapiiri-edit {
+      text-align: center; }
+    #ruokapiiri table td.ruokapiiri-date {
+      white-space: nowrap; }
+    #ruokapiiri table td.ruokapiiri-customer {
+      white-space: nowrap; }
+    #ruokapiiri table td.ruokapiiri-notes {
+      white-space: nowrap; }
+    #ruokapiiri table td.ruokapiiri-participate {
+      text-align: center;
+      font-weight: bold; }
+    #ruokapiiri table td.ruokapiiri-price {
+      white-space: nowrap;
+      text-align: right; }
+      #ruokapiiri table td.ruokapiiri-price input {
+        width: 3em;
+        text-align: right; }
+    #ruokapiiri table td.ruokapiiri-quantity {
+      white-space: nowrap;
+      text-align: right; }
+      #ruokapiiri table td.ruokapiiri-quantity input {
+        width: 2em;
+        text-align: right; }
+    #ruokapiiri table td.ruokapiiri-unit {
+      white-space: nowrap;
+      padding: 0.75ex 0.5em 0.5ex 0; }
+    #ruokapiiri table td.ruokapiiri-producer {
+      white-space: nowrap; }
+      #ruokapiiri table td.ruokapiiri-producer input {
+        width: 6em; }
+    #ruokapiiri table td.ruokapiiri-orderable {
+      text-align: center; }
+    #ruokapiiri table td.ruokapiiri-delete {
+      text-align: center; }
+    #ruokapiiri table td.ruokapiiri-category {
+      font-weight: bold;
+      font-size: 1.2em;
+      padding-left: 0.42em;
+      padding-top: 1ex; }
+    #ruokapiiri table td.ruokapiiri-not-available {
+      text-decoration: line-through; }
+  #ruokapiiri dt {
+    font-weight: bold; }
+  #ruokapiiri dd {
+    margin: 0 0 0.9em 2em; }
+  #ruokapiiri pre {
+    margin: 0.9em 0;
+    font-family: monospace; }
+  #ruokapiiri form input, #ruokapiiri form textarea {
+    font-size: 100%; }
+  #ruokapiiri form > input, #ruokapiiri form > textarea {
+    font-size: 75%;
+    /* 12 px */
+    margin-left: 0.5em; }
+  #ruokapiiri form > p > input, #ruokapiiri form > p > input + textarea {
+    margin-left: 0.5em; }
+
+/* @end */
+/* @group JQuery */
+#ruokapiiri .ui-sortable-placeholder {
+  display: block; }
+#ruokapiiri .ruokapiiri-drag {
+  background: white;
+  border: 2px solid #ad7744; }
+
+.gecko #ruokapiiri .ui-sortable-placeholder {
+  display: table-row; }
+
+/* @end */
+/* @group Messages */
+#ruokapiiri .ruokapiiri-message,
+#ruokapiiri .ruokapiiri-success,
+#ruokapiiri .ruokapiiri-error {
+  margin: 0.3em 0 0.9em 0;
+  padding: 1ex 1em;
+  border: none;
+  color: white;
+  font-weight: normal; }
+  #ruokapiiri .ruokapiiri-message em,
+  #ruokapiiri .ruokapiiri-success em,
+  #ruokapiiri .ruokapiiri-error em {
+    color: white; }
+#ruokapiiri .ruokapiiri-message {
+  background: #a9a9a9;
+  /* dark gray */ }
+#ruokapiiri .ruokapiiri-error {
+  background: #8b0000;
+  /* dark red */ }
+#ruokapiiri .ruokapiiri-success {
+  background: #006400;
+  /* dark green */ }
+
+@media print {
+  #ruokapiiri .ruokapiiri-message,
+  #ruokapiiri .ruokapiiri-success,
+  #ruokapiiri .ruokapiiri-error {
+    display: none; } }
+
+/* @end */
+/* @group Login */
+#ruokapiiri-login {
+  margin: 0.3em 0 0.9em 0; }
+
+/* @end */
+/* @group Logout */
+#ruokapiiri-logout {
+  display: inline; }
+  #ruokapiiri-logout .ruokapiiri-submit {
+    margin-top: -3.5em;
+    float: right; }
+
+/* @group Logout */
+/* @group Catalog */
+#ruokapiiri-catalog .ruokapiiri-submit {
+  display: block;
+  margin-left: auto; }
+#ruokapiiri-catalog td.ruokapiiri-price {
+  padding-right: 0; }
+#ruokapiiri-catalog td.ruokapiiri-description {
+  padding: 0.5ex 0; }
+#ruokapiiri-catalog td.ruokapiiri-description input {
+  width: 22em; }
+#ruokapiiri-catalog td.ruokapiiri-description textarea {
+  width: 22em;
+  height: 6em; }
+
+/* @end */
+/* @group Limits */
+#ruokapiiri-limits .ruokapiiri-submit {
+  display: block;
+  margin-left: auto; }
+#ruokapiiri-limits th.ruokapiiri-producer {
+  padding-left: 0; }
+#ruokapiiri-limits th.ruokapiiri-description {
+  padding-left: 0; }
+#ruokapiiri-limits th.ruokapiiri-available,
+#ruokapiiri-limits th.ruokapiiri-ordered {
+  padding-left: 0;
+  text-align: left; }
+#ruokapiiri-limits td.ruokapiiri-producer {
+  padding: 0.5ex 0.5em 0.5ex 0;
+  width: 8em;
+  overflow: hidden; }
+#ruokapiiri-limits td.ruokapiiri-available {
+  white-space: nowrap;
+  text-align: right; }
+  #ruokapiiri-limits td.ruokapiiri-available input {
+    width: 2em;
+    text-align: right; }
+#ruokapiiri-limits td.ruokapiiri-ordered {
+  padding-top: 0.75ex;
+  text-align: right; }
+#ruokapiiri-limits td.ruokapiiri-description {
+  padding: 0.5ex 0;
+  width: 22em;
+  overflow: hidden; }
+#ruokapiiri-limits #ruokapiiri-new-limit select {
+  width: 26em;
+  overflow: hidden; }
+
+/* @end */
+/* @group Ingredients */
+#ruokapiiri dl.ruokapiiri-ingredients dt em {
+  font-weight: normal; }
+
+/* @end */
+/* @group Order */
+#ruokapiiri-settings textarea {
+  width: 100%;
+  height: 10em; }
+
+#ruokapiiri-order textarea {
+  width: 40em;
+  height: 8em; }
+#ruokapiiri-order th.ruokapiiri-quantity {
+  text-align: right; }
+#ruokapiiri-order td.ruokapiiri-quantity {
+  text-align: right; }
+#ruokapiiri-order td.ruokapiiri-quantity input {
+  width: 2em; }
+#ruokapiiri-order tr.ruokapiiri-sum {
+  background-color: transparent; }
+  #ruokapiiri-order tr.ruokapiiri-sum td {
+    font-weight: bold;
+    color: black; }
+#ruokapiiri-order .ruokapiiri-submit {
+  display: block;
+  margin-left: auto; }
+#ruokapiiri-order select {
+  width: 44em;
+  overflow: hidden; }
+
+#ruokapiiri-orderform tr.ruokapiiri-sum {
+  background-color: transparent; }
+  #ruokapiiri-orderform tr.ruokapiiri-sum td {
+    font-weight: bold;
+    color: black; }
+  #ruokapiiri-orderform tr.ruokapiiri-sum .ruokapiiri-submit {
+    position: absolute; }
+#ruokapiiri-orderform #ruokapiiri-customer input {
+  width: 20em; }
+#ruokapiiri-orderform #ruokapiiri-customer textarea {
+  width: 40em;
+  height: 8em; }
+#ruokapiiri-orderform #ruokapiiri-customer .ruokapiiri-checkbox {
+  width: 1em; }
+#ruokapiiri-orderform #ruokapiiri-customer .ruokapiiri-submit {
+  width: 4em; }
+
+/* @end */
+/* @group Reports */
+#ruokapiiri-reports {
+  text-align: right; }
+
+/* @end */
+/* @group OrderBook */
+#ruokapiiri-orderbook tr.ruokapiiri-sum td {
+  font-weight: bold; }
+#ruokapiiri-orderbook .ruokapiiri-submit {
+  display: block;
+  margin-left: auto; }
+
+/* @end */

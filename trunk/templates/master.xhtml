@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fi" lang="fi"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:define-macro="master">
+<head>
+  <title>JAPA ry - <span tal:omit-tag="" tal:content="ORDERBOOK_TITLE">Ruokapiiri</span></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="author" content="Mainostoimisto Aava Bang Oy - www.bang.fi" />
+  <link rel="stylesheet" href="http://www.japary.fi/?css=site/css_screen" type="text/css" media="screen" />
+  <link rel="stylesheet" href="http://www.japary.fi/?css=site/css_print" type="text/css" media="print" />
+  <link media="screen" type="text/css" href="http://www.japary.fi/images/site/tools/js/lightbox/lightbox.css" rel="stylesheet" />
+  <script type="text/javascript" src="http://www.japary.fi/images/site/tools/js/lightbox/prototype.js"></script>
+  <script type="text/javascript" src="http://www.japary.fi/images/site/tools/js/lightbox/scriptaculous.js?load=effects,builder"></script>
+  <script type="text/javascript" src="http://www.japary.fi/images/site/tools/js/lightbox/lightbox.js"></script>
+  <!--[if lt IE 7]><script defer type="text/javascript" src="http://www.japary.fi/images/site/tools/js/pngfix.js"></script><![endif]-->
+  <link rel="stylesheet" tal:attributes="href string:${base}ruokapiiri.css" type="text/css" />
+  <metal:head define-slot="head"><!-- A slot for additional JavaScript includes --></metal:head>
+</head>
+
+<body>
+<div id="accessibility">
+<ul>
+<li><a href="#sisalto" title="Siirry suoraan sisältöön">Siirry suoraan sisältöön</a></li>
+</ul>
+</div><!-- #accessibility -->
+
+<div id="site">
+<div id="header">
+<div class="container">
+<div id="site_logo">
+<a href="http://www.japary.fi/" title="Etusivulle"><img src="http://www.japary.fi/images/site/logo_japa-ry.png" width="195" height="76" alt="" /></a>
+</div><!-- #site_logo -->
+
+<div id="main_navigation">
+<ul class="navigation">
+<li class=""><a href="http://www.japary.fi/" title="Etusivu">Etusivu</a></li>
+<li class=""><a href="http://www.japary.fi/japa-ry/" title="JAPA ry">JAPA ry</a>
+<ul class="sub">
+<li class=""><a href="http://www.japary.fi/jasenyys/" title="Jäsenyys">Jäsenyys</a></li>
+<li class=""><a href="http://www.japary.fi/saannot/" title="Säännöt">Säännöt</a></li>
+<li class=""><a href="http://www.japary.fi/hallitus/" title="Hallitus">Hallitus</a></li>
+<li class=""><a href="http://www.japary.fi/toimintakertomukset/" title="Toimintakertomukset">Toimintakertomukset</a></li>
+<li class=""><a href="http://www.japary.fi/yhteistyokumppanit/" title="Yhteistyökumppanit">Yhteistyökumppanit</a></li>
+</ul>
+</li>
+<li class=""><a href="http://www.japary.fi/tapahtumakalenteri/" title="Tapahtumat">Tapahtumat</a></li>
+<li class=""><a href="http://www.japary.fi/toiminta/" title="Toiminta">Toiminta</a>
+<ul class="sub">
+<li class="active"><a href="http://www.japary.fi/vuosittaiset-tapahtumat/" title="Vuosittaiset tapahtumat">Vuosittaiset tapahtumat</a></li>
+<li class=""><a href="http://www.japary.fi/hankkeet-ja-kampanjat/" title="Ajankohtaiset hankkeet ja kampanjat">Ajankohtaiset hankkeet ja kampanjat</a></li>
+<li class=""><a href="http://www.japary.fi/menneet-hankkeet-ja-kampanjat/" title="Menneet hankkeet ja kampanjat">Menneet hankkeet ja kampanjat</a></li>
+<li class=""><a href="http://www.japary.fi/kuvagalleria/" title="Valokuvia">Valokuvia</a></li>
+</ul>
+</li>
+<li class=""><a href="http://www.japary.fi/asukasyhteistyo/" title="Asukasyhteistyö">Asukasyhteistyö</a>
+<ul class="sub">
+<li class=""><a href="http://www.japary.fi/asukasyhdistysten-yhteystiedot/" title="Asukasyhdistysten yhteystiedot">Asukasyhdistysten yhteystiedot</a></li>
+<li class=""><a href="http://www.japary.fi/asukkaan-aani/" title="Asukkaan ääni">Asukkaan ääni</a></li>
+</ul>
+</li>
+<li class=""><a href="http://www.japary.fi/kestava-kehitys/" title="Kestävä kehitys">Kestävä kehitys</a>
+<ul class="sub">
+<li class=""><a href="http://www.japary.fi/kestavan-kehityksen-tietopaketti/" title="Kestävän kehityksen tietopaketti asukkaalle">Kestävän kehityksen tietopaketti asukkaalle</a></li>
+<li class=""><a href="http://www.japary.fi/jateneuvojan-tietopaketti/" title="Jäteneuvojan tietopaketti asukkaalle">Jäteneuvojan tietopaketti asukkaalle</a></li>
+<li class=""><a href="http://www.japary.fi/kestavan-kehityksen-sanasto/" title="Pieni KEKE-sanasto">Pieni KEKE-sanasto</a></li>
+</ul>
+</li>
+<li class=""><a href="http://www.japary.fi/jasentiedotteet/" title="Tiedotteet">Tiedotteet</a>
+<ul class="sub">
+<li class=""><a href="http://www.japary.fi/mediatiedotteet/" title="Mediatiedotteet">Mediatiedotteet</a></li>
+</ul>
+</li>
+
+<li class=""><a href="http://www.japary.fi/yhteystiedot/" title="Yhteystiedot">Yhteystiedot</a>
+<ul class="sub">
+<li class=""><a href="http://www.japary.fi/hallituksen-yhteystiedot/" title="Hallituksen yhteystiedot">Hallituksen yhteystiedot</a></li>
+</ul>
+</li>
+
+</ul>
+</div><!-- #main_navigation -->
+</div><!-- .container -->
+</div><!-- #header -->
+
+<div id="sisalto">
+<div class="container parent_container">
+<div class="sidebar column">
+<ul class="sidebar_navigation" tal:define="action view|string:form">
+<li><a href="http://www.japary.fi/lahiruoka/">Ruokaa läheltä</a></li>
+<li tal:attributes="class php: action == 'orderform' ? 'active' : NULL">
+  <a tal:attributes="href string:${base}?view=orderform">Tilauslomake</a>
+</li>
+<li tal:condition="auth/isAuthorized|nothing"
+  tal:attributes="class php: action == 'orderbook' ? 'active' : NULL">
+  <a tal:attributes="href string:${base}?view=orderbook">Tilauskirja</a>
+</li>
+<li tal:condition="auth/isAuthorized|nothing"
+    tal:attributes="class php: action == 'catalog' ? 'active' : NULL">
+  <a tal:attributes="href string:${base}?view=catalog">Tuoteluettelo</a>
+</li>
+<li tal:condition="auth/isAuthorized|nothing"
+    tal:attributes="class php: action == 'limits' ? 'active' : NULL">
+  <a tal:attributes="href string:${base}?view=limits">Tilausrajoitukset</a>
+</li>
+<li tal:attributes="class php: action == 'ingredients' ? 'active' : NULL">
+  <a tal:attributes="href string:${base}?view=ingredients">Tuoteselosteet</a>
+</li>
+<li tal:condition="auth/isAuthorized|nothing"
+      tal:attributes="class php: action == 'statistics' ? 'active' : NULL">
+  <a tal:attributes="href string:${base}?view=statistics">Tilastot</a>
+</li>
+<li tal:condition="not:auth/isAuthorized|nothing">
+  <a tal:attributes="href string:${base}hallinta">Ylläpito</a>
+</li>
+</ul>
+</div><!-- .sidebar / .column -->
+
+<div class="main_content right_column">
+
+<div id="ruokapiiri">
+  <h1 tal:content="ORDERBOOK_TITLE">Ruokapiiri</h1>
+
+  <form id="ruokapiiri-logout" tal:condition="auth/isAuthorized|nothing" method="post">
+    <input class="ruokapiiri-hidden" type="hidden" name="action" value="logout" />
+    <input class="ruokapiiri-submit" align="right" type="submit" value="Kirjaudu ulos" />
+  </form>
+
+  <h2 metal:define-slot="heading">Sivun nimi</h2>
+
+  <p metal:define-slot="message" tal:omit-tag=""><!-- Palveluviesti, tarvittaessa.--></p>
+
+  <div metal:define-slot="main" tal:omit-tag=""><p>Varsinainen sisältö.</p></div>
+
+  <p><img src="http://www.japary.fi/kuvat/eulogot.png" width="492" height="59"
+          alt="Euroopan maaseudun kehittämisen rahasto: Eurooppa investoi maaseutualueisiin" /></p>
+</div><!-- #ruokapiiri -->
+
+</div><!-- .main_content / .right_column -->
+</div><!-- .container / .parent_container -->
+</div><!-- #sisalto -->
+</div><!-- #site -->
+
+<div id="footer">
+<div id="footer_navigation">
+<ul class="navigation">
+<li class=""><a href="http://www.japary.fi/" title="Etusivu">Etusivu</a></li>
+<li class=""><a href="http://www.japary.fi/japa-ry/" title="JAPA ry">JAPA ry</a></li>
+<li class=""><a href="http://www.japary.fi/tapahtumakalenteri/" title="Tapahtumat">Tapahtumat</a></li>
+<li class=""><a href="http://www.japary.fi/toiminta/" title="Toiminta">Toiminta</a></li>
+<li class=""><a href="http://www.japary.fi/asukasyhteistyo/" title="Asukasyhteistyö">Asukasyhteistyö</a></li>
+<li class=""><a href="http://www.japary.fi/kestava-kehitys/" title="Kestävä kehitys">Kestävä kehitys</a></li>
+<li class=""><a href="http://www.japary.fi/jasentiedotteet/" title="Tiedotteet">Tiedotteet</a></li>
+<li class=""><a href="http://www.japary.fi/yhteystiedot/" title="Yhteystiedot">Yhteystiedot</a></li>
+</ul>
+</div><!-- #footer_navigation -->
+</div><!-- #footer -->
+
+</body>
+</html>

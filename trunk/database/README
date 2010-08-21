@@ -1,0 +1,7 @@
+Tähän hakemistoon tilausjärjestelmä luo ja tallentaa käyttämänsä tietokannat.
+
+Huomioitavaa:
+
+- Apache-prosessilla (eli web-palvelimella) täytyy olla kirjoitusoikeus tähän hakemistoon. Joissain Apacha on saatettu ohjelmoida suorittamaan PHP-ohjelmat mahdollisen käyttäjähakemiston omistajan tunnuksella. Tällöin, luonnollisesti, käyttäjän kirjoitusoikeus tähän hakemistoon riittää.
+
+- Oletusarvoisesti tämän hakemiston sisältö on suojattu ulkopuolisilta asettamalla .htaccess-tiedoston arvoksi "Deny from all".
