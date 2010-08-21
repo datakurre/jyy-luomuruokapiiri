@@ -35,6 +35,13 @@ class BreakDown extends Record {
     return $results ;
   }
 
+  private static function DB_SELECT_QUANTITY($db, $table, $description, $producer, $price, $unit) {
+    $statement = $db->prepare("SELECT quantity FROM $table WHERE description = ? AND producer = ? AND price = ? AND unit = ?") ;
+    $results =& $db->execute($statement, array($description, $producer, $price, $unit)) ;
+    $db->free($statement) ;
+    return $results ;
+  }
+
   public static function all($db, $order_id, $order_by='description') {
     $results = self::DB_SELECT_ALL($db, self::$DB_TABLE, $order_id, $order_by) ;
 
@@ -45,6 +52,18 @@ class BreakDown extends Record {
 
     $results->free() ;
     return $breakdowns ;
+  }
+
+  public static function quantityFor($db, $product) {
+    $results = self::DB_SELECT_QUANTITY($db, self::$DB_TABLE, $product->description, $product->producer, $product->price, $product->unit) ;
+
+    $quantity = 0 ;
+    while ($row = $results->fetchRow()) {
+      $quantity += $row['quantity'];
+    }
+
+    $results->free() ;
+    return $quantity ;
   }
 
   public $notes = null ;
@@ -68,6 +87,10 @@ class BreakDown extends Record {
 
   public function getFields() {
     return self::$DB_FIELDS ;
+  }
+
+  public function getHash() {
+    return hash('md5', $this->getDescription() . $this->getProducer() . $this->getPrice() . $this->getUnit()) ;
   }
 
   protected function tidyOrderId($order_id) {

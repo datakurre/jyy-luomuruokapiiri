@@ -146,7 +146,7 @@ class Order extends Record {
 
   public function getFields() {
     return self::$DB_FIELDS ;
-  }  
+  }
 
   public function getProducts() {
     if ($this->getId() and !count($this->products)) {

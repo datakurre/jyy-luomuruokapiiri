@@ -7,11 +7,11 @@
       metal:use-macro="master.xhtml/master">
   <body>
     <h2 metal:fill-slot="heading">Tilastot</h2>
-    <div metal:fill-slot="main" tal:omit-tag="">
+    <div metal:fill-slot="main" style="overflow: auto;">
       <p>
         Tällä sivulla näet ruokapiirin tilauksista koostetut suuntaa-antavat tilastot. Tilastot on koostettu automaattisesti tilaustietokannasta, eikä niissä ole huomioitu senttipyöristyksiä tai tilauksiin järjestelmän ulkopuolella tehtyjä muutoksia. Tilastoissa ei ole esimerkiksi ole huomioitu, jos jokin tuottaja ei ole voinut toimittaa jakoon tilattua määrää kaikkia tuotteita.
       </p>
-      <form id="statistics" method="post">
+      <form id="ruokapiiri-reports" method="post" style="float: right;">
         <input type="hidden" name="action" value="table" />
         <input type="submit" value="Raportoi tuotteitain"/>
       </form>
@@ -23,23 +23,23 @@
           <tr>
             <th>Viimeinen tilaus</th>
             <th>Tilauksia yhteensä</th>
-            <th class="right">Kokonaissumma</th>
-            <th class="right">Toimituskulut</th>
+            <th class="ruokapiiri-price">Kokonaissumma</th>
+            <th class="ruokapiiri-price">Toimituskulut</th>
           </tr>
         </thead>
         <tbody>
           <tr tal:repeat="order orders"
-              tal:attributes="class php: repeat.order.odd ? 'even' : NULL">
-            <td class="leftwing nowrap" tal:content="php:date('d.m. \k\l\o H.i', order.date)">
+              tal:attributes="class php: repeat.order.odd ? 'ruokapiiri-even' : NULL">
+            <td class="ruokapiiri-date" tal:content="php:date('d.m. \k\l\o H.i', order.date)">
               05.08. klo 12.00
             </td>
-            <td class="nowrap" tal:content="order/quantity">
+            <td tal:content="order/quantity">
               10
             </td>
-            <td class="right">
+            <td class="ruokapiiri-price">
               <span tal:replace="php:str_replace('.', ',', order.sum)">10,00</span> &euro;
             </td>
-            <td class="right">
+            <td class="ruokapiiri-price">
               <span tal:replace="php:str_replace('.', ',', order.charges)">10,00</span> &euro;
             </td>
           </tr>
@@ -48,22 +48,22 @@
       <table tal:condition="producers">
         <thead>
           <tr>
-            <th class="nowrap">Tuottaja</th>
+            <th class="ruokapiiri-producer">Tuottaja</th>
             <tal:deliveries repeat="order orders">
-              <th class="right nowrap" tal:content="php:date('d.m.y', order.date)">1.6.2009</th>
+              <th class="ruokapiiri-date" tal:content="php:date('d.m.y', order.date)">1.6.2009</th>
             </tal:deliveries>
           </tr>
         </thead>
         <tbody>
           <tr tal:repeat="producer php:array_keys(producers)"
-              tal:attributes="class php: repeat.producer.odd ? 'even' : NULL">
-            <td class="leftwing nowrap" tal:content="producer|string:(Ei tiedossa)">
+              tal:attributes="class php: repeat.producer.odd ? 'ruokapiiri-even' : NULL">
+            <td class="ruokapiiri-producer" tal:content="producer|string:(Ei tiedossa)">
               Tuottajan nimi
             </td>
             <tal:deliveries repeat="order orders">
               <td tal:define="date php:array_key_exists(order.date, producers[producer]) ? order.date : NULL;
                               sum  php:date ? producers[producer][date] : '0.00'"
-                  class="right nowrap">
+                  class="ruokapiiri-price">
                 <span tal:replace="php:str_replace('.', ',', sum)">10,00</span> &euro;
               </td>
             </tal:deliveries>

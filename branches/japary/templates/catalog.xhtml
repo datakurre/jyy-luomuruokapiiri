@@ -7,56 +7,52 @@
       metal:use-macro="master.xhtml/master">
   <head>
     <metal:head fill-slot="head">
+      <script tal:attributes="src string:${base}css-browser-selector.js" type="text/javascript"></script>
       <script tal:attributes="src string:${base}jquery.js" type="text/javascript"></script>
       <script tal:attributes="src string:${base}jquery-ui.js" type="text/javascript"></script>
+      <script tal:attributes="src string:${base}jquery.watermark.js" type="text/javascript"></script>
   	  <script type="text/javascript">
-        function onProductDrop(event, obj) {
-          obj.item.removeClass("ui-sortable-drag") ;
-          $("#products").find(".position").find("input").each(
-            function(index, product) {
-              product.value = index + 1
-            }
-          ) ; 
-          $("#products").children("tr").each(
-            function(index, row) {
-              if (index % 2) {
-                $(row).addClass("even") ;
-              } else {
-                $(row).removeClass("even") ;
-              }
-            }
-          ) ; 
-        }
-        function onProductDrag(event, obj) {
-          $("#products").children("tr").each(
-            function(index, row) {
-              $(row).addClass("even") ;
-            }
-          ) ; 
-          obj.item.addClass("ui-sortable-drag") ;
-          obj.item.removeClass("even") ;
-        }
-        function switchProductDetails(event) {
-          var details = $(event.target).parent().find(".product-details") ;
-          if (details.is(":hidden")) {
-            details.show() ;
-          } else {
-            details.hide() ;
+      function onProductDrop(event, obj) {
+        obj.item.removeClass("ruokapiiri-drag") ;
+        $("#ruokapiiri-catalog tbody .ruokapiiri-position input").each(
+          function(index, product) { product.value = index + 1 ; }
+        ) ; 
+        $("#ruokapiiri-catalog tbody").children("tr").each(
+          function(index, row) {
+            if (index % 2) { $(row).addClass("ruokapiiri-even") ; }
+            else { $(row).removeClass("ruokapiiri-even") ; }
           }
-        }
-	      $(function() {
-      		$("#products").sortable({start: onProductDrag, stop: onProductDrop}) ;
-      		$("#products").find(".product-details").hide() ;
-      		$("#products").find(".description").click(switchProductDetails) ;
-      		$("#create").find(".product-details").hide() ;
-      		$("#create").find(".description").click(switchProductDetails) ;
-      	});
+        ) ; 
+      }
+      function onProductDrag(event, obj) {
+        $("#ruokapiiri-catalog tbody tr").addClass("ruokapiiri-even") ;
+        obj.item.addClass("ruokapiiri-drag") ;
+        obj.item.removeClass("ruokapiiri-even") ;
+      }
+      function switchProductDetails(event) {
+        var details = $(event.target).parent().find(".ruokapiiri-details") ;
+        if (details.is(":hidden")) { details.show() ; }
+        else { details.hide() ; }
+      }
+      $(function() {
+    		$("#ruokapiiri-catalog tbody").sortable({start: onProductDrag, stop: onProductDrop}) ;
+    		$("#ruokapiiri-catalog tbody").find(".ruokapiiri-details").hide() ;
+    		$("#ruokapiiri-catalog tbody").find(".ruokapiiri-description").click(switchProductDetails) ;
+    		$("#ruokapiiri-new-product").find(".ruokapiiri-details").hide() ;
+    		$("#ruokapiiri-new-product").find(".ruokapiiri-description").click(switchProductDetails) ;
+    		
+        $(".ruokapiiri-description > input").watermark("Tuotenimike (tai tyhjä erotinrivi tilauslomakkeelle)") ;
+        $(".ruokapiiri-producer > input").watermark("Tuottaja") ;
+        $(".ruokapiiri-details > input").watermark("Huomautukset (luomu, gluteiiniton, ...)") ;
+        $(".ruokapiiri-details > textarea").watermark("Tuoteseloste, jossa saa olla useita rivejä") ;
+        $(".ruokapiiri-price > input").watermark("0,00") ;
+      });
 	    </script>
 	  </metal:head>
   </head>
   <body>
     <h2 metal:fill-slot="heading">Tuoteluettelo</h2>
-    <p metal:fill-slot="message" tal:condition="MSG_CHANGES_SAVED|nothing" class="success">
+    <p class="ruokapiiri-success" metal:fill-slot="message" tal:condition="MSG_CHANGES_SAVED|nothing">
       Muutokset tallennettu onnistuneesti.
     </p>
     <div metal:fill-slot="main" tal:omit-tag="">
@@ -71,47 +67,46 @@
         <li>Tyhjä <em>tilattavissa</em> oleva tuoterivi lisää tyhjän rivin tilauslomakkeelle.</li>
         <li>Poista tuote valitsemalla tuotteen kohdalta poista ja tallentamalla muutokset.</li>
       </ul>
-      <form method="post" id="catalog">
+      <form id="ruokapiiri-catalog" method="post">
         <table>
           <thead>
             <tr>
-              <th class="position center">#</th>
-              <th>Tuotteen tiedot</th>
-              <th class="center">Hinta</th>
-              <th></th>
-              <th class="center">Tuottaja</th>
-              <th class="center">Tilattavissa</th>
-              <th class="center">Poista</th>
+              <th class="ruokapiiri-position">#</th>
+              <th class="ruokapiiri-description">Tuotteen tiedot</th>
+              <th class="ruokapiiri-price">Hinta</th>
+              <th class="ruokapiiri-unit"></th>
+              <th class="ruokapiiri-producer">Tuottaja</th>
+              <th class="ruokapiiri-orderable">Tilattavissa</th>
+              <th class="ruokapiiri-delete">Poista</th>
             </tr>
           </thead>
-          <tbody id="products">
+          <tbody>
             <tr tal:repeat="product products"
-                tal:attributes="class php: repeat.product.odd ? 'even' : NULL">
-              <td class="position center">
-                <input type="text" size="2" class="center"
+                tal:attributes="class php: repeat.product.odd ? 'ruokapiiri-even' : NULL">
+              <td class="ruokapiiri-position">
+                <input type="text"
                        tal:attributes="name string:${product/id}_position;
                                        value product/position" />
               </td>
-              <td>
-                <input type="text" size="36" class="description"
+              <td class="ruokapiiri-description">
+                <input type="text"
                        tal:attributes="name string:${product/id}_description;
                                        value product/description" />
-                <div class="product-details">
-                  <input type="text" size="36"
+                <div class="ruokapiiri-details">
+                  <input type="text"
                          tal:attributes="name string:${product/id}_notes;
                                         value product/notes" /><br/>
-                  <textarea cols="33" rows="4" class="product-details"
-                            tal:attributes="name string:${product/id}_ingredients"
+                  <textarea tal:attributes="name string:${product/id}_ingredients"
                             tal:content="product/ingredients">Ainesosat</textarea>
                 </div>
               </td>
-              <td class="right nowrap rightwing">
-                 <input type="text" size="5" class="right"
+              <td class="ruokapiiri-price">
+                 <input type="text"
                         tal:attributes="name string:${product/id}_price;
                                         value php: str_replace('.', ',', product.price)" />
                  &euro;
               </td>
-              <td class="nowrap leftwing">&nbsp;/
+              <td class="ruokapiiri-unit">&nbsp;/
                 <select tal:attributes="name string:${product/id}_unit">
                   <option value="pcs"
                     tal:attributes="selected php: product.unit == 'pcs' ? 'true' : NULL">kpl</option>
@@ -119,49 +114,53 @@
                     tal:attributes="selected php: product.unit == 'kg' ? 'true' : NULL">kg</option>
                 </select>
               </td>
-              <td>
-                <input type="text" size="10"
+              <td class="ruokapiiri-producer">
+                <input type="text"
                        tal:attributes="name string:${product/id}_producer;
                                        value product/producer" />
               </td>
-              <td class="center">
+              <td class="ruokapiiri-orderable">
                 <input type="checkbox"
                        tal:attributes="name string:${product/id}_orderable;
                                        checked php: product.orderable ? 'yes' : NULL" />
               </td>
-              <td class="center">
+              <td class="ruokapiiri-delete">
                 <input type="checkbox"
                        tal:attributes="name string:${product/id}_delete;" />
               </td>
             </tr>
           </tbody>
-          <tfoot id="create">
-            <tr class="new">
-              <td class="center"><p>Uusi</p></td>
-              <td>
-                <input type="text" size="36" class="description" name="#_description" />
-                <input type="text" size="36" class="product-details" name="#_notes" /><br/>
-                <textarea cols="33" rows="4" class="product-details" name="#_ingredients" />
+          <tfoot id="ruokapiiri-new-product">
+            <tr>
+              <td class="ruokapiiri-position">Uusi</td>
+              <td class="ruokapiiri-description">
+                <input type="text" name="#_description" />
+                <div class="ruokapiiri-details">
+                  <input type="text" name="#_notes" /><br/>
+                  <textarea name="#_ingredients" />
+                </div>
               </td>
-              <td class="right nowrap rightwing">
-                <input class="right" type="text" size="5" name="#_price" /> &euro;
+              <td class="ruokapiiri-price">
+                <input type="text" name="#_price" /> &euro;
               </td>
-              <td class="nowrap leftwing">&nbsp;/
+              <td class="ruokapiiri-unit">&nbsp;/
                 <select name="#_unit">
                   <option value="pcs" selected="true">kpl</option>
                   <option value="kg">kg</option>
                 </select>
               </td>
-              <td><input type="text" size="10" name="#_producer" /></td>
-              <td align="center"><input type="checkbox" name="#_orderable" /></td>
+              <td class="ruokapiiri-producer">
+                <input type="text" name="#_producer" />
+              </td>
+              <td class="ruokapiiri-orderable">
+                <input type="checkbox" name="#_orderable" />
+              </td>
               <td/>
             </tr>
           </tfoot>
         </table>
-        <p>
-          <input type="hidden" name="action" value="save" />
-          <input type="submit" value="Tallenna muutokset"/>
-        </p>
+        <input class="ruokapiiri-hidden" type="hidden" name="action" value="save" />
+        <input class="ruokapiiri-submit" type="submit" value="Tallenna muutokset"/>
       </form>
     </div>
   </body>

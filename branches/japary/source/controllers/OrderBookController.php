@@ -23,6 +23,7 @@ require_once 'BaseController.php' ;
 require_once ORDERBOOK . 'utils.php' ;
 
 require_once ORDERBOOK . 'models/OrderBook.php' ;
+require_once ORDERBOOK . 'models/ProductLimit.php' ;
 
 require_once ORDERBOOK . 'views/OrderBookView.php' ;
 
@@ -56,6 +57,13 @@ class OrderBookController extends BaseController {
 
       case $_POST['clear_action']:
         if (isset($_POST['confirm'])) {
+          /* Clear All ProductLimits */
+          $limits = ProductLimit::all($this->db); 
+          foreach ($limits as $limit) {
+            $limit->setOrdered(0);
+            $limit->commit();
+          } unset($limits);
+          /* Proceed archiving statistics */
           if (!count($orderbook->orders)) {
             $view->set('MSG_NO_ORDERS_TO_CLEAR', true) ;
           } else {
@@ -176,9 +184,20 @@ class OrderBookController extends BaseController {
       }
     }
 
+    /* Update product limits before destroying order */
+    require_once ORDERBOOK . 'models/Catalog.php' ;
+    $catalog = new Catalog($this->db) ;
     foreach ($delete as $id) {
+      foreach ($orderbook->orders[$id]->getProducts() as $product) {
+        $hash = $product->getHash() ;
+        if (array_key_exists($hash, $catalog->hashes)
+          and ProductLimit::hasLimit($catalog->hashes[$hash])) {
+          $catalog->hashes[$hash]->limit->subtractFromOrdered($product->getQuantity());
+          $catalog->hashes[$hash]->limit->commit();        
+        }
+      }
       $orderbook->orders[$id]->destroy() ;
-    }
+    } unset($catalog);
   }
   
   private function summarize($orderbook) {
@@ -229,3 +248,4 @@ class OrderBookController extends BaseController {
     }
   }
 }
+?>

@@ -7,20 +7,22 @@
       metal:use-macro="master.xhtml/master">
   <body>
     <h2 metal:fill-slot="heading">Kirjaudu sisään</h2>
-    <p tal:condition="MSG_AUTH_EXPIRED|nothing" metal:fill-slot="message" class="error">
+    <p class="ruokapiiri-error" tal:condition="MSG_AUTH_EXPIRED|nothing" metal:fill-slot="message">
       Kirjautuminen vanhentui. Ole hyvä ja kirjaudu uudelleen.
     </p>
-    <p tal:condition="MSG_AUTH_WRONG_LOGIN|nothing" metal:fill-slot="message" class="error">
-      Kirjautuminen epännostui. Ole hyvä ja tarkista salasanasi.
+    <p class="ruokapiiri-error" tal:condition="MSG_AUTH_WRONG_LOGIN|nothing" metal:fill-slot="message">
+      Kirjautuminen epäonnistui. Ole hyvä ja tarkista salasanasi.
     </p>
-    <form metal:fill-slot="main" id="login" method="post">
+    <form id="ruokapiiri-login" metal:fill-slot="main" method="post">
       <p>
         Tämä sivu on tarkoitettu ainoastaan sivuston ylläpitäjälle ja päivitykseen.
         <a tal:attributes="href base">Palaa takaisin tilaussivulle.</a>
       </p>
-      <input type="password" name="username" />
-      <input type="hidden" name="password" value="only-username-required"/>
-      <input type="submit" value="Kirjaudu" />
+      <p>
+        <input class="ruokapiiri-password" type="password" name="username" />
+        <input class="ruokapiiri-hidden" type="hidden" name="password" value="only-username-required"/>
+        <input class="ruokapiiri-submit" type="submit" value="Kirjaudu" />
+      </p>
     </form>
   </body>
 </html>

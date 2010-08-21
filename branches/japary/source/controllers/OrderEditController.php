@@ -21,6 +21,8 @@
 require_once 'BaseController.php' ;
 
 require_once ORDERBOOK . 'models/Order.php' ;
+require_once ORDERBOOK . 'models/Catalog.php' ;
+require_once ORDERBOOK . 'models/ProductLimit.php' ;
 
 require_once ORDERBOOK . 'views/OrderEditView.php' ;
 
@@ -31,6 +33,8 @@ class OrderEditController extends BaseController {
 
     $id = isset($_GET['id']) ? $_GET['id'] : null ;
     if ($id) {
+      $catalog = new Catalog($this->db) ;
+
       $order = Order::single($this->db, $id) ;
 
       $action = isset($_POST['action']) ? $_POST['action'] : 'view' ;
@@ -42,6 +46,16 @@ class OrderEditController extends BaseController {
           foreach($order->getProducts() as $product) {
             if (isset($_POST[strval($product->getId())])) {
               $quantity = intval($_POST[strval($product->getId())]) ;
+              /***
+               * Update ProductLimit when quantities are modified */
+              $hash = $product->getHash() ;
+              if (array_key_exists($hash, $catalog->hashes)
+                and ProductLimit::hasLimit($catalog->hashes[$hash])) {
+                $delta = $quantity - $product->getQuantity();
+                $catalog->hashes[$hash]->limit->addToOrdered($delta);
+                $catalog->hashes[$hash]->limit->commit();        
+              } 
+              /***/
               $product->setQuantity($quantity) ;
             }
             $product->commit() ;
@@ -49,11 +63,38 @@ class OrderEditController extends BaseController {
           if (!array_key_exists('participate', $_POST)) {
             $order->setParticipate('') ;
           }
+          if (isset($_POST['#_product_id']) and isset($_POST['#_quantity'])
+            and array_key_exists(intval($_POST['#_product_id']), $catalog->products)) {
+            $quantity = intval($_POST['#_quantity']) ;
+            if($quantity) {
+              $product_id = intval($_POST['#_product_id']) ; 
+              $order->add($catalog->products[$product_id], $quantity) ;
+              if (ProductLimit::hasLimit($catalog->products[$product_id])) {
+                $catalog->products[$product_id]->limit->addToOrdered($quantity);
+                $catalog->products[$product_id]->limit->commit();        
+              } 
+            }
+          }
           $order->commit() ;
+          /* Finally, $order->products must be reseted to enable it searching products from the DB */
+          $order->products = array() ;
           break ;
       }
 
+      $hashes = array() ;
+      foreach($order->getProducts() as $product) {
+        $hashes[] = $product->getHash() ;
+      }
+      $new_products = array() ;
+      foreach($catalog->products as $key => $product) {
+        if (!in_array($product->getHash(), $hashes)) {
+          $new_products[$key] =& $catalog->products[$key] ;
+        }
+      }
+      unset($hashes) ;
+
       $view->set('order', $order) ;
+      $view->set('products', $new_products) ;
       die($view->render()) ;
     }
   }
