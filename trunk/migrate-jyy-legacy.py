@@ -27,7 +27,7 @@ for line in [l for l in open("asetukset.txt").readlines()[3:] if l.strip()]:
             settings[columns[1]],   # name
             columns[2],             # value
         ]
-        output.write("#".join(columns) + "\n")
+        output.write("#".join(migrated) + "\n")
         counter += 1
 
 output.close()
@@ -77,17 +77,19 @@ schema = "id#pvm#toimituskulut#nimi#puhelin#sposti#nouto#jako#muuta#tila".split(
 for line in [l for l in open("tilaukset.txt").readlines()[3:] if l.strip()]:
     line = unicode(line, "latin-1").encode("utf-8")
     columns = line.strip().split("#")
+    parts = columns[schema.index("nimi")].split(" ")
+    name = parts[-1] + " " + " ".join(parts[:-1])
     migrated = [
         columns[schema.index("id")],     # id
         columns[schema.index("pvm")],    # date
         columns[schema.index("toimituskulut")].replace(",", "."), # charge
-        columns[schema.index("nimi")],   # name
+        name,                            # name
         columns[schema.index("puhelin")],# phone
         columns[schema.index("sposti")], # email
         columns[schema.index("nouto")],  # pickup
         columns[schema.index("jako")],   # participate
         columns[schema.index("muuta")],  # notes
-        columns[schema.index("tila")],   # state
+        "1",                             # state
     ]
     output.write("#".join(migrated) + "\n")
 
