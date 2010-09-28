@@ -36,13 +36,14 @@ class IngredientsController extends BaseController {
     switch ($mode) {
       case 'product':
         $catalog = new Catalog($this->db, $order_by='description') ;
-        $products = array_filter($catalog->products, "Product::isOrderable") ;
-        $view->set('products', $products) ;
+        // $products = array_filter($catalog->products, "Product::isOrderable") ;
+        $products = array_filter($catalog->products, array("Product", "isOrderable")) ;        $view->set('products', $products) ;
         break ;
 
       case 'producer':
         $catalog = new Catalog($this->db, $order_by='producer,description') ;
-        $products = array_filter($catalog->products, "Product::isOrderable") ;
+        // $products = array_filter($catalog->products, "Product::isOrderable") ;
+        $products = array_filter($catalog->products, array("Product", "isOrderable")) ;
         $producers = array() ;
         $other = array() ;
         foreach ($products as $product) {

@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with Ruokapiiri.  If not, see <http://www.gnu.org/licenses/>. */
 
+include_once "markdown.php";
+
 require_once 'BaseView.php' ;
 
 require_once ORDERBOOK . 'models/ProductLimit.php' ;
@@ -33,15 +35,7 @@ class OrderFormView extends BaseView {
     if ($this->auth->isAuthorized()) {
       return $instructions ;
     } else {
-      $in=array(
-        '`((?:https?|ftp)://\S+[[:alnum:]]/?)`si',
-        '`((?<!//)(www\.\S+[[:alnum:]]/?))`si'
-      );
-      $out=array(
-        '<a href="$1" rel="nofollow" target="_blank">$1</a> ',
-        '<a href="http://$1" rel="nofollow" target="_blank">$1</a>'
-      );
-      return explode("\n", preg_replace($in, $out, strip_tags($instructions))) ;
+      return Markdown($instructions) ;
     }
   }
 }

@@ -53,6 +53,7 @@ class AuthController {
       }
       return true ;
     }
+    AuthController::render() ;
     return false ;
   }
     

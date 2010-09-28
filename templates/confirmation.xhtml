@@ -11,7 +11,9 @@ Tilaus: <tal:date replace="php:date('d.m.y \k\l\o H:i:s', order.date)">04.08.09 
 Tilaaja: <tal:name replace="order/name">Teppo Tilaaja</tal:name>
 Puhelin: <tal:phone replace="order/phone">123 456</tal:phone>
 Sähköposti: <tal:email replace="order/email">teppo.tilaaja@example.com</tal:email>
-<tal:participate condition="order/participate">
+<tal:participate condition="order/pickup">
+Noudan tilaukseni <span tal:contnet="order/pickup">täältä</span>.
+</tal:participate><tal:participate condition="order/participate">
 Ehdin jakamaan tämän tilauksen ruokia.
 </tal:participate><tal:notes condition="order/notes">
 <span tal:replace="order/notes">Tilaajan kommentit</span>
