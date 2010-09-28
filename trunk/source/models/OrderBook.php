@@ -67,7 +67,7 @@ class OrderBook {
   }
 
   public function participants() {
-    return array_filter($this->orders, "Order::couldParticipate") ;
+    return array_filter($this->orders, array("Order", "couldParticipate")) ;
   }
 }
 ?>

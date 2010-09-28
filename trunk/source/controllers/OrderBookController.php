@@ -175,8 +175,8 @@ class OrderBookController extends BaseController {
     $view->set('orders', $orderbook->orders) ;
     $view->set('sum', $orderbook->sum()) ;
     $view->set('charges', $orderbook->charges()) ;
-    $view->set('participants', array_reduce($orderbook->participants(), "OrderBook::reduceToEmail")) ;
-    $view->set('all', array_reduce($orderbook->orders, "OrderBook::reduceToEmail")) ;
+    $view->set('participants', array_reduce($orderbook->participants(), array("OrderBook", "reduceToEmail"))) ;
+    $view->set('all', array_reduce($orderbook->orders, array("OrderBook", "reduceToEmail"))) ;
     
     die($view->render()) ;
   }
