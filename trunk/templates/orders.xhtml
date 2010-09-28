@@ -37,13 +37,12 @@
       <table>
         <thead>
           <tr>
-            <th class="left">
+            <th class="left" colspan="3">
               <span tal:content="order/name">Etunimi Sukunimi</span>, puh.
               <span tal:content="order/phone">123 4567</span>, tilaus
               <span tal:content="php:date('d.m. \k\l\o H.i', order.date)">1.8. klo 8.23</span>
+              <span tal:content="order/pickup" tal:condition="order/pickup">Noutopaikasta</span>
             </th>
-            <th></th>
-            <th></th>
             <th class="right">
               <span tal:replace="php:str_replace('.', ',', order.sum())">0,15</span> &euro;
             </th>

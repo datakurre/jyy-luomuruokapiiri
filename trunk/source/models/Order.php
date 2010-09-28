@@ -79,6 +79,9 @@ class Order extends Record {
         $is_valid = false ;
       }
     }  
+    if (count(unserialize(ORDERBOOK_PICKUP)) && !$order->pickup) {
+      $errors['pickup'] = true ;
+    } ;
     return $is_valid ;
   }
 

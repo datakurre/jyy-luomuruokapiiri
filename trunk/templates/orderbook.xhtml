@@ -32,12 +32,14 @@
       </ul>
       <form id="ruokapiiri-reports" method="post" tal:condition="php:count(orders) ? true : false">
          <input type="hidden" name="clear_action" value="Tyhjennä ja tilastoi" />
-         <input type="hidden" name="products_action" value="Raportoi tuotteittain" />
+         <input type="hidden" name="producers_action" value="Raportoi tuottajittain" />
+         <input type="hidden" name="pickup_action" value="Raportoi noutopaikoittain" />
          <input type="hidden" name="orders_action" value="Raportoi tilaajittain" />
 
          <input style="float: left;" type="checkbox" name="confirm" />
          <input style="float: left;" type="submit" name="action" value="Tyhjennä ja tilastoi" />
-         <input class="ruokapiiri-submit" type="submit" name="action" value="Raportoi tuotteittain" />
+         <input class="ruokapiiri-submit" type="submit" name="action" value="Raportoi tuottajittain" />
+         <input class="ruokapiiri-submit" type="submit" name="action" value="Raportoi noutopaikoittain" tal:condition="pickup"/>
          <input class="ruokapiiri-submit" type="submit" name="action" value="Raportoi tilaajittain" />
       </form>
       <form id="ruokapiiri-orderbook" method="post" tal:condition="php:count(orders) ? true : false">
@@ -48,6 +50,7 @@
               <th class="ruokapiiri-date">Tilausaika</th>
               <th class="ruokapiiri-customer">Tilaaja</th>
               <th class="ruokapiiri-notes">Viesti</th>
+              <th class="ruokapiiri-pickup" tal:condition="pickup">N</th>
               <th class="ruokapiiri-participate">J</th>
               <th class="ruokapiiri-price">Summa</th>
               <th class="ruokapiiri-delete">Poista</th>
@@ -78,6 +81,9 @@
                   Tilaajan viestin alkuosa
                 </a><span tal:condition="php:strlen(order.notes) > 37">...</span>
               </td>
+              <td class="ruokapiiri-pickup" tal:condition="pickup" tal:content="php:order.pickup ? substr(order.pickup, 0, 1) : ''">
+                Tilauksen noutopaikka
+              </td>
               <td class="ruokapiiri-participate" tal:content="php:order.participate ? 'X' : NULL">
                 Haluaako osallistua jakoon
               </td>
@@ -92,8 +98,8 @@
           </tbody>
           <tfoot>
             <tr class="ruokapiiri-sum">
-              <td></td><td>Yhteensä</td><td>(toimituskulut)</td><td></td><td></td>
-              <td class="ruokapiiri-price">
+              <td></td><td>Yhteensä</td><td>(toimituskulut)</td>
+              <td class="ruokapiiri-price" colspan="4">
                 <span tal:replace="php:str_replace('.', ',', sum)">10,00</span> &euro;
               </td>
               <td class="ruokapiiri-price">(<span tal:replace="php:str_replace('.', ',', charges)">toimituskulut</span> &euro;)</td>

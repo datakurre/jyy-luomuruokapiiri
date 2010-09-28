@@ -38,10 +38,12 @@ class OrderFormController extends BaseController{
 
     $view = new OrderFormView($this->auth) ;
     $view->set('auth', $this->auth) ;
+    $view->set('pickup', unserialize(ORDERBOOK_PICKUP)) ;
 
     $order = new Order($this->db, $_POST, ORDERBOOK_CHARGE) ;
     
-    $products = array_filter($catalog->products, "Product::isOrderable") ;
+    // $products = array_filter($catalog->products, "Product::isOrderable") ;
+    $products = array_filter($catalog->products, array("Product", "isOrderable")) ;
     foreach($products as $product) {
       if (isset($_POST[strval($product->getId())])) {
         $quantity = intval($_POST[strval($product->getId())]) ;

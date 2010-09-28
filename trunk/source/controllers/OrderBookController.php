@@ -39,8 +39,9 @@ class OrderBookController extends BaseController {
     $orderbook = new OrderBook($this->db) ;
     $view = new OrderBookView() ;
     $view->set('auth', $this->auth) ;
+    $view->set('pickup', unserialize(ORDERBOOK_PICKUP)) ;
     
-    foreach(array('clear_action', 'products_action', 'orders_action') as $action) {
+    foreach(array('clear_action', 'producers_action', 'pickup_action', 'orders_action') as $action) {
       if (!isset($_POST[$action])) {
         $_POST[$action] = null ;
       }
@@ -131,7 +132,21 @@ class OrderBookController extends BaseController {
         }
         break;        
 
-      case $_POST['products_action']:
+      case $_POST['pickup_action']:
+        $this->summarize($orderbook, true) ;
+
+        require_once ORDERBOOK . 'views/PickupView.php' ;
+        $view = new PickupView() ;
+        $view->set('auth', $this->auth) ;
+        $view->set('producers', $this->producers) ;
+        $view->set('producers_sum', $this->producers_sum) ;
+        $view->set('other', $this->other) ;
+        $view->set('other_sum', $this->other_sum) ;
+
+        die($view->render()) ;
+        break;
+
+      case $_POST['producers_action']:
         $this->summarize($orderbook) ;
 
         require_once ORDERBOOK . 'views/ProducersView.php' ;
@@ -146,7 +161,7 @@ class OrderBookController extends BaseController {
         break;
 
       case $_POST['orders_action']:
-        $orderbook->refresh($state=1, $order_by='name ASC') ;
+        $orderbook->refresh($state=1, $order_by='pickup ASC, name ASC') ;
 
         require_once ORDERBOOK . 'views/OrdersView.php' ;
         $view = new OrdersView() ;
@@ -200,49 +215,67 @@ class OrderBookController extends BaseController {
     } unset($catalog);
   }
   
-  private function summarize($orderbook) {
+  private function summarize($orderbook, $pickup=false) {
     foreach($orderbook->orders as $order) {
+      if ($pickup && $order->getPickup()) {
+        if (!array_key_exists($order->getPickup(), $this->producers)) {
+          $this->producers[$order->getPickup()] = array() ;
+          $this->producers_sum[$order->getPickup()] =  array();
+        }
+        $producers = &$this->producers[$order->getPickup()] ;
+        $producers_sum = &$this->producers_sum[$order->getPickup()] ;
+        $other = &$this->other[$order->getPickup()] ;
+        $other_sum = &$this->other_sum[$order->getPickup()] ;
+      } else if (!$pickup) {
+        $producers = &$this->producers ;
+        $producers_sum = &$this->producers_sum ;
+        $other = &$this->other ;
+        $other_sum = &$this->other_sum ;
+      } else {
+        continue ;
+      }
       foreach($order->getProducts() as $product) {
         $unit_price = $product->getPrice() . ' / ' . $product->getUnit() ;
         if ($product->getProducer()) {
-          if (!array_key_exists($product->getProducer(), $this->producers)) {
-            $this->producers[$product->getProducer()] = array() ;
-            $this->producers_sum[$product->getProducer()] = 0 ;
+          if (!array_key_exists($product->getProducer(), $producers)) {
+            $producers[$product->getProducer()] = array() ;
+            $producers_sum[$product->getProducer()] = 0 ;
           }
-          if (!array_key_exists($product->getDescription(), $this->producers[$product->getProducer()])) {
-            $this->producers[$product->getProducer()][$product->getDescription()] = array() ;
+          if (!array_key_exists($product->getDescription(), $producers[$product->getProducer()])) {
+            $producers[$product->getProducer()][$product->getDescription()] = array() ;
           }
-          if (!array_key_exists($unit_price, $this->producers[$product->getProducer()][$product->getDescription()])) {
-            $this->producers[$product->getProducer()][$product->getDescription()][$unit_price] =
+          if (!array_key_exists($unit_price,
+                                $producers[$product->getProducer()][$product->getDescription()])) {
+            $producers[$product->getProducer()][$product->getDescription()][$unit_price] =
               array('unit' => $product->getUnit(),
                     'price' => $product->getPrice(),
                     'quantity' => 0,
                     'sum' => 0) ;
           }
-          $this->producers[$product->getProducer()][$product->getDescription()][$unit_price]['quantity'] += $product->getQuantity() ;
+          $current = &$producers[$product->getProducer()][$product->getDescription()][$unit_price] ;
 
+          $current['quantity'] += $product->getQuantity() ;
           $sum = $product->getQuantity() * floatval($product->getPrice()) ;
-
-          $this->producers[$product->getProducer()][$product->getDescription()][$unit_price]['sum'] =
-            str_currency_fmt(floatval($this->producers[$product->getProducer()][$product->getDescription()][$unit_price]['sum']) + $sum) ;
-
-          $this->producers_sum[$product->getProducer()] = str_currency_fmt(floatval($this->producers_sum[$product->getProducer()]) + $sum) ;
+          $current['sum'] = str_currency_fmt(floatval($current['sum']) + $sum) ;
+          $producers_sum[$product->getProducer()] =
+            str_currency_fmt(floatval($producers_sum[$product->getProducer()]) + $sum) ;
         } else {
-          if (!array_key_exists($product->getDescription(), $this->other)) {
-            $this->other[$product->getDescription()] = array() ;
+          if (!array_key_exists($product->getDescription(), $other)) {
+            $other[$product->getDescription()] = array() ;
           }
-          if (!array_key_exists($unit_price, $this->other[$product->getDescription()])) {
-            $this->other[$product->getDescription()][$unit_price] =
+          if (!array_key_exists($unit_price, $other[$product->getDescription()])) {
+            $other[$product->getDescription()][$unit_price] =
               array('unit' => $product->getUnit(),
                     'price' => $product->getPrice(),
                     'quantity' => 0,
                     'sum' => 0) ;
           }
-          $this->other[$product->getDescription()][$unit_price]['quantity'] += $product->getQuantity() ;
+          $current = &$other[$product->getDescription()][$unit_price] ;
+
+          $current['quantity'] += $product->getQuantity() ;
           $sum = $product->getQuantity() * floatval($product->getPrice()) ;
-          $this->other[$product->getDescription()][$unit_price]['sum'] =
-            str_currency_fmt(floatval($this->other[$product->getDescription()][$unit_price]['sum']) + $sum) ;
-          $this->other_sum = str_currency_fmt(floatval($this->other_sum) + $sum) ;
+          $current['sum'] = str_currency_fmt(floatval($current['sum']) + $sum) ;
+          $other_sum = str_currency_fmt(floatval($other_sum) + $sum) ;
         }
       }
     }

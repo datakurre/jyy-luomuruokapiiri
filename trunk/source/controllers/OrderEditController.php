@@ -30,6 +30,7 @@ class OrderEditController extends BaseController {
   public function main() {
     $view = new OrderEditView() ;
     $view->set('auth', $this->auth) ;
+    $view->set('pickup', unserialize(ORDERBOOK_PICKUP)) ;
 
     $id = isset($_GET['id']) ? $_GET['id'] : null ;
     if ($id) {

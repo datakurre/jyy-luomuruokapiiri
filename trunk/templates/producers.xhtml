@@ -32,7 +32,7 @@
     </style>
   </head>
   <body>
-    <p>Tilaukset tuotteittain <span tal:replace="php:date('d.m. \k\l\o H.i')">Aikaleima</span></p>
+    <p>Tilaukset tuottajittain <span tal:replace="php:date('d.m. \k\l\o H.i')">Aikaleima</span></p>
     <tal:producers define="producers_names php:array_keys(producers);
                            sorting php:sort(producers_names)"
                    repeat="producer producers_names">

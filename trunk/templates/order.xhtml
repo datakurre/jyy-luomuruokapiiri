@@ -39,6 +39,18 @@
           </tr>
           </tbody>
         </table>
+        <p id="ruokapiiri-pickup" tal:condition="pickup">
+          Nouto
+          <tal:product repeat="location pickup">
+            <input type="radio" name="pickup" tal:condition="order/pickup"
+                   tal:attributes="value location;
+                                   checked php: order.pickup == location ? 'true' : NULL" />
+            <input type="radio" name="pickup" tal:condition="not:order/pickup"
+                   tal:attributes="value location;
+                                   checked php: repeat.location.start ? 'true' : NULL" />
+            <span tal:content="location" />
+          </tal:product>
+        </p>
         <p>
           <input type="checkbox" id="participate" name="participate"
                 tal:define="participate order/participate|nothing"

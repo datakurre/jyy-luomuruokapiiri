@@ -30,7 +30,7 @@
         <tbody>
           <tr tal:repeat="order orders"
               tal:attributes="class php: repeat.order.odd ? 'ruokapiiri-even' : NULL">
-            <td class="ruokapiiri-date" tal:content="php:date('d.m. \k\l\o H.i', order.date)">
+            <td class="ruokapiiri-date" tal:content="php:date('d.m.y \k\l\o H.i', order.date)">
               05.08. klo 12.00
             </td>
             <td tal:content="order/quantity">
