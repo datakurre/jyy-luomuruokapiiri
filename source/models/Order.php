@@ -69,7 +69,7 @@ class Order extends Record {
       if (!$order->surname) $errors['surname'] = true ;
       $is_valid = false ;
     }
-    if (!$order->getPhone()) {
+    if (!$order->getPhone() && !$order->getEmail()) {
       $errors['phone'] = true ;
       $is_valid = false ;
     }

@@ -37,11 +37,11 @@ class ConfirmationView extends BaseView {
     if ($order->getEmail() and ORDERBOOK_CONFIRMATION) {
       $confirmation = UTF8_mail(ORDERBOOK_ADMIN,
                                 $order->getName() . ' <' . $order->getEmail() . '>',
-                                'Tilausvahvistus: ' . $order->getName() . ', ' . $order->getPhone(),
+                                'Tilausvahvistus: ' . $order->getName(), //. ', ' . $order->getPhone(),
                                 $message, '', ORDERBOOK_ADMIN) ;
     } else if (ORDERBOOK_CONFIRMATION) {
        UTF8_mail(ORDERBOOK_ADMIN, ORDERBOOK_ADMIN,
-                 'Tilausvahvistus: ' . $order->getName() . ', ' . $order->getPhone(),
+                 'Tilausvahvistus: ' . $order->getName(), //. ', ' . $order->getPhone(),
                  $message) ;
     }
 
