@@ -28,7 +28,7 @@ abstract class BaseView {
   protected function BaseView($filename) {
     $this->template = new PHPTAL(ORDERBOOK_TEMPLATES . $filename) ;
     if(ini_get('safe_mode')) {
-      $this->template->setPhpCodeDestination(getcwd() . "/temp/") ;
+      $this->template->setPhpCodeDestination(getcwd() . "/cache/") ;
     }
     $this->set('base', 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/(.*\/)\w*\?*.*/', '$1', $_SERVER['REQUEST_URI'])) ;
     if (isset($_GET['view'])) {
