@@ -1,21 +1,21 @@
 <?php
-
-/*
-	HTML-KIT -ohjelmassa ääkköset näkyvät ja muokkautuvat oikein,
-	kun valitsee valikosta Tools -> Unicode -> Unicode Pad... ja
-	muokkauksen jälkeen klikkaa painiketta "Apply".	
-*/
-
 // Testikäytössä sähköpostinlähetys on kytketty pois päältä.
 $confirmation = false ;
 
 // Ruokapiirin nimi eli otsikko, joka näytetään useilla
 // sivuilla ja joka näkyy tilausvahvistusten lähettäjänä.
-$title = "Esimerkillinen Ruokapiiri" ;
+$title = "Esimerkillinen ruokapiiri" ;
 
 // Tilauskohtainen ruokapiirin ylläpitokorvaus, joka
 // lisätään jokaisen tilauksen loppusummaan.
-$charge = "0,50" ; // euroa
+$charge = "0,40" ; // euroa
+
+// Usean noutopaikan tuki otetaan käyttöön luettelemalla
+// alle mallin mukaan mahdolliset noutopaikat
+$pickup = array (
+  "Keskustasta",
+  "Taajamasta"
+) ;
 
 // Vastuuhenkilön sähköpostiosoite, joka näkyy
 // tilausvahvistusten lähetys- ja vastausosoitteena.
