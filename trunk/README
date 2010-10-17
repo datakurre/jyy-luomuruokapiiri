@@ -24,7 +24,17 @@ bin/pear install DB
 bin/pear install Auth
 bin/pear install channel://pear.php.net/Validate-0.8.3
 bin/pear install http://phptal.org/latest.tar.gz
+pear channel-discover pear.michelf.com
 bin/pear install channel://pear.michelf.com/MarkdownExtra
 
 # Takaisin alkuperäiseen hakemistoon
 cd ..
+
+Asennus PHP SAFE-MODE
+
+# tietokanta rungon luonti mkdir:n ja touch:n avulla
+# "cache"-hakemiston luonti sivupohjille
+
+Muita huomioita
+
+"Options +FollowSymLinks +MultiViews" mahdollisesti pois .htaccess-tiedostosta
