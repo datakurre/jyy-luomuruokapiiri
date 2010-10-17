@@ -1,0 +1,40 @@
+Asennus
+
+# Lataa Ruokapiiri-lähdekoodi (sis. PHP Text DB API)
+svn checkout http://ruokapiiri.googlecode.com/svn/trunk/ ruokapiiri
+
+# Korjaa tiedostoon ruokapiiri/.htaccess oma RewriteBase-polku
+sed -i "s/ruokapiiri/oma\/polku/" ruokapiiri/.htaccess 
+
+# Myönnä Apache-prosessille kirjoitusoikeus tietokantahakemistoon 
+chmod a+w ruokapiiri/database/
+
+# Asenna PEAR ja vaaditut paketit
+
+cd ruokapiiri && wget http://pear.php.net/go-pear
+php go-pear
+
+# The following PEAR packages are bundled with PHP: PEAR_Frontend_Web-beta,
+# PEAR_Frontend_Gtk2, MDB2.
+# Would you like to install these as well? [Y/n] : n
+
+rm go-pear
+
+bin/pear install DB
+bin/pear install Auth
+bin/pear install channel://pear.php.net/Validate-0.8.3
+bin/pear install http://phptal.org/latest.tar.gz
+pear channel-discover pear.michelf.com
+bin/pear install channel://pear.michelf.com/MarkdownExtra
+
+# Takaisin alkuperäiseen hakemistoon
+cd ..
+
+Asennus PHP SAFE-MODE
+
+# tietokanta rungon luonti mkdir:n ja touch:n avulla
+# "cache"-hakemiston luonti sivupohjille
+
+Muita huomioita
+
+"Options +FollowSymLinks +MultiViews" mahdollisesti pois .htaccess-tiedostosta

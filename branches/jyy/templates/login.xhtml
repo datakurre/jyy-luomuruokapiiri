@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="master.xhtml/master">
+  <body>
+    <h2 metal:fill-slot="heading">Kirjaudu sisään</h2>
+    <p class="ruokapiiri-error" tal:condition="MSG_AUTH_EXPIRED|nothing" metal:fill-slot="message">
+      Kirjautuminen vanhentui. Ole hyvä ja kirjaudu uudelleen.
+    </p>
+    <p class="ruokapiiri-error" tal:condition="MSG_AUTH_WRONG_LOGIN|nothing" metal:fill-slot="message">
+      Kirjautuminen epäonnistui. Ole hyvä ja tarkista salasanasi.
+    </p>
+    <form id="ruokapiiri-login" metal:fill-slot="main" method="post">
+      <p>
+        Tämä sivu on tarkoitettu ainoastaan sivuston ylläpitäjälle ja päivitykseen.
+        <a tal:attributes="href base">Palaa takaisin tilaussivulle.</a>
+      </p>
+      <p>
+        <input class="ruokapiiri-password" type="password" name="username" />
+        <input class="ruokapiiri-hidden" type="hidden" name="password" value="only-username-required"/>
+        <input class="ruokapiiri-submit" type="submit" value="Kirjaudu" />
+      </p>
+    </form>
+  </body>
+</html>
