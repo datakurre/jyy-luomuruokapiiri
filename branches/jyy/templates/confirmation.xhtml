@@ -14,7 +14,7 @@ Sähköposti: <tal:email replace="order/email">teppo.tilaaja@example.com</tal:em
 <tal:pickup condition="order/pickup">
 Noudan tilaukseni <span tal:replace="order/pickup">täältä</span>.
 </tal:pickup><tal:participate condition="order/participate">
-Ehdin jakamaan tämän tilauksen ruokia.
+Ehdin auttamaan tämän tilauksen ruokien jakamisessa (alustava ilmoittautuminen).
 </tal:participate><tal:notes condition="order/notes">
 <span tal:replace="order/notes">Tilaajan kommentit</span>
 </tal:notes><tal:products repeat="product order/products">
@@ -23,8 +23,3 @@ Ehdin jakamaan tämän tilauksen ruokia.
 + toimituskulut <tal:charge replace="php:str_replace('.', ',', order.charge)">0,50</tal:charge> euroa
 
 Yhteensä: <tal:sum replace="php:str_replace('.', ',', order.sum())">1,70</tal:sum> euroa
-
-TUOTESELOSTEET
-<tal:products repeat="product order/products">
-<span tal:replace="product/description">Tuote</span><span tal:condition="product/producer" tal:replace="string: (${product/producer})">(Tuottaja)</span>
-<tal:ingredients replace="product/ingredients">Ainesosat</tal:ingredients></tal:products></pre>

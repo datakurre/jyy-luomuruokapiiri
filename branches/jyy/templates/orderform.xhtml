@@ -163,7 +163,7 @@
               <td style="text-align: right;">Sähköpostiosoite</td>
               <td>
                 <input type="text" name="email" tal:attributes="value order/email|nothing"/>
-                <span tal:condition="not:errors/email|nothing">
+                <span tal:condition="not:errors/email|nothing" tal:replace="nothing">
                   <em>vapaaehtoinen *)</em>
                 </span>
                 <span class="ruokapiiri-error" tal:condition="errors/email|nothing">
@@ -176,12 +176,15 @@
               <td id="ruokapiiri-pickup">
                 <tal:product repeat="location pickup">
                   <input type="radio" name="pickup" tal:condition="order/pickup"
-                         tal:attributes="value location;
+                         tal:attributes="id string:pickup-${repeat/location/index};
+                                         value location;
                                          checked php: order.pickup == location ? 'true' : NULL" />
                   <input type="radio" name="pickup" tal:condition="not:order/pickup"
-                         tal:attributes="value location;
+                         tal:attributes="id string:pickup-${repeat/location/index};
+                                         value location;
                                          checked php: repeat.location.start ? 'true' : NULL" />
-                  <span tal:content="location" />
+                  <label tal:attributes="for string:pickup-${repeat/location/index}"
+                         tal:content="location" />
                 </tal:product>
                 <span class="ruokapiiri-error" tal:condition="errors/pickup|nothing">
                   pakollinen valinta
@@ -194,7 +197,7 @@
                 <input class="ruokapiiri-checkbox" type="checkbox" name="participate"
                        tal:define="participate order/participate|nothing"
                        tal:attributes="checked php: participate ? 'yes' : NULL"/>
-                <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label>
+                <label for="participate">Ehdin auttamaan tämän tilauksen ruokien jakamisessa (alustava ilmoittautuminen)</label>
               </td>
             </tr>
             <tr>
@@ -210,7 +213,7 @@
               <td>
                 <input class="ruokapiiri-hidden" type="hidden" name="order_action" value="Tilaa" />
                 <input class="ruokapiiri-submit" type="submit" name="action" value="Tilaa" />
-                <p tal:condition="not:errors/email|nothing">
+                <p tal:condition="not:errors/email|nothing" tal:replace="nothing">
                   <em>*) Tilauksessa ilmoitettuun sähköpostiosoitteeseen lähetetään
                    automaattinen tilausvahvistus tilauksen sisällöstä ja summasta.
                    Sähköpostiosoitetta voidaan käyttää myös tilauksen jakoa
