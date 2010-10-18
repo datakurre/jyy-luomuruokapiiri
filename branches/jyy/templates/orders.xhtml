@@ -47,6 +47,14 @@
               <span tal:replace="php:str_replace('.', ',', order.sum())">0,15</span> &euro;
             </th>
           </tr>
+          <tr tal:condition="order/email|order/notes">
+            <th class="left" colspan="4" style="white-space: normal; font-weight: normal;">
+                <tal:email tal:condition="order/email">
+                  <span tal:content="order/email" tal:omit-tag=""/><span tal:condition="order/notes" tal:omit-tag="">;</span>
+                </tal:email>
+                <span tal:condition="order/notes" tal:content="order/notes" tal:omit-tag=""/>
+            </th>
+          </tr>
         </thead>
         <tbody>
           <tr tal:repeat="product order/getProducts">
