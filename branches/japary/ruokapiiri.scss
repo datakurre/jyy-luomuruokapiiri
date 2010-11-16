@@ -99,7 +99,12 @@
     }
     td.ruokapiiri-edit { text-align: center; }
     td.ruokapiiri-date { white-space: nowrap; }
-    td.ruokapiiri-customer { white-space: nowrap; }
+    td.ruokapiiri-customer {
+      white-space: nowrap;
+      max-width: 10em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     td.ruokapiiri-notes { white-space: nowrap; }
     td.ruokapiiri-participate { text-align: center; font-weight: bold; }
     td.ruokapiiri-price {

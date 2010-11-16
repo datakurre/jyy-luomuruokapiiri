@@ -106,7 +106,10 @@
     #ruokapiiri table td.ruokapiiri-date {
       white-space: nowrap; }
     #ruokapiiri table td.ruokapiiri-customer {
-      white-space: nowrap; }
+      white-space: nowrap;
+      max-width: 10em;
+      overflow: hidden;
+      text-overflow: ellipsis; }
     #ruokapiiri table td.ruokapiiri-notes {
       white-space: nowrap; }
     #ruokapiiri table td.ruokapiiri-participate {
