@@ -49,7 +49,7 @@
                         enabled    enabled|nothing;"
                 condition="php: authorized or enabled">
         <h2>Tilauslomake</h2>
-        <form id="ruokapiiri-orderform" method="post">
+        <form id="ruokapiiri-orderform" method="post" autocomplete="off">
           <table>
             <thead>
               <tr>
@@ -84,7 +84,7 @@
                     <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace> &euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
                   </td>
                   <td class="ruokapiiri-quantity" tal:condition="available">
-                    <input type="text" style="font-weight: bold;"
+                    <input type="text" style="font-weight: bold;" autocomplete="off"
                            tal:attributes="name string:${product/id}; value quantity"/>
                   </td>
                   <td class="ruokapiiri-unit" tal:condition="available"
