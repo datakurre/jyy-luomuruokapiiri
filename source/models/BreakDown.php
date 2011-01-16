@@ -18,6 +18,8 @@
   You should have received a copy of the GNU General Public License
   along with Ruokapiiri.  If not, see <http://www.gnu.org/licenses/>. */
 
+/* Sorry, "BreakDown" was a bad name. Should've been "LineItem". */
+
 require_once ORDERBOOK . 'utils.php' ;
 
 require_once 'Record.php' ;
