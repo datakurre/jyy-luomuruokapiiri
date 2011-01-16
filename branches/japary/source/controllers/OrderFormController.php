@@ -91,12 +91,28 @@ class OrderFormController extends BaseController{
               }
             }
           }
+          /* Save order */
           $order->commit() ;
-          
+          /* Collect notes and ingredients from all successfully
+             saved breadowns to render them on the confirmation view. */
+          $notes = array() ; $ingredients = array() ;
+          foreach($order->products as $product_id => $breakdown) {
+            if ($breakdown->getId()) {
+              $notes[$breakdown->getId()] = $breakdown->notes ;
+              $ingredients[$breakdown->getId()] = $breakdown->ingredients ;
+            }
+          }
+          /* Build and render the confirmation view. */
           $confirmation = new ConfirmationView() ;
           if (count($changes)) { $confirmation->set('MSG_ORDER_CHANGED', $changes) ; }
           $confirmation->set('message', $settings->get('confirmation.message', '')) ;
-          die($confirmation->render($order)) ;
+          $confirmation->set('notes', $notes) ;
+          $confirmation->set('ingredients', $ingredients) ;
+          /* Call the confirmation view with the commited version of the order,
+             because the confirmation should match with the saved order and
+             there have been issues where (most probably) server file access
+             limits have caused order to be only partially saved. */
+          die($confirmation->render(Order::single($this->db, $order->getId()))) ;
         }
         break;
     }
