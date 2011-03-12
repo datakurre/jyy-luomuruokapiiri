@@ -1,0 +1,27 @@
+# 2011-02-12: Checked differences between SVN and production.
+#             As seen belows. The production is in sync.
+diff -Nru lahiruoka/.htaccess japary/.htaccess
+--- lahiruoka/.htaccess	2010-01-28 07:38:23.000000000 +0200
++++ japary/.htaccess	2010-01-28 07:41:34.000000000 +0200
+@@ -3,7 +3,8 @@
+ MultiviewsMatch Any
+ 
+ RewriteEngine  on
+-RewriteBase    /lahiruoka/
++# Korvaa seuraavan rivin /ruokapiiri/ omalla polulla
++RewriteBase    /ruokapiiri/
+ RewriteCond    %{REQUEST_FILENAME}         -f
+ RewriteRule    ^(.+[^/]).php$               $1/                  [R]
+ RewriteRule    ^(.+[^/]).php/hallinta/?$    $1/?view=orderbook   [R]
+diff -Nru lahiruoka/source/models/BreakDown.php japary/source/models/BreakDown.php
+--- lahiruoka/source/models/BreakDown.php	2010-06-06 00:00:00.000000000 +0300
++++ japary/source/models/BreakDown.php	2011-01-16 19:18:59.000000000 +0200
+@@ -18,6 +18,8 @@
+   You should have received a copy of the GNU General Public License
+   along with Ruokapiiri.  If not, see <http://www.gnu.org/licenses/>. */
+ 
++/* Sorry, "BreakDown" was a bad name. Should've been "LineItem". */
++
+ require_once ORDERBOOK . 'utils.php' ;
+ 
+ require_once 'Record.php' ;
