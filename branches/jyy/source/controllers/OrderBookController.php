@@ -143,6 +143,22 @@ class OrderBookController extends BaseController {
         $view->set('other', $this->other) ;
         $view->set('other_sum', $this->other_sum) ;
 
+        $pickup_sum = array() ;
+        foreach(unserialize(ORDERBOOK_PICKUP) as $pickup) {
+          $pickup_sum[$pickup] = $orderbook->sum($pickup) ;
+        }
+
+        $pickup_charges = array() ;
+        foreach(unserialize(ORDERBOOK_PICKUP) as $pickup) {
+          $pickup_charges[$pickup] = $orderbook->charges($pickup) ;
+        }
+
+        $view->set('pickup_sum', $pickup_sum) ;
+        $view->set('pickup_charges', $pickup_charges) ;
+
+        $view->set('sum', $orderbook->sum()) ;
+        $view->set('charges', $orderbook->charges()) ;
+
         die($view->render()) ;
         break;
 
@@ -167,6 +183,12 @@ class OrderBookController extends BaseController {
         $view = new OrdersView() ;
         $view->set('auth', $this->auth) ;
         $view->set('orders', $orderbook->orders) ;
+
+        $pickup_count = array() ;
+        foreach(unserialize(ORDERBOOK_PICKUP) as $pickup) {
+          $pickup_count[$pickup] = $orderbook->count($pickup) ;
+        }
+        $view->set('pickup_count', $pickup_count) ;
 
         die($view->render()) ;
         break;        
@@ -220,7 +242,7 @@ class OrderBookController extends BaseController {
       if ($pickup && $order->getPickup()) {
         if (!array_key_exists($order->getPickup(), $this->producers)) {
           $this->producers[$order->getPickup()] = array() ;
-          $this->producers_sum[$order->getPickup()] =  array();
+          $this->producers_sum[$order->getPickup()] = array() ;
         }
         $producers = &$this->producers[$order->getPickup()] ;
         $producers_sum = &$this->producers_sum[$order->getPickup()] ;
