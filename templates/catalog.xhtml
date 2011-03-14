@@ -9,11 +9,10 @@
     <metal:head fill-slot="head">
       <script tal:attributes="src string:${base}css-browser-selector.js" type="text/javascript"></script>
       <script tal:attributes="src string:${base}jquery.js" type="text/javascript"></script>
-      <script tal:attributes="src string:${base}jquery-ui.js" type="text/javascript"></script>
+      <script tal:attributes="src string:${base}jquery.dragsort.js" type="text/javascript"></script>
       <script tal:attributes="src string:${base}jquery.watermark.js" type="text/javascript"></script>
-  	  <script type="text/javascript">
-      function onProductDrop(event, obj) {
-        obj.item.removeClass("ruokapiiri-drag") ;
+      <script type="text/javascript">
+      function onDragEnd(event) {
         $("#ruokapiiri-catalog tbody .ruokapiiri-position input").each(
           function(index, product) { product.value = index + 1 ; }
         ) ; 
@@ -24,31 +23,35 @@
           }
         ) ; 
       }
-      function onProductDrag(event, obj) {
-        $("#ruokapiiri-catalog tbody tr").addClass("ruokapiiri-even") ;
-        obj.item.addClass("ruokapiiri-drag") ;
-        obj.item.removeClass("ruokapiiri-even") ;
-      }
       function switchProductDetails(event) {
         var details = $(event.target).parent().find(".ruokapiiri-details") ;
         if (details.is(":hidden")) { details.show() ; }
         else { details.hide() ; }
       }
-      $(function() {
-    		$("#ruokapiiri-catalog tbody").sortable({start: onProductDrag, stop: onProductDrop}) ;
-    		$("#ruokapiiri-catalog tbody").find(".ruokapiiri-details").hide() ;
-    		$("#ruokapiiri-catalog tbody").find(".ruokapiiri-description").click(switchProductDetails) ;
-    		$("#ruokapiiri-new-product").find(".ruokapiiri-details").hide() ;
-    		$("#ruokapiiri-new-product").find(".ruokapiiri-description").click(switchProductDetails) ;
-    		
+      jQuery(function($) {
+        $("#ruokapiiri-catalog tbody").dragsort({
+          itemSelector: "tr",
+          dragSelector: "tr",
+          dragBetween: false,
+          dragSelectorExclude: "input, select, option, textarea",
+          dragEnd: onDragEnd
+        }) ; 
+        $("#ruokapiiri-catalog tbody").find(".ruokapiiri-details").hide() ;
+        $("#ruokapiiri-catalog tbody").find(".ruokapiiri-description").click(switchProductDetails) ;
+        $("#ruokapiiri-new-product").find(".ruokapiiri-details").hide() ;
+        $("#ruokapiiri-new-product").find(".ruokapiiri-description").click(switchProductDetails) ;
+        
         $(".ruokapiiri-description > input").watermark("Tuotenimike (tai tyhjä erotinrivi tilauslomakkeelle)") ;
         $(".ruokapiiri-producer > input").watermark("Tuottaja") ;
         $(".ruokapiiri-details > input").watermark("Huomautukset (luomu, gluteiiniton, ...)") ;
         $(".ruokapiiri-details > textarea").watermark("Tuoteseloste, jossa saa olla useita rivejä") ;
         $(".ruokapiiri-price > input").watermark("0,00") ;
-      });
-	    </script>
-	  </metal:head>
+      }) ;
+      </script>
+      <style type="text/css">
+      .dragged td { background: #ddd ; }
+      </style>
+    </metal:head>
   </head>
   <body>
     <h2 metal:fill-slot="heading">Tuoteluettelo</h2>
