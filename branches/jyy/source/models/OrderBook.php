@@ -50,20 +50,38 @@ class OrderBook {
     $this->orders = Order::all($this->db, $state, $order_by) ;
   }
 
-  public function sum() {
+  public function sum($pickup=null) {
     $sum = 0 ;
     foreach($this->orders as $order) {
-      $sum += floatval($order->sum()) ;
+      if (is_null($pickup) || $pickup == $order->getPickup()) {
+        $sum += floatval($order->sum()) ;
+      } ;
     }
     return str_currency_fmt($sum) ;
   }
 
-  public function charges() {
+  public function charges($pickup=null) {
     $charges = 0 ;
     foreach($this->orders as $order) {
-      $charges += floatval($order->getCharge()) ;
+      if (is_null($pickup) || $pickup == $order->getPickup()) {
+        $charges += floatval($order->getCharge()) ;
+      }
     }
     return str_currency_fmt($charges) ;
+  }
+
+  public function count($pickup=null) {
+    $count = 0 ;
+    if (is_null($pickup)) {
+      $count = count($this->orders) ;
+    } else {
+      foreach($this->orders as $order) {
+        if ($pickup == $order->getPickup()) {
+          $count += 1 ;
+        }
+      }
+    }
+    return $count ;
   }
 
   public function participants() {
