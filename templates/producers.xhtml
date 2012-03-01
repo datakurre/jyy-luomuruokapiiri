@@ -6,7 +6,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal">
   <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-    <style>
+    <style type="text/css">
       table {
       	page-break-before: auto;
       	page-break-inside: avoid;
@@ -30,6 +30,68 @@
         text-align: right;
       }
     </style>
+    <script tal:attributes="src string:${base}jquery.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    jQuery(function($) {
+      var lt = String.fromCharCode(60),
+          gt = String.fromCharCode(62);
+
+      $("body > p:first-child").append(" " + lt + "a href='#'" + gt
+        + "(sähköpostiversio)" + lt + "/a" + gt).click(function() {
+        var table, columns, output,
+            value, columnLength, columnValues,
+            spaces = "                                                  ";
+
+        $("table").each(function(index) {
+          table = this ; columns = [] ; output = "" ;
+
+          // Resolve maximum column widths and extract table data into columns array
+          for (column = 1 ; column < 5 ; column++) {
+            columnLength = 0 ; columnValues = [] ;
+            $(table).find("th:nth-child(" + column + "), "
+                          + "td:nth-child(" + column + ")").each(function(index) {
+              value = this.textContent
+                .replace(/\s+/g, " ").replace(/^\s/, "").replace(/\s$/, "")
+                .replace("&euro;", "EUR").replace(" / ", "/") ;
+              columnLength = Math.max(columnLength, value.length) ;
+              columnValues.push(value) ;
+            }) ;
+            columns.push({ length: columnLength, values: columnValues }) ;
+          }
+
+          // Resolve available width for the first column
+          columnLength = 72 ;
+          for (column = 3 ; column > 0 ; column--) {
+            columnLength -= columns[column].length + 2 ;
+          }
+          columns[0].length = Math.min(columns[0].length, columnLength) ;
+
+          // Transform table data into string
+          while (true) {
+            for (column = 0 ; column < columns.length ; column++) {
+              value = columns[column].values.shift() ;
+              if (column > 0) output += "  " ;
+              if (value.length >= columns[column].length) {
+                output += value.substr(0, columns[column].length) ;
+              } else {
+                if (column === 0) {
+                  output += value + spaces.substr(0, columns[column].length - value.length) ;
+                } else {
+                  output += spaces.substr(0, columns[column].length - value.length) + value ;
+                }
+              };
+            }
+            output += "\n" ;
+            if (columns[0].values.length === 0) break;
+          }
+
+          $(table).replaceWith(lt + "pre" + gt + output + lt + "/pre" + gt) ;
+        }) ;
+
+        $(this).remove() ; return false ;
+      }) ;
+    }) ;
+    </script>
   </head>
   <body>
     <p>Tilaukset tuottajittain <span tal:replace="php:date('d.m. \k\l\o H.i')">Aikaleima</span></p>

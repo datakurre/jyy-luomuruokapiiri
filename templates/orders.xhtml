@@ -33,6 +33,20 @@
   </head>
   <body>
     <p>Tilaukset <span tal:replace="php:date('d.m. \k\l\o H.i')">Aikaleima</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th class="left">Tilauksia yhteensä</th>
+          <th class="right" style="padding-left: 1em;"><span tal:replace="php:count(orders)">0</span> kpl</th>
+        </tr>
+      </thead>
+      <tbody tal:condition="php:array_keys(pickup_count)">
+        <tr tal:repeat="location php:array_keys(pickup_count)">
+           <td tal:content="location">Noutopaikasta</td>
+           <td class="right"><span tal:replace="php:pickup_count[location]">0</span> kpl</td>
+        </tr>
+      </tbody>
+    </table>
     <tal:order repeat="order orders">
       <table>
         <thead>
@@ -45,6 +59,14 @@
             </th>
             <th class="right">
               <span tal:replace="php:str_replace('.', ',', order.sum())">0,15</span> &euro;
+            </th>
+          </tr>
+          <tr tal:condition="order/email|order/notes">
+            <th class="left" colspan="4" style="white-space: normal; font-weight: normal;">
+                <tal:email tal:condition="order/email">
+                  <span tal:content="order/email" tal:omit-tag=""/><span tal:condition="order/notes" tal:omit-tag="">;</span>
+                </tal:email>
+                <span tal:condition="order/notes" tal:content="order/notes" tal:omit-tag=""/>
             </th>
           </tr>
         </thead>

@@ -20,6 +20,9 @@
       td, th {
   	    white-space: nowrap;
       }
+      th em {
+        font-weight: normal;
+      }
       .left {
         text-align: left;
       }
@@ -33,6 +36,22 @@
   </head>
   <body>
     <p>Tilaukset noutopaikoittain <span tal:replace="php:date('d.m. \k\l\o H.i')">Aikaleima</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th class="left">Yhteensä</th>
+          <th class="right" style="padding-left: 1em;"><span tal:replace="php:str_replace('.', ',', sum)">0,00</span> &euro;</th>
+          <th class="right" style="padding-left: 1em;"><em>(<span tal:content="php:str_replace('.', ',', charges)">0,00</span> &euro;</em>)</th>
+        </tr>
+      </thead>
+      <tbody tal:condition="php:array_keys(pickup_sum)">
+        <tr tal:repeat="location php:array_keys(pickup_sum)">
+           <td tal:content="location">Noutopaikasta</td>
+           <td class="right"><span tal:replace="php:str_replace('.', ',', pickup_sum[location])">0,00</span> &euro;</td>
+           <td class="right"><em>(<span tal:content="php:str_replace('.', ',', pickup_charges[location])">0,00</span> &euro;</em>)</td>
+        </tr>
+      </tbody>
+    </table>
     <tal:locations define="location_names php:array_keys(producers);
                            sorting php:sort(location_names)"
                    repeat="location location_names">

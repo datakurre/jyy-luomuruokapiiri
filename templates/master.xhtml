@@ -8,8 +8,11 @@
 <head>
   <title tal:content="ORDERBOOK_TITLE">Ruokapiiri</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link rel="stylesheet" tal:attributes="href string:${base}ruokapiiri.css" type="text/css" />
+  <link rel="stylesheet" tal:attributes="href string:${base}ruokapiiri.css" type="text/css" media="screen"/>
   <metal:head define-slot="head"><!-- Ruokapiirin JavaScript --></metal:head>
+  <style type="text/css" media="print">
+  .visualNoPrint{ display: none; }
+  </style>
 </head>
 
 <body>
@@ -35,7 +38,7 @@
     <div metal:define-slot="main" tal:omit-tag=""><p>Varsinainen sisältö</p></div>
   </div>
 
-  <ul id="navigation" tal:define="action view|string:form">
+  <ul id="navigation" class="visualNoPrint" tal:define="action view|string:form">
   <li tal:attributes="class php: action == 'orderform' ? 'active' : NULL">
     <a tal:attributes="href string:${base}?view=orderform">Tilauslomake</a>
   </li>
