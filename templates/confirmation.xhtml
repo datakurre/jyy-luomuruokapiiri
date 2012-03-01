@@ -14,7 +14,7 @@ Sähköposti: <tal:email replace="order/email|string:">teppo.tilaaja@example.com
 <tal:pickup condition="order/pickup">
 Noudan tilaukseni <span tal:replace="order/pickup">täältä</span>.
 </tal:pickup><tal:participate condition="order/participate">
-Ehdin jakamaan tämän tilauksen ruokia.
+Ehdin auttamaan tämän tilauksen ruokien jakamisessa (alustava ilmoittautuminen).
 </tal:participate><tal:notes condition="order/notes">
 <span tal:replace="order/notes">Tilaajan kommentit</span>
 </tal:notes><tal:products repeat="product order/products">
