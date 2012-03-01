@@ -176,12 +176,15 @@
               <td id="ruokapiiri-pickup">
                 <tal:product repeat="location pickup">
                   <input type="radio" name="pickup" tal:condition="order/pickup"
-                         tal:attributes="value location;
+                         tal:attributes="id string:pickup-${repeat/location/index};
+                                         value location;
                                          checked php: order.pickup == location ? 'true' : NULL" />
                   <input type="radio" name="pickup" tal:condition="not:order/pickup"
-                         tal:attributes="value location;
+                         tal:attributes="id string:pickup-${repeat/location/index};
+                                         value location;
                                          checked php: repeat.location.start ? 'true' : NULL" />
-                  <span tal:content="location" />
+                  <label tal:attributes="for string:pickup-${repeat/location/index}"
+                         tal:content="location" />
                 </tal:product>
                 <span class="ruokapiiri-error" tal:condition="errors/pickup|nothing">
                   pakollinen valinta
@@ -194,7 +197,7 @@
                 <input class="ruokapiiri-checkbox" type="checkbox" name="participate" id="participate"
                        tal:define="participate order/participate|nothing"
                        tal:attributes="checked php: participate ? 'yes' : NULL"/>
-                <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label>
+                <label for="participate">Ehdin auttamaan tämän tilauksen ruokien jakamisessa (alustava ilmoittautuminen)</label>
               </td>
             </tr>
             <tr>

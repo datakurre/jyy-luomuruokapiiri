@@ -43,12 +43,15 @@
           Nouto
           <tal:product repeat="location pickup">
             <input type="radio" name="pickup" tal:condition="order/pickup"
-                   tal:attributes="value location;
+                   tal:attributes="id string:pickup-${repeat/location/index};
+                                   value location;
                                    checked php: order.pickup == location ? 'true' : NULL" />
             <input type="radio" name="pickup" tal:condition="not:order/pickup"
-                   tal:attributes="value location;
+                   tal:attributes="id string:pickup-${repeat/location/index};
+                                   value location;
                                    checked php: repeat.location.start ? 'true' : NULL" />
-            <span tal:content="location" />
+            <span tal:attributes="for string:pickup-${repeat/location/index}"
+                  tal:content="location" />
           </tal:product>
         </p>
         <p>
