@@ -20,12 +20,16 @@
       Yhtään tilausta tilastoitavaksi ja poistettavaksi ei löytynyt.
     </p>
     <div metal:fill-slot="main" tal:omit-tag="">
-      <p>Tällä sivulla näet ruokapiirin tilauskirjan.</p>
+      <p>Tällä sivulla näet ruokapiirin tilauskirjan.
+         Tilauskirjassa on nyt <span tal:replace="php:count(orders)">X</span> tilausta
+         arvoltaan <span tal:replace="php:str_replace('.', ',', sum)">10,00</span> &euro;.
+      </p>
       <ul>
         <li>Vapaaehtoisten jakajien ja kaikkien tilaajien sähköpostiosoitteet löydät <em>tämän sivun lopusta</em>.</li>
         <li><em>Tilauksen viestin</em> näkee kokonaisuudessaan pysäyttämällä hiiren osoittimen hetkeksi viestin päälle.</li>
         <li>Yksittäiseen tilaukseen voi tehdä rajatusti korjauksia klikkaamalla <em>kynä</em>-kuvaketta tilauksen kohdalta.</li>
-        <li>Tulosta raportti jakokerran tuotteiden tilaamiseksi tuottajilta painikkeella <em>Raportoi tuotteittain</em>.</li>
+        <li>Tulosta raportti jakokerran tuotteiden tilaamiseksi tuottajilta painikkeella <em>Raportoi tuottajittain</em>.</li>
+        <li>Tulosta sama raportti noutopaikoittain painikkeella <em>Raportoi noutopaikoittain</em>.</li>
         <li>Tulosta raportti tuotteiden jakamiseksi tilaajille painikkeesta <em>Raportoi tilaajittain</em>.</li>
         <li>Poista kokeilut tai virheelliset tilaukset valitsemalla ne ja painamalla sivun lopusta <em>Poista valitut tilaukset</em>.</li>
         <li>Tilastoi ja poista tilaukset vasta onnistuneen jaon jälkeen valitsemalla ja painamalla <em>Tyhjennä ja tilastoi</em>.</li>
@@ -98,8 +102,11 @@
           </tbody>
           <tfoot>
             <tr class="ruokapiiri-sum">
-              <td></td><td>Yhteensä</td><td>(toimituskulut)</td>
-              <td class="ruokapiiri-price" colspan="4">
+              <td></td>
+              <td colspan="3">
+                Kaikki <span tal:replace="php:count(orders)">X</span> tilausta yhteensä (suluissa toimituskulujen osuus)
+              </td>
+              <td class="ruokapiiri-price" colspan="3">
                 <span tal:replace="php:str_replace('.', ',', sum)">10,00</span> &euro;
               </td>
               <td class="ruokapiiri-price">(<span tal:replace="php:str_replace('.', ',', charges)">toimituskulut</span> &euro;)</td>

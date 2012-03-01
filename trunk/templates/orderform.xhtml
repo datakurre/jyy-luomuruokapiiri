@@ -96,7 +96,7 @@
                     <tal:replace replace="php: str_replace('.', ',', product.price)">1,00</tal:replace> &euro;<span tal:content="php: ' / ' . str_replace('pcs', 'kpl', product.unit)"> / kpl</span>
                   </td>
                   <td class="ruokapiiri-quantity" tal:condition="available">
-                    <input type="text" style="font-weight: bold;"
+                    <input type="text" style="font-weight: bold;" autocomplete="off"
                            tal:attributes="name string:${product/id}; value quantity"/>
                   </td>
                   <td class="ruokapiiri-unit" tal:condition="available"
@@ -191,7 +191,7 @@
             <tr>
               <td></td>
               <td>
-                <input class="ruokapiiri-checkbox" type="checkbox" name="participate"
+                <input class="ruokapiiri-checkbox" type="checkbox" name="participate" id="participate"
                        tal:define="participate order/participate|nothing"
                        tal:attributes="checked php: participate ? 'yes' : NULL"/>
                 <label for="participate">Ehdin jakamaan tämän tilauksen ruokia.</label>

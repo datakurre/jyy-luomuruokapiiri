@@ -358,6 +358,22 @@ class DB_txtdbapi extends DB_common
     }
 
     // }}}
+    // {{{ escapeSimple()
+
+    /**
+    * Escapes a string according to the current DBMS's standards
+    * @param string $str  the string to be escaped
+    * @return string  the escaped string
+    */
+    function escapeSimple($str)
+    {
+        if (get_magic_quotes_gpc()) {
+            return $str;
+        } else {
+            return filter_var($str, FILTER_SANITIZE_MAGIC_QUOTES);
+        }
+    }
+    // }}}
 }
 
 ?>
