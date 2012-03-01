@@ -1,6 +1,12 @@
-PEAR eli "PHP Extension and Application Repository" on yleisimmin käytetty järjestelmä PHP-laajennuskirjastojen levittämiseen ja niitä käyttävien asennusten ylläpitämiseen.
+PEAR-kirjastot
+==============
 
-Ruokapiiri riippuu seuraavista PEAR-järjestelmän kautta asennettavista laajennuksista:
+PEAR eli "PHP Extension and Application Repository" on yleisimmin käytetty
+järjestelmä PHP-laajennuskirjastojen levittämiseen ja niitä käyttävien
+asennusten ylläpitämiseen.
+
+Ruokapiiri riippuu seuraavista PEAR-järjestelmän kautta asennettavista
+laajennuksista:
 
 - Pear::Auth -- käyttäjänhallinta ja kirjautuminen (>= 1.6.1, PHP License 3.01)
 - DB         -- tietokanta-abstraktiokerros (>= 1.88, PHP License 3.0)
@@ -14,3 +20,18 @@ Lisäksi PEAR-hakemiston alle oletetaan asennetun:
   * http://sourceforge.net/projects/flatfiledb/
 
 - ja sen asennuksesta löytyvä PEAR:DB--rajapinta
+
+Esimerkiksi eräästä viimeisimmistä asennuksesta PEAR-raportoi seuraavat
+versiot::
+
+    Installed packages, channel pear.php.net:
+    -----------------------------------------
+    Package          Version State
+    Archive_Tar      1.3.7   stable
+    Auth             1.6.2   stable
+    Console_Getopt   1.2.3   stable
+    DB               1.7.13  stable
+    PEAR             1.9.1   stable
+    PHPTAL           1.2.1   beta
+    Structures_Graph 1.0.3   stable
+    Validate         0.8.3   beta

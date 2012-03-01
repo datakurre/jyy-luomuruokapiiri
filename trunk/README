@@ -1,4 +1,14 @@
-Asennus
+Ruokapiiri -tilausjärjestelmä
+=============================
+
+Ruokapiiri on avoimen lähdekoodin (GPL) tilausjärjestelmä, joka on kehitetty
+alun perin JYYn luomuruokapiirin käyttöön.
+
+Ruokapiiristä ei ole tehty uutta asennusta vuosikausiin, joten nämäkin niukat
+ohjeet ovat todennäköisesti vanhentuneet.
+
+Asennusohjeita
+--------------
 
 # Lataa Ruokapiiri-lähdekoodi (sis. PHP Text DB API)
 svn checkout http://ruokapiiri.googlecode.com/svn/trunk/ ruokapiiri
@@ -9,7 +19,7 @@ sed -i "s/ruokapiiri/oma\/polku/" ruokapiiri/.htaccess
 # Myönnä Apache-prosessille kirjoitusoikeus tietokantahakemistoon 
 chmod a+w ruokapiiri/database/
 
-# Asenna PEAR ja vaaditut paketit
+# Asenna PEAR ja vaaditut paketit (ks. versiot ./PEAR/README)
 
 cd ruokapiiri && wget http://pear.php.net/go-pear
 php go-pear
@@ -30,11 +40,13 @@ bin/pear install channel://pear.michelf.com/MarkdownExtra
 # Takaisin alkuperäiseen hakemistoon
 cd ..
 
-Asennus PHP SAFE-MODE
+Huomioita PHP SAFE-MODEsta
+---------------------------
 
-# tietokanta rungon luonti mkdir:n ja touch:n avulla
-# "cache"-hakemiston luonti sivupohjille
+# tietokannan runko täytyy luoda mkdir:n ja touch:n avulla
+# sivupohjien esikäännetyille versioille tarvitaan ./cache-hakemisto
 
 Muita huomioita
+---------------
 
 "Options +FollowSymLinks +MultiViews" mahdollisesti pois .htaccess-tiedostosta
