@@ -9,8 +9,8 @@
   <title>JAPA ry - <span tal:omit-tag="" tal:content="ORDERBOOK_TITLE">Ruokapiiri</span></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="author" content="Mainostoimisto Aava Bang Oy - www.bang.fi" />
-  <link rel="stylesheet" href="http://www.japary.fi/?css=site/css_screen" type="text/css" media="screen" />
-  <link rel="stylesheet" href="http://www.japary.fi/?css=site/css_print" type="text/css" media="print" />
+  <link rel="stylesheet" href="http://www.japary.fi/images/site/css_screen.css?v110901" media="screen" />
+  <link rel="stylesheet" href="http://www.japary.fi/images/site/css_print.css?v110901" media="print" />
   <link media="screen" type="text/css" href="http://www.japary.fi/images/site/tools/js/lightbox/lightbox.css" rel="stylesheet" />
   <script type="text/javascript" src="http://www.japary.fi/images/site/tools/js/lightbox/prototype.js"></script>
   <script type="text/javascript" src="http://www.japary.fi/images/site/tools/js/lightbox/scriptaculous.js?load=effects,builder"></script>
@@ -86,7 +86,7 @@
 </div><!-- #header -->
 
 <div id="sisalto">
-<div class="container parent_container">
+<div class="container parent_container" style="overflow: visible;">
 <div class="sidebar column">
 <ul class="sidebar_navigation" tal:define="action view|string:form">
 <li><a href="http://www.japary.fi/lahiruoka/">Ruokaa läheltä</a></li>
@@ -141,6 +141,7 @@
 </div><!-- .main_content / .right_column -->
 </div><!-- .container / .parent_container -->
 </div><!-- #sisalto -->
+<div style="clear: both; height: 2em;"></div>
 </div><!-- #site -->
 
 <div id="footer">
