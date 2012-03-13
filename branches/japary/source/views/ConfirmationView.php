@@ -38,8 +38,9 @@ class ConfirmationView extends BaseView {
       $confirmation = UTF8_mail(ORDERBOOK_ADMIN,
                                 $order->getName() . ' <' . $order->getEmail() . '>',
                                 'Tilausvahvistus: ' . $order->getName() . ', ' . $order->getPhone(),
-                                $message, '', ORDERBOOK_ADMIN) ;
-    } else if (ORDERBOOK_CONFIRMATION) {
+                                $message) ;
+    }
+    if (ORDERBOOK_CONFIRMATION) {
        UTF8_mail(ORDERBOOK_ADMIN, ORDERBOOK_ADMIN,
                  'Tilausvahvistus: ' . $order->getName() . ', ' . $order->getPhone(),
                  $message) ;
