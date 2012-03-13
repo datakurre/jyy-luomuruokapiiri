@@ -7,9 +7,14 @@
       metal:use-macro="master.xhtml/master">
   <body>
     <h2 metal:fill-slot="heading"></h2>
-    <p class="ruokapiiri-success" tal:condition="not:confirmation" metal:fill-slot="message">
-      Kiitos tilauksestasi.
-    </p>
+    <div tal:condition="not:confirmation" tal:omit-tag="" metal:fill-slot="message">
+      <p class="ruokapiiri-success">
+        Kiitos tilauksestasi.
+      </p>
+      <p class="ruokapiiri-error">
+        Tilaus onnistui, mutta <strong>tilausvahvistuksen lähetys sähköpostilla epäonnistui</strong>. Tästä onnistuneesta tilauksesta ei onnistuttu lähettämään sähköpostilla kopioita antamaasi sähköpostiosoitteeseen. Voit tulostaa tai tallentaa tämän vahvistussivun.
+      </p>
+    </div>
     <p class="ruokapiiri-success" tal:condition="confirmation" metal:fill-slot="message">
       Kiitos tilauksestasi. Tästä tilausvahvistuksesta lähetettiin sähköpostilla kopio osoitteeseen <strong tal:content="confirmation">etunimi.sukunimi@palvelin.fi</strong>.
     </p>
