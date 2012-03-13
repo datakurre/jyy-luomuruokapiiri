@@ -37,7 +37,6 @@
 /* @group General */
 #ruokapiiri {
   width: 100%;
-  overflow: hidden;
   font-family: sans-serif; }
   #ruokapiiri .watermark {
     color: #aaa; }
@@ -201,7 +200,6 @@
   #ruokapiiri .ruokapiiri-success,
   #ruokapiiri .ruokapiiri-error {
     display: none; } }
-
 /* @end */
 /* @group Login */
 #ruokapiiri-login {
