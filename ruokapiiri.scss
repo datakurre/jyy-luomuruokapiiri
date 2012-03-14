@@ -1,6 +1,6 @@
-/* Ruokapiirin tilausjärjestelmä.
- * 
- * Copyright (C) 2006–2010  Asko Soukka <asko.soukka@iki.fi>
+/* Ruokapiiri
+ *
+ * Copyright (C) 2006-2012  Asko Soukka <asko.soukka@iki.fi>
  *
  * This file is part of Ruokapiiri.
  *
@@ -80,7 +80,7 @@
       color: white;
     }
 
-    a { text-decoration: none; color: black; cursor: help;}    
+    a { text-decoration: none; color: black; cursor: help;}
     a:hover { text-decoration: underline; }
     td.ruokapiiri-edit a { cursor: pointer; }
 
@@ -195,7 +195,7 @@
     .ruokapiiri-error {
       display: none;
     }
-  }  
+  }
 }
 /* @end */
 
@@ -265,7 +265,7 @@
 }
 #ruokapiiri-order {
   textarea { width: 40em; height: 8em; }
-    
+
   th.ruokapiiri-quantity { text-align: right; }
   td.ruokapiiri-quantity { text-align: right; }
   td.ruokapiiri-quantity input { width: 2em; }
